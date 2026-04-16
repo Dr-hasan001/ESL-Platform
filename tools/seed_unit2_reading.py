@@ -174,10 +174,16 @@ QUESTIONS = [
 dist = Counter(q["correct_index"] for q in QUESTIONS)
 print("Answer distribution:", {chr(65 + k): v for k, v in sorted(dist.items())})
 
+TITLE = "Unit 2 Reading - My Family"
+if db.query(HomeworkAssignment).filter_by(title=TITLE).first():
+    print(f"Already exists: '{TITLE}' — skipping.")
+    db.close()
+    sys.exit(0)
+
 hw = HomeworkAssignment(
     teacher_id=teacher.id,
     type="reading",
-    title="Unit 2 Reading - My Family",
+    title=TITLE,
     instructions="Read what four people say about their families, then answer the comprehension questions.",
     is_active=True,
 )

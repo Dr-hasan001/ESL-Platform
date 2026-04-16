@@ -149,11 +149,17 @@ QUESTIONS = [
     },
 ]
 
-# ── Create assignment ─────────────────────────────────────────────────────────
+# ── Create assignment (skip if already exists) ────────────────────────────────
+TITLE = "Unit 1 Reading - Where Do You Live?"
+if db.query(HomeworkAssignment).filter_by(title=TITLE).first():
+    print(f"Already exists: '{TITLE}' — skipping.")
+    db.close()
+    sys.exit(0)
+
 hw = HomeworkAssignment(
     teacher_id=teacher.id,
     type="reading",
-    title="Unit 1 Reading - Where Do You Live?",
+    title=TITLE,
     instructions="Read what four people say about where they live, then answer the comprehension questions.",
     is_active=True,
 )
