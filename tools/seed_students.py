@@ -49,6 +49,15 @@ STUDENTS = [
     ("aymen",     "aymen6382",    "Aymen",                   "A2"),
     ("fatima_abd","abd7519",      "Fatima Abd",              "A2"),
     ("muntadhar", "muntadhar4617","Muntadhar",               "A2"),
+    # ── B1 students ───────────────────────────────────────────────────────────
+    ("yasser",    "yasser2847",   "Yasser",                  "B1"),
+    ("muna",      "muna5193",     "Muna",                    "B1"),
+    ("hasan",     "hasan7364",    "Hasan",                   "B1"),
+    ("haider",    "haider8251",   "Haider",                  "B1"),
+    ("sajad",     "sajad3679",    "Sajad Mohammed",          "B1"),
+    ("wissam",    "wissam4928",   "Wissam",                  "B1"),
+    ("ahmed",     "ahmed6173",    "Ahmed",                   "B1"),
+    ("m_sadiq",   "sadiq5847",    "Mohammed Sadiq",          "B1"),
 ]
 
 print("Creating student accounts…")
