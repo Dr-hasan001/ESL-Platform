@@ -59,6 +59,7 @@ STUDENTS = [
     ("ahmed",     "ahmed6173",    "Ahmed",                   "B1"),
     ("m_sadiq",   "sadiq5847",    "Mohammed Sadiq",          "B1"),
     ("fiqar",     "fiqar3847",    "Fiqar",                   "B1"),
+    ("faisal",    "faisal5293",   "Faisal",                  "B1"),
 ]
 
 print("Creating student accounts…")
