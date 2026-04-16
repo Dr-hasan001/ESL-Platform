@@ -147,6 +147,107 @@ QUESTIONS = [
         ],
         "correct_index": 2,
     },
+    # ── Questions 11–20 ───────────────────────────────────────────────────────
+    {
+        "question_text": "Where is New Romney located?",
+        "options": [
+            "On the south coast of England.",
+            "In the north of London.",
+            "In the centre of England.",
+            "Near the border with Scotland.",
+        ],
+        "correct_index": 0,
+    },
+    {
+        "question_text": "What does Jeff say New Romney's main road has?",
+        "options": [
+            "A big market and a stadium.",
+            "Many offices and banks.",
+            "A famous old church.",
+            "Some small shops and restaurants.",
+        ],
+        "correct_index": 3,
+    },
+    {
+        "question_text": "Where is Jeff originally from?",
+        "options": [
+            "London.",
+            "New Romney.",
+            "Manchester.",
+            "Brighton.",
+        ],
+        "correct_index": 0,
+    },
+    {
+        "question_text": "What does William say is new in Cuiaba?",
+        "options": [
+            "A famous old bridge.",
+            "A large airport and a new university.",
+            "Many new parks and forests.",
+            "Tall buildings and a big modern stadium.",
+        ],
+        "correct_index": 3,
+    },
+    {
+        "question_text": "What is the Mato Grosso region known for?",
+        "options": [
+            "Beautiful rivers and forests.",
+            "Its cold mountains and snow.",
+            "Its famous food markets.",
+            "Its old historic buildings.",
+        ],
+        "correct_index": 0,
+    },
+    {
+        "question_text": "What is the weather like in Cuiaba all year?",
+        "options": [
+            "Cold and rainy.",
+            "Mild and windy.",
+            "Very cold in winter.",
+            "Very hot.",
+        ],
+        "correct_index": 3,
+    },
+    {
+        "question_text": "Where is Arnedillo located in Spain?",
+        "options": [
+            "In the north-east.",
+            "In the south.",
+            "In the centre.",
+            "On the coast.",
+        ],
+        "correct_index": 0,
+    },
+    {
+        "question_text": "What does Rocio sometimes do in winter in Arnedillo?",
+        "options": [
+            "She goes skiing in the mountains.",
+            "She visits friends in Zaragoza.",
+            "She stays at home and reads.",
+            "She goes in the river when it is 0 degrees outside.",
+        ],
+        "correct_index": 3,
+    },
+    {
+        "question_text": "Who visits Prague according to Barbora?",
+        "options": [
+            "People from all over the world.",
+            "Mainly people from Europe.",
+            "Mainly business travellers.",
+            "Students from other Czech cities.",
+        ],
+        "correct_index": 0,
+    },
+    {
+        "question_text": "What do Barbora's parents complain about?",
+        "options": [
+            "The city is too expensive to live in.",
+            "There are not enough restaurants.",
+            "The public transport is bad.",
+            "There is rubbish from tourists and it is noisy at night.",
+        ],
+        "correct_index": 3,
+    },
 ]
 
 # ── Create assignment (skip if already exists) ────────────────────────────────
