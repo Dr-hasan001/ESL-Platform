@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block title %}{{ hw.title }} — General Topics{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hw-wrap { max-width: 800px; margin: 0 auto; }
+
+  /* Gate indicator — reuse listening style */
+  .gate-banner {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .gate-icon { font-size: 2rem; }
+  .gate-info { flex: 1; }
+  .gate-label { font-size: .65rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+  .gate-count { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--text); }
+  .gate-count em { color: var(--ca); font-style: normal; }
+  .gate-track { height: 6px; background: rgba(26,18,9,.08); border-radius: 3px; overflow: hidden; margin-top: .5rem; max-width: 260px; }
+  .gate-fill { height: 100%; width: 0%; border-radius: 3px; background: linear-gradient(90deg, var(--ca), var(--cc)); transition: width .5s; }
+  .gate-banner.gate-open .gate-count em { color: var(--cd); }
+
+  /* Topic info */
+  .topic-meta {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.25rem 1.75rem;
+    box-shadow: 0 2px 12px var(--shadow);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .topic-category { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+  .topic-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text); }
+
+  /* Video wrapper */
+  .video-wrap {
+    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 30px rgba(0,0,0,.3);
+    margin-bottom: 2rem;
+    aspect-ratio: 16/9;
+    position: relative;
+  }
+  .video-wrap video, .video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Questions */
+  #questionsSection { display: none; }
+  .questions-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 1.25rem; }
+  .questions-title em { color: var(--ca); font-style: italic; }
+
+  .q-card {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-bottom: 1.25rem;
+    border: 2px solid transparent;
+    transition: border-color .2s;
+  }
+  .q-card.correct-card { border-color: var(--cd); }
+  .q-card.wrong-card   { border-color: var(--ca); }
+  .q-num { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+  .q-text { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; line-height: 1.5; }
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+  @media (max-width: 560px) { .q-options { grid-template-columns: 1fr; } }
+  .opt-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .9rem; font-weight: 600;
+    padding: .7em 1em; border-radius: 10px;
+    border: 2px solid rgba(26,18,9,.1);
+    background: var(--bg); color: var(--text);
+    cursor: pointer; text-align: left; line-height: 1.4;
+    transition: border-color .15s, background .15s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--ca); background: rgba(200,72,48,.04); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
+  .opt-btn.wrong   { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
+  .q-feedback { margin-top: .7rem; font-size: .9rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
+  .q-feedback.show { opacity: 1; }
+  .q-feedback.ok  { color: var(--cd); }
+  .q-feedback.bad { color: var(--ca); }
+
+  .submit-section { text-align: center; margin-top: 2rem; }
+  .submit-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    padding: .85em 2.8em; border-radius: 50px; border: none;
+    background: var(--ca); color: #fff; cursor: pointer; transition: opacity .2s;
+  }
+  .submit-btn:hover:not(:disabled) { opacity: .85; }
+  .submit-btn:disabled { opacity: .35; cursor: not-allowed; }
+  .score-result { display: none; background: var(--back-bg); border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 4px 20px var(--shadow); margin-top: 2rem; }
+  .score-result.show { display: block; }
+  .score-big { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--ca); }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/dashboard" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Dashboard</a>
+
+<div class="hw-wrap">
+  <header class="header">
+    <p class="header-eyebrow">General Topics Homework 🎬</p>
+    <h1><em>{{ hw.title }}</em></h1>
+    {% if hw.instructions %}<p class="header-sub">{{ hw.instructions }}</p>{% endif %}
+    {% if hw.due_date %}<p class="header-sub" style="color:var(--ca);">Due: {{ hw.due_date }}</p>{% endif %}
+    <span class="header-rule"></span>
+  </header>
+
+  {% set topic = hw.hw_general_topic.topic if hw.hw_general_topic else none %}
+  {% set play_gate = hw.hw_general_topic.play_gate if hw.hw_general_topic else 3 %}
+
+  {% if topic %}
+  <div class="topic-meta">
+    <span class="badge badge-ca">{{ topic.cefr_level }}</span>
+    {% if topic.category %}<span class="topic-category" style="color:var(--muted);">{{ topic.category }}</span>{% endif %}
+    <span class="topic-name">{{ topic.topic_name }}</span>
+  </div>
+  {% endif %}
+
+  <!-- Gate Banner -->
+  <div class="gate-banner {% if gate and gate.gate_open %}gate-open{% endif %}" id="gateBanner">
+    <div class="gate-icon">🎬</div>
+    <div class="gate-info">
+      <div class="gate-label">Watch at least <span id="playsRequired">{{ play_gate }}</span> times to unlock questions</div>
+      <div class="gate-count">
+        <em id="playsCompleted">{{ (gate.plays_completed if gate else 0) }}</em>
+        / <span>{{ play_gate }}</span> watches
+      </div>
+      <div class="gate-track"><div class="gate-fill" id="playCountBar"></div></div>
+    </div>
+  </div>
+
+  <!-- Video -->
+  {% if topic and topic.video_url %}
+  <div class="video-wrap">
+    <video id="videoPlayer" controls controlsList="nodownload">
+      <source src="{{ topic.video_url }}" type="video/mp4">
+    </video>
+  </div>
+  {% else %}
+  <div class="video-wrap" style="display:flex; align-items:center; justify-content:center;">
+    <p style="color:#fff; font-size:1rem; font-weight:700;">Video coming soon.</p>
+  </div>
+  {% endif %}
+
+  <!-- Questions -->
+  <div id="questionsSection" {% if gate and gate.gate_open %}style="display:block"{% endif %}>
+    <div class="questions-title">Comprehension <em>Questions</em></div>
+    <div id="questionsList"></div>
+    <div class="submit-section">
+      <button class="submit-btn" id="submitBtn" {% if not (gate and gate.gate_open) %}disabled{% endif %}>Submit Answers</button>
+    </div>
+  </div>
+
+  <div class="score-result" id="scoreResult">
+    <div class="score-big" id="scoreBig">—</div>
+    <p style="font-weight:700; color:var(--muted); margin-top:.5rem;">Great work! Your answers have been saved.</p>
+    <a href="/dashboard" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+const ASSIGNMENT_ID = {{ hw.id }};
+const MEDIA_TYPE = 'video';
+const questions = {{ questions_json | tojson }};
+const letters = ['a', 'b', 'c', 'd'];
+const answers = {};
+
+const list = document.getElementById('questionsList');
+questions.forEach((q, idx) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+    <div class="q-text">${q.question_text}</div>
+    <div class="q-options">
+      ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
+    </div>
+    <div class="q-feedback" id="fb-${idx}"></div>`;
+
+  card.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.idx);
+      card.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+      answers[q.id] = chosen;
+      const fb = document.getElementById(`fb-${idx}`);
+      if (chosen === q.correct_index) {
+        btn.classList.add('correct'); card.classList.add('correct-card');
+        fb.textContent = '✓ Correct!'; fb.className = 'q-feedback show ok';
+      } else {
+        btn.classList.add('wrong'); card.querySelectorAll('.opt-btn')[q.correct_index]?.classList.add('correct');
+        card.classList.add('wrong-card'); fb.textContent = '✗ Incorrect.'; fb.className = 'q-feedback show bad';
+      }
+    });
+  });
+  list.appendChild(card);
+});
+
+document.getElementById('submitBtn')?.addEventListener('click', async () => {
+  const answersList = Object.entries(answers).map(([qid, idx]) => ({ question_id: parseInt(qid), chosen_index: idx }));
+  const res = await fetch('/api/submissions', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ assignment_id: ASSIGNMENT_ID, answers: answersList }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    document.getElementById('scoreBig').textContent = `${data.correct} / ${data.total}`;
+    document.getElementById('scoreResult').classList.add('show');
+    document.getElementById('submitBtn').disabled = true;
+  }
+});
+</script>
+{% if topic and topic.video_url %}
+<script src="/static/js/media-gate.js"></script>
+<script>MediaGate.init(document.getElementById('videoPlayer'));</script>
+{% endif %}
+{% endblock %}

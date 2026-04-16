@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESL Quiz — Daily Life Words</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #FDFAF4;
+      --text:   #1A1209;
+      --muted:  #6B5E4A;
+      --ca:     #C84830;
+      --cb:     #1E5C72;
+      --cc:     #4A3580;
+      --cd:     #2A6B3D;
+      --shadow: rgba(26,18,9,0.14);
+      --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        var(--grain),
+        radial-gradient(ellipse at 20% 50%, rgba(200,72,48,.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(30,92,114,.05) 0%, transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2.5rem 2rem 6rem;
+    }
+
+    /* ── Navigation ── */
+    .page-nav {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      margin-bottom: 2.5rem;
+    }
+    .nav-link {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .6em 1.6em;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all .2s ease;
+    }
+    .nav-link.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .nav-link:not(.active) {
+      color: var(--muted);
+      border: 2px solid rgba(26,18,9,.12);
+    }
+    .nav-link:not(.active):hover {
+      border-color: rgba(26,18,9,.3);
+      color: var(--text);
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header-eyebrow {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.08;
+    }
+    .header h1 em {
+      font-style: italic;
+      color: var(--cb);
+    }
+    .header-sub {
+      margin-top: .6rem;
+      font-size: .95rem;
+      color: var(--muted);
+    }
+    .header-rule {
+      display: block;
+      width: 72px;
+      height: 3px;
+      border-radius: 2px;
+      margin: 1rem auto 0;
+      background: linear-gradient(90deg, var(--cb), var(--cc));
+    }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-sep {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: rgba(107,94,74,.25);
+      align-self: center;
+    }
+    .stat-label {
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .15rem;
+    }
+
+    /* ── Progress ── */
+    .progress-wrap {
+      max-width: 380px;
+      margin: 0 auto 3rem;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: .4rem;
+    }
+    .progress-track {
+      height: 5px;
+      background: rgba(26,18,9,.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--cb), var(--cc));
+      transition: width .55s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.8rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── Card ── */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(20px) scale(.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .card-wrap {
+      perspective: 1000px;
+      height: 320px;
+      cursor: pointer;
+      animation: cardIn .5s ease both;
+    }
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.4,0,.2,1);
+      border-radius: 22px;
+    }
+    .card-wrap:hover .card:not(.flipped) {
+      transform: translateY(-6px);
+    }
+    .card.flipped { transform: rotateY(180deg); }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── Front face ── */
+    .q-front {
+      box-shadow: 0 6px 28px var(--shadow), 0 1px 0 rgba(255,255,255,.18) inset;
+    }
+    .q-front::before {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      bottom: -70px; right: -70px;
+      pointer-events: none;
+    }
+    .q-front::after {
+      content: '';
+      position: absolute;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      top: -28px; left: -22px;
+      pointer-events: none;
+    }
+    .f-num {
+      position: absolute;
+      top: 1rem; left: 1.3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: .85rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.4);
+    }
+    .q-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      font-weight: 900;
+      color: rgba(255,255,255,.25);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      user-select: none;
+    }
+    .f-hint {
+      position: absolute;
+      bottom: 1rem; right: 1.2rem;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+    }
+
+    /* Disable pointer events on whichever face is hidden */
+    .card:not(.flipped) .q-back { pointer-events: none; }
+    .card.flipped .q-front      { pointer-events: none; }
+
+    /* ── Back face ── */
+    .q-back {
+      transform: rotateY(180deg);
+      box-shadow: 0 6px 28px var(--shadow);
+      gap: .9rem;
+      padding: 1.5rem;
+    }
+    .q-back::before {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.08);
+      top: -70px; left: -70px;
+      pointer-events: none;
+    }
+    .q-num-back {
+      position: absolute;
+      top: 1rem; right: 1.3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: .85rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.4);
+    }
+    .q-emoji {
+      font-size: 5rem;
+      line-height: 1;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,.2));
+      position: relative;
+      z-index: 1;
+    }
+    .q-word {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 2px 10px rgba(0,0,0,.2);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .4s ease, transform .4s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .q-word.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .q-reveal {
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.35);
+      color: rgba(255,255,255,.9);
+      font-family: 'Nunito', sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: .55em 1.5em;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      position: relative;
+      z-index: 1;
+    }
+    .q-reveal:hover {
+      background: rgba(255,255,255,.28);
+      border-color: rgba(255,255,255,.6);
+    }
+    .q-reveal.hidden { display: none; }
+
+    /* ── Color variants ── */
+    .ca .q-front, .ca .q-back { background: var(--ca); }
+    .cb .q-front, .cb .q-back { background: var(--cb); }
+    .cc .q-front, .cc .q-back { background: var(--cc); }
+    .cd .q-front, .cd .q-back { background: var(--cd); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: .72rem;
+      color: var(--muted);
+      opacity: .55;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1000px) {
+      .grid { grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+      .card-wrap { height: 270px; }
+      .q-mark { font-size: 6rem; }
+      .q-emoji { font-size: 3.8rem; }
+      .q-word { font-size: 1.8rem; }
+      .stat-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <a href="index.html" class="nav-link">Study Cards</a>
+  <a href="quiz.html"  class="nav-link active">Quiz Mode</a>
+  <a href="story.html" class="nav-link">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit 18</p>
+  <h1>Guess the <em>Word</em></h1>
+  <p class="header-sub">Flip the card &mdash; see the emoji &mdash; say the word!</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">20</div>
+    <div class="stat-label">Words</div>
+  </div>
+  <div class="stat-sep">/</div>
+  <div class="stat">
+    <div class="stat-num" id="hintedNum">0</div>
+    <div class="stat-label">Hinted</div>
+  </div>
+  <div class="stat-sep">/</div>
+  <div class="stat">
+    <div class="stat-num" id="revealedNum">0</div>
+    <div class="stat-label">Revealed</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span>Answers revealed</span>
+    <span id="progressLabel">0 / 20</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<main class="grid" id="grid"></main>
+
+<footer class="footer">Tap a card to see the emoji hint &bull; Then press Reveal Answer to check</footer>
+
+<script>
+const words = [
+  { id:1,  word:'Ability',     emoji:'💪' },
+  { id:2,  word:'Agriculture', emoji:'🌾' },
+  { id:3,  word:'Cartoon',     emoji:'🎨' },
+  { id:4,  word:'Ceiling',     emoji:'🏠' },
+  { id:5,  word:'Convince',    emoji:'💬' },
+  { id:6,  word:'Curious',     emoji:'🔍' },
+  { id:7,  word:'Delay',       emoji:'⏰' },
+  { id:8,  word:'Diary',       emoji:'📔' },
+  { id:9,  word:'Element',     emoji:'⚗️' },
+  { id:10, word:'Faith',       emoji:'🙏' },
+  { id:11, word:'Grain',       emoji:'🌾' },
+  { id:12, word:'Greet',       emoji:'👋' },
+  { id:13, word:'Investigate', emoji:'🔎' },
+  { id:14, word:'Joy',         emoji:'😊' },
+  { id:15, word:'Label',       emoji:'🏷️' },
+  { id:16, word:'Monk',        emoji:'🧘' },
+  { id:17, word:'Odd',         emoji:'🎲' },
+  { id:18, word:'Pause',       emoji:'⏸️' },
+  { id:19, word:'Priest',      emoji:'✝️' },
+  { id:20, word:'Profession',  emoji:'💼' },
+];
+
+const colors = ['ca','cb','cc','cd'];
+const hinted   = new Set();
+const revealed = new Set();
+
+function updateStats() {
+  const r = revealed.size;
+  const pct = Math.round((r / words.length) * 100);
+  document.getElementById('hintedNum').textContent   = hinted.size;
+  document.getElementById('revealedNum').textContent = r;
+  document.getElementById('progressLabel').textContent = r + ' / ' + words.length;
+  document.getElementById('progressFill').style.width  = pct + '%';
+}
+
+function buildCard(w, position) {
+  const col = colors[(position - 1) % 4];
+  const num = String(position).padStart(2, '0');
+
+  const wrap = document.createElement('div');
+  wrap.className = `card-wrap ${col}`;
+  wrap.style.animationDelay = ((w.id - 1) * 0.05) + 's';
+
+  wrap.innerHTML = `
+    <div class="card">
+      <div class="face q-front">
+        <span class="f-num">${num}</span>
+        <div class="q-mark">?</div>
+        <span class="f-hint">Tap for hint</span>
+      </div>
+      <div class="face q-back">
+        <span class="q-num-back">${num}</span>
+        <div class="q-emoji">${w.emoji}</div>
+        <div class="q-word">${w.word}</div>
+        <button class="q-reveal">Reveal Answer</button>
+      </div>
+    </div>`;
+
+  const card      = wrap.querySelector('.card');
+  const wordEl    = wrap.querySelector('.q-word');
+  const revealBtn = wrap.querySelector('.q-reveal');
+
+  // States: 'front' → 'hint' → 'revealed' → 'front'
+  let state = 'front';
+
+  wrap.addEventListener('click', () => {
+    if (state === 'front') {
+      card.classList.add('flipped');
+      hinted.add(w.id);
+      state = 'hint';
+      updateStats();
+    } else if (state === 'revealed') {
+      card.classList.remove('flipped');
+      wordEl.classList.remove('revealed');
+      revealBtn.classList.remove('hidden');
+      state = 'front';
+    }
+    // state === 'hint': clicking the card does nothing — only the button acts
+  });
+
+  revealBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    wordEl.classList.add('revealed');
+    revealBtn.classList.add('hidden');
+    revealed.add(w.id);
+    state = 'revealed';
+    updateStats();
+  });
+
+  return wrap;
+}
+
+// Fisher-Yates shuffle
+for (let i = words.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [words[i], words[j]] = [words[j], words[i]];
+}
+
+const grid = document.getElementById('grid');
+words.forEach((w, i) => grid.appendChild(buildCard(w, i + 1)));
+updateStats();
+</script>
+</body>
+</html>

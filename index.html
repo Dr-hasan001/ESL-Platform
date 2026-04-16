@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESL Vocabulary Cards — Unit 18</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #FDFAF4;
+      --text:     #1A1209;
+      --muted:    #6B5E4A;
+      --ca:       #C84830;
+      --cb:       #1E5C72;
+      --cc:       #4A3580;
+      --cd:       #2A6B3D;
+      --back-bg:  #FFFDF8;
+      --shadow:   rgba(26,18,9,0.13);
+      --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        var(--grain),
+        radial-gradient(ellipse at 15% 40%, rgba(200,72,48,.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(30,92,114,.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 85%, rgba(74,53,128,.05) 0%, transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 3.5rem 2rem 6rem;
+    }
+
+    /* ── Navigation ── */
+    .page-nav {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      margin-bottom: 2.5rem;
+    }
+    .nav-link {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .6em 1.6em;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all .2s ease;
+    }
+    .nav-link.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .nav-link:not(.active) {
+      color: var(--muted);
+      border: 2px solid rgba(26,18,9,.12);
+    }
+    .nav-link:not(.active):hover {
+      border-color: rgba(26,18,9,.3);
+      color: var(--text);
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+    .header-eyebrow {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.08;
+      color: var(--text);
+    }
+    .header h1 em {
+      font-style: italic;
+      color: var(--ca);
+    }
+    .header-sub {
+      margin-top: .6rem;
+      font-size: .95rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .header-rule {
+      display: block;
+      width: 72px;
+      height: 3px;
+      border-radius: 2px;
+      margin: 1rem auto 0;
+      background: linear-gradient(90deg, var(--ca), var(--cc));
+    }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+    .stat-sep {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: rgba(107,94,74,.25);
+      align-self: center;
+    }
+    .stat-label {
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .15rem;
+    }
+
+    /* ── Progress ── */
+    .progress-wrap {
+      max-width: 380px;
+      margin: 0 auto 3rem;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: .4rem;
+      letter-spacing: .04em;
+    }
+    .progress-track {
+      height: 5px;
+      background: rgba(26,18,9,.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--ca), var(--cc));
+      transition: width .55s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── Card ── */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(22px) scale(.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Card column (vocab + translation stacked) ── */
+    .card-col {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      animation: cardIn .55s ease both;
+    }
+
+    .card-wrap {
+      perspective: 1200px;
+      height: 480px;
+      cursor: pointer;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.4,0,.2,1);
+      border-radius: 22px;
+    }
+    .card-wrap:hover .card:not(.flipped) {
+      transform: translateY(-5px) rotateY(6deg);
+    }
+    .card.flipped { transform: rotateY(180deg); }
+
+    /* shared face */
+    .face {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* ── Front ── */
+    .front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 6px 28px var(--shadow), 0 1px 0 rgba(255,255,255,.18) inset;
+    }
+    /* decorative circles */
+    .front::before {
+      content: '';
+      position: absolute;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.09);
+      bottom: -80px; right: -80px;
+      pointer-events: none;
+    }
+    .front::after {
+      content: '';
+      position: absolute;
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.07);
+      top: -30px; left: -25px;
+      pointer-events: none;
+    }
+    .f-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 9rem;
+      font-weight: 900;
+      color: rgba(255,255,255,.22);
+      line-height: 1;
+      letter-spacing: -.02em;
+      position: relative;
+      z-index: 1;
+      user-select: none;
+    }
+    .f-hint {
+      position: absolute;
+      bottom: 1.2rem; right: 1.4rem;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+
+    /* color variants */
+    .ca .front { background: var(--ca); }
+    .cb .front { background: var(--cb); }
+    .cc .front { background: var(--cc); }
+    .cd .front { background: var(--cd); }
+
+    /* ── Back ── */
+    .back {
+      background: var(--back-bg);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 2.2rem 1.8rem;
+      box-shadow: 0 6px 28px var(--shadow), 0 0 0 1px rgba(26,18,9,.06);
+    }
+    .b-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .6rem;
+      margin-bottom: .2rem;
+    }
+    .b-emoji {
+      font-size: 3.2rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+    .b-word {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.05;
+    }
+    .b-pos {
+      display: inline-block;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .25em .75em;
+      border-radius: 20px;
+      margin-top: .4rem;
+    }
+    .b-divider {
+      height: 2px;
+      background: linear-gradient(90deg, rgba(26,18,9,.1), transparent);
+      margin: .9rem 0;
+      flex-shrink: 0;
+    }
+    .b-def {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .b-example {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: .6rem;
+      flex: 1;
+    }
+    .b-deriv-label {
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .8rem;
+      margin-bottom: .45rem;
+      flex-shrink: 0;
+    }
+    .b-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      flex-shrink: 0;
+    }
+    .chip {
+      font-size: .85rem;
+      font-weight: 700;
+      padding: .28em .7em;
+      border-radius: 20px;
+      background: rgba(26,18,9,.06);
+      color: var(--muted);
+    }
+
+    /* per-color theming on back */
+    .ca .b-word { color: var(--ca); }
+    .cb .b-word { color: var(--cb); }
+    .cc .b-word { color: var(--cc); }
+    .cd .b-word { color: var(--cd); }
+
+    .ca .b-pos { background: rgba(200,72,48,.1);  color: var(--ca); }
+    .cb .b-pos { background: rgba(30,92,114,.1);  color: var(--cb); }
+    .cc .b-pos { background: rgba(74,53,128,.1);  color: var(--cc); }
+    .cd .b-pos { background: rgba(42,107,61,.1);  color: var(--cd); }
+
+    /* ── Translation card ── */
+    .trans-wrap {
+      perspective: 600px;
+      height: 90px;
+      cursor: pointer;
+      border-radius: 16px;
+    }
+    .trans-wrap:hover .trans-card:not(.flipped) {
+      transform: translateY(-3px);
+    }
+    .trans-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+      border-radius: 16px;
+    }
+    .trans-card.flipped { transform: rotateY(180deg); }
+    .trans-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--back-bg);
+      box-shadow: 0 3px 14px var(--shadow), 0 0 0 1px rgba(26,18,9,.06);
+      border-left: 5px solid;
+    }
+    .trans-back { transform: rotateY(180deg); }
+    .t-label {
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .t-arabic {
+      font-family: 'Noto Sans Arabic', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      direction: rtl;
+      color: var(--text);
+    }
+    /* color accents for translation card */
+    .ca .trans-face { border-left-color: var(--ca); }
+    .cb .trans-face { border-left-color: var(--cb); }
+    .cc .trans-face { border-left-color: var(--cc); }
+    .cd .trans-face { border-left-color: var(--cd); }
+    .ca .t-label { color: var(--ca); }
+    .cb .t-label { color: var(--cb); }
+    .cc .t-label { color: var(--cc); }
+    .cd .t-label { color: var(--cd); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: .72rem;
+      color: var(--muted);
+      opacity: .55;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .card-wrap { height: 420px; }
+      .trans-wrap { height: 80px; }
+    }
+    @media (max-width: 560px) {
+      body { padding: 2rem 1rem 4rem; }
+      .grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .card-wrap { height: 380px; }
+      .trans-wrap { height: 75px; }
+      .stat-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <a href="index.html" class="nav-link active">Study Cards</a>
+  <a href="quiz.html"  class="nav-link">Quiz Mode</a>
+  <a href="story.html" class="nav-link">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit 18</p>
+  <h1>Unit <em>18</em> Words</h1>
+  <p class="header-sub">Click each card to reveal its meaning</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">20</div>
+    <div class="stat-label">Words</div>
+  </div>
+  <div class="stat-sep">/</div>
+  <div class="stat">
+    <div class="stat-num" id="reviewedNum">0</div>
+    <div class="stat-label">Reviewed</div>
+  </div>
+  <div class="stat-sep">/</div>
+  <div class="stat">
+    <div class="stat-num" id="pctNum">0%</div>
+    <div class="stat-label">Complete</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span>Progress</span>
+    <span id="progressLabel">0 / 20</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<main class="grid" id="grid"></main>
+
+<footer class="footer">Tap a card to flip &bull; Tap again to return</footer>
+
+<script>
+const words = [
+  { id:1,  word:'Ability',      emoji:'💪', pos:'noun',
+    def:'Ability is the quality of being able to do something well.',
+    ex:'His swimming ability let him cross the entire lake.',
+    deriv:['abilities (pl)','able (adj)','unable (opp)'], ar:'قدرة / موهبة' },
+  { id:2,  word:'Agriculture',  emoji:'🌾', pos:'noun',
+    def:'Agriculture is the growing of plants and raising of animals for food.',
+    ex:'The farmer studied agriculture in college.',
+    deriv:['agricultural (adj)','agriculturalist (n)'], ar:'زراعة' },
+  { id:3,  word:'Cartoon',      emoji:'🎨', pos:'noun',
+    def:'A cartoon is a funny drawing or animated film.',
+    ex:'Sometimes, people draw cartoons for the newspaper.',
+    deriv:['cartoons (pl)','cartoonist (n)'], ar:'رسم كاريكاتير' },
+  { id:4,  word:'Ceiling',      emoji:'🏠', pos:'noun',
+    def:'The ceiling is the top inner surface of a room.',
+    ex:'He painted the ceiling with a special roller.',
+    deriv:['ceilings (pl)'], ar:'سقف' },
+  { id:5,  word:'Convince',     emoji:'💬', pos:'verb',
+    def:'To convince someone means to make that person sure of something.',
+    ex:'She convinced me to buy the house.',
+    deriv:['convinces (v)','convinced (past)','convincing (adj)'], ar:'يقنع' },
+  { id:6,  word:'Curious',      emoji:'🔍', pos:'adjective',
+    def:'A curious person wants to know or learn about something.',
+    ex:'I opened up the clock because I was curious about how it worked.',
+    deriv:['curiously (adv)','curiosity (n)'], ar:'فضولي' },
+  { id:7,  word:'Delay',        emoji:'⏰', pos:'verb',
+    def:'To delay means to wait or to make something happen later.',
+    ex:'I was delayed at the airport for over two hours.',
+    deriv:['delays (n)','delayed (past)','delaying (v)'], ar:'يؤخر / تأخير' },
+  { id:8,  word:'Diary',        emoji:'📔', pos:'noun',
+    def:'A diary is a book in which people write about their personal experiences.',
+    ex:'I do not let anybody read my diary.',
+    deriv:['diaries (pl)'], ar:'يوميات / مذكرات' },
+  { id:9,  word:'Element',      emoji:'⚗️', pos:'noun',
+    def:'An element of something is a particular part of it.',
+    ex:'Teamwork is a key element of success in any sport.',
+    deriv:['elements (pl)','elementary (adj)'], ar:'عنصر' },
+  { id:10, word:'Faith',        emoji:'🙏', pos:'noun',
+    def:'Faith is trust or strong belief in something or someone.',
+    ex:'The sick girl had faith in her doctors.',
+    deriv:['faithful (adj)','faithfully (adv)','faithless (opp)'], ar:'إيمان / ثقة' },
+  { id:11, word:'Grain',        emoji:'🌾', pos:'noun',
+    def:'Grain is a food crop such as wheat, corn, or rice.',
+    ex:'The farmer planted two fields of grain this year.',
+    deriv:['grains (pl)','grainy (adj)'], ar:'حبوب / حبة' },
+  { id:12, word:'Greet',        emoji:'👋', pos:'verb',
+    def:'To greet someone means to welcome them when you meet.',
+    ex:'When my friend came over, I greeted him at the door.',
+    deriv:['greets (v)','greeted (past)','greeting (n)'], ar:'يستقبل / يحيّي' },
+  { id:13, word:'Investigate',  emoji:'🔎', pos:'verb',
+    def:'To investigate means to search for information or examine something carefully.',
+    ex:'The detective went to investigate the crime scene.',
+    deriv:['investigates (v)','investigation (n)','investigator (n)'], ar:'يحقق / يبحث' },
+  { id:14, word:'Joy',          emoji:'😊', pos:'noun',
+    def:'Joy is a feeling of great happiness.',
+    ex:'I love baseball. I feel joy when I play.',
+    deriv:['joyful (adj)','joyfully (adv)','joyous (adj)'], ar:'بهجة / فرح' },
+  { id:15, word:'Label',        emoji:'🏷️', pos:'noun',
+    def:'A label is a tag attached to something that gives information about it.',
+    ex:'The label on the jar told us what was inside.',
+    deriv:['labels (pl)','labeled (past)','labeling (v)'], ar:'بطاقة / ملصق' },
+  { id:16, word:'Monk',         emoji:'🧘', pos:'noun',
+    def:'A monk is a religious man who lives a simple and devoted life.',
+    ex:'The monks knew a great deal about religion and meditation.',
+    deriv:['monks (pl)','monkish (adj)'], ar:'راهب' },
+  { id:17, word:'Odd',          emoji:'🎲', pos:'adjective',
+    def:'Something odd is unusual or strange.',
+    ex:'Her cat is odd — it walks on two feet.',
+    deriv:['oddly (adv)','oddness (n)','oddity (n)'], ar:'غريب / عجيب' },
+  { id:18, word:'Pause',        emoji:'⏸️', pos:'verb',
+    def:'To pause means to stop doing something for a short time.',
+    ex:'She paused the video to answer the phone.',
+    deriv:['pauses (v)','paused (past)','pausing (v)'], ar:'يتوقف مؤقتاً' },
+  { id:19, word:'Priest',       emoji:'✝️', pos:'noun',
+    def:'A priest is a person trained to perform religious duties.',
+    ex:'The priest taught us about kindness and faith.',
+    deriv:['priests (pl)','priesthood (n)'], ar:'كاهن / قسيس' },
+  { id:20, word:'Profession',   emoji:'💼', pos:'noun',
+    def:'A profession is a job that requires special training or education.',
+    ex:'He loved sailing, so he chose to work on ships as a profession.',
+    deriv:['professions (pl)','professional (adj)','professionally (adv)'], ar:'مهنة' },
+];
+
+const colors = ['ca','cb','cc','cd'];
+const seen = new Set();
+
+function updateProgress() {
+  const n = seen.size;
+  const pct = Math.round((n / words.length) * 100);
+  document.getElementById('reviewedNum').textContent = n;
+  document.getElementById('pctNum').textContent = pct + '%';
+  document.getElementById('progressLabel').textContent = n + ' / ' + words.length;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function buildCard(w) {
+  const col = colors[(w.id - 1) % 4];
+  const num = String(w.id).padStart(2, '0');
+
+  const cardCol = document.createElement('div');
+  cardCol.className = `card-col ${col}`;
+  cardCol.style.animationDelay = ((w.id - 1) * 0.04) + 's';
+
+  cardCol.innerHTML = `
+    <div class="card-wrap">
+      <div class="card">
+        <div class="face front">
+          <div class="f-num">${num}</div>
+          <span class="f-hint">Flip →</span>
+        </div>
+        <div class="face back">
+          <div class="b-top">
+            <div>
+              <div class="b-word">${w.word}</div>
+              <span class="b-pos">${w.pos}</span>
+            </div>
+            <div class="b-emoji">${w.emoji}</div>
+          </div>
+          <div class="b-divider"></div>
+          <div class="b-def">${w.def}</div>
+          <div class="b-example">"${w.ex}"</div>
+          <div class="b-deriv-label">Derivatives</div>
+          <div class="b-chips">${w.deriv.map(d => `<span class="chip">${d}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="trans-wrap">
+      <div class="trans-card">
+        <div class="trans-face trans-front">
+          <span class="t-label">Translation</span>
+        </div>
+        <div class="trans-face trans-back">
+          <span class="t-arabic">${w.ar}</span>
+        </div>
+      </div>
+    </div>`;
+
+  cardCol.querySelector('.card-wrap').addEventListener('click', () => {
+    cardCol.querySelector('.card').classList.toggle('flipped');
+    seen.add(w.id);
+    updateProgress();
+  });
+
+  cardCol.querySelector('.trans-wrap').addEventListener('click', () => {
+    cardCol.querySelector('.trans-card').classList.toggle('flipped');
+  });
+
+  return cardCol;
+}
+
+const grid = document.getElementById('grid');
+words.forEach(w => grid.appendChild(buildCard(w)));
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+  .teacher-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+  @media (max-width: 860px) { .teacher-grid { grid-template-columns: 1fr; } }
+
+  .section-eyebrow { font-size: .62rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 1.25rem; }
+  .section-title em { color: var(--ca); font-style: italic; }
+
+  /* Student cards */
+  .student-list { display: flex; flex-direction: column; gap: .75rem; }
+  .student-card {
+    background: var(--back-bg);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 10px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: cardIn .45s ease both;
+  }
+  .student-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 900; color: #fff; flex-shrink: 0;
+  }
+  .student-name { font-weight: 800; color: var(--text); font-size: .95rem; }
+  .student-meta { font-size: .65rem; color: var(--muted); font-weight: 700; letter-spacing: .04em; margin-top: .15rem; }
+
+  /* Assignment list */
+  .assign-list { display: flex; flex-direction: column; gap: .75rem; }
+  .assign-card {
+    background: var(--back-bg);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 10px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform .15s, box-shadow .15s;
+    animation: cardIn .45s ease both;
+  }
+  .assign-card:hover { transform: translateX(4px); box-shadow: 0 4px 18px var(--shadow); }
+  .assign-type-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .assign-info { flex: 1; min-width: 0; }
+  .assign-title { font-weight: 800; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .assign-meta { font-size: .62rem; color: var(--muted); font-weight: 700; margin-top: .15rem; }
+
+  .top-actions { display: flex; gap: .75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="max-width:1200px; margin:0 auto;">
+  <header class="header" style="text-align:left; margin-bottom:2rem;">
+    <p class="header-eyebrow">Teacher Panel</p>
+    <h1>Welcome, <em>{{ user.display_name or user.username }}</em></h1>
+    <span class="header-rule" style="margin:1rem 0 0;"></span>
+  </header>
+
+  <div class="top-actions">
+    <a href="/teacher/assign" class="btn btn-accent">+ Create Assignment</a>
+  </div>
+
+  <div class="teacher-grid">
+
+    <!-- Students -->
+    <div>
+      <p class="section-eyebrow">Your Students</p>
+      <h2 class="section-title">Student <em>Roster</em></h2>
+      {% set avatar_colors = ['#C84830','#1E5C72','#4A3580','#2A6B3D','#8B4513','#1A1209'] %}
+      <div class="student-list">
+        {% for s in students %}
+        <div class="student-card" style="animation-delay:{{ loop.index0 * 0.04 }}s">
+          <div class="student-avatar" style="background: {{ avatar_colors[loop.index0 % 6] }}">
+            {{ (s.display_name or s.username)[0].upper() }}
+          </div>
+          <div>
+            <div class="student-name">{{ s.display_name or s.username }}</div>
+            <div class="student-meta">
+              {{ s.username }}
+              {% if s.cefr_level %}· Level {{ s.cefr_level }}{% endif %}
+            </div>
+          </div>
+          {% if s.cefr_level %}
+          <span class="badge badge-cb" style="margin-left:auto;">{{ s.cefr_level }}</span>
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="text-muted" style="font-size:.9rem;">No students yet. Add students via the database seed tool.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Recent Assignments -->
+    <div>
+      <p class="section-eyebrow">Recent Assignments</p>
+      <h2 class="section-title">Your <em>Assignments</em></h2>
+      {% set type_icons = {
+        'listening': ('🎧', 'rgba(200,72,48,.12)', '#C84830'),
+        'reading':   ('📖', 'rgba(30,92,114,.12)', '#1E5C72'),
+        'grammar':   ('✏️', 'rgba(74,53,128,.12)', '#4A3580'),
+        'writing':   ('📝', 'rgba(42,107,61,.12)', '#2A6B3D'),
+        'general_topic': ('🎬', 'rgba(139,69,19,.12)', '#8B4513'),
+      } %}
+      <div class="assign-list">
+        {% for hw in assignments %}
+        {% set ic = type_icons.get(hw.type, ('📌', 'rgba(26,18,9,.08)', '#6B5E4A')) %}
+        <a class="assign-card" href="/teacher/submissions/{{ hw.id }}" style="animation-delay:{{ loop.index0 * 0.04 }}s">
+          <div class="assign-type-icon" style="background:{{ ic[1] }}; color:{{ ic[2] }}">{{ ic[0] }}</div>
+          <div class="assign-info">
+            <div class="assign-title">{{ hw.title }}</div>
+            <div class="assign-meta">
+              {{ hw.type | replace('_',' ') | title }}
+              {% if hw.due_date %}· Due {{ hw.due_date }}{% endif %}
+              · {{ hw.created_at.strftime('%b %d') if hw.created_at else '' }}
+            </div>
+          </div>
+          <span style="color:var(--muted); font-size:.8rem;">→</span>
+        </a>
+        {% else %}
+        <p class="text-muted" style="font-size:.9rem;">No assignments yet. Create one above.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

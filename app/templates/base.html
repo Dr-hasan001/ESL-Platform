@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ESL Platform{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/base.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- Top Bar (shown on all pages except login) -->
+  {% if user is defined and user %}
+  <nav class="top-bar">
+    <a href="/dashboard" class="top-bar-brand">ESL <em>Platform</em></a>
+
+    {% if user.role == 'student' %}
+    <div class="top-nav">
+      <a href="/dashboard"  class="nav-pill {% if request.url.path == '/dashboard' %}active{% endif %}">Home</a>
+      <a href="/homework"   class="nav-pill {% if request.url.path == '/homework'  %}active{% endif %}">Homework</a>
+    </div>
+    {% endif %}
+
+    <div class="top-bar-right">
+      <span class="top-bar-user">{{ user.display_name or user.username }}</span>
+      {% if user.role == 'teacher' %}
+      <a href="/teacher" class="nav-pill" style="margin-right:.25rem;">Teacher Panel</a>
+      {% endif %}
+      <a href="/logout" class="top-bar-logout">Log out</a>
+    </div>
+  </nav>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+
+  {% block scripts %}{% endblock %}
+
+  <script>
+    // Log out automatically on page refresh (F5 / Ctrl+R)
+    const _nav = performance.getEntriesByType("navigation")[0];
+    if (_nav && _nav.type === "reload") {
+      window.location.replace("/logout");
+    }
+  </script>
+
+</body>
+</html>

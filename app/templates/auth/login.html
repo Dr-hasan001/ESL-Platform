@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — ESL Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+
+    .login-card {
+      background: var(--back-bg);
+      border-radius: 20px;
+      box-shadow: 0 8px 48px var(--shadow);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      animation: cardIn .55s ease both;
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-logo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .login-logo h1 em { color: var(--ca); font-style: italic; }
+    .login-logo p { font-size: .8rem; color: var(--muted); margin-top: .4rem; font-weight: 600; letter-spacing: .05em; }
+
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .4rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border: 2px solid rgba(26,18,9,.1);
+      border-radius: 10px;
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      font-size: .95rem;
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    .form-group input:focus { outline: none; border-color: var(--cb); }
+
+    .btn-login {
+      width: 100%;
+      padding: .85rem;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: .5rem;
+      transition: opacity .2s;
+    }
+    .btn-login:hover { opacity: .82; }
+    .btn-login:disabled { opacity: .5; cursor: not-allowed; }
+
+    .error-msg {
+      background: rgba(200,72,48,.1);
+      color: var(--ca);
+      border-radius: 8px;
+      padding: .7rem 1rem;
+      font-size: .8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-logo">
+      <h1>ESL <em>Platform</em></h1>
+      <p>Sign in to continue learning</p>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-login" id="submitBtn">Sign In</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const err = document.getElementById('errorMsg');
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      err.style.display = 'none';
+
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.role === 'teacher' ? '/teacher' : '/dashboard';
+      } else {
+        const data = await res.json().catch(() => ({}));
+        err.textContent = data.detail || 'Invalid username or password.';
+        err.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

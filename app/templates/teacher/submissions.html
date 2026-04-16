@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}Submissions — {{ hw.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .submissions-wrap { max-width: 960px; margin: 0 auto; }
+
+  .hw-info {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 3px 14px var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    border-left: 5px solid var(--cb);
+  }
+  .hw-info-type { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--cb); }
+  .hw-info-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+
+  .sub-table { width: 100%; border-collapse: collapse; }
+  .sub-table th {
+    font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); padding: .6rem 1rem; text-align: left;
+    border-bottom: 2px solid rgba(26,18,9,.08);
+  }
+  .sub-table td { padding: .85rem 1rem; border-bottom: 1px solid rgba(26,18,9,.06); vertical-align: middle; }
+  .sub-table tr:last-child td { border-bottom: none; }
+  .sub-table tr:hover td { background: rgba(30,92,114,.03); }
+
+  .score-val { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--cb); }
+  .writing-response {
+    font-size: .88rem; line-height: 1.7; color: var(--text);
+    background: rgba(26,18,9,.03);
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    max-height: 140px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    margin-bottom: .75rem;
+  }
+  .feedback-form { display: flex; flex-direction: column; gap: .5rem; }
+  .feedback-form textarea { width: 100%; border-radius: 8px; border: 1.5px solid rgba(26,18,9,.12); padding: .6rem .9rem; font-family: 'Nunito', sans-serif; font-size: .88rem; resize: vertical; min-height: 72px; }
+  .feedback-form input[type=number] { width: 80px; padding: .5rem .75rem; border-radius: 8px; border: 1.5px solid rgba(26,18,9,.12); font-family: 'Nunito', sans-serif; font-size: .88rem; }
+  .feedback-save {
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .5em 1.2em; border-radius: 50px; border: none;
+    background: var(--cd); color: #fff; cursor: pointer; transition: opacity .2s; align-self: flex-start;
+  }
+  .feedback-save:hover { opacity: .85; }
+  .feedback-saved { color: var(--cd); font-size: .75rem; font-weight: 800; display: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/teacher" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Teacher Dashboard</a>
+
+<div class="submissions-wrap">
+  <div class="hw-info">
+    <div>
+      <div class="hw-info-type">{{ hw.type | replace('_',' ') | title }}</div>
+      <div class="hw-info-title">{{ hw.title }}</div>
+    </div>
+    {% if hw.due_date %}<span class="badge badge-ca">Due {{ hw.due_date }}</span>{% endif %}
+    <span class="badge badge-cb">{{ submissions | length }} submissions</span>
+  </div>
+
+  {% if submissions %}
+  <table class="sub-table">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Status</th>
+        <th>Score</th>
+        <th>Submitted</th>
+        {% if hw.type == 'writing' %}<th>Response & Feedback</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for sub in submissions %}
+      <tr>
+        <td>
+          <strong>{{ sub.student.display_name or sub.student.username }}</strong><br>
+          <span style="font-size:.7rem; color:var(--muted);">{{ sub.student.username }}</span>
+        </td>
+        <td>
+          {% if sub.is_complete %}
+            <span class="badge badge-done">Submitted</span>
+          {% else %}
+            <span class="badge badge-progress">In Progress</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if hw.type == 'writing' %}
+            {% if sub.teacher_score is not none %}
+              <span class="score-val">{{ sub.teacher_score }}/100</span>
+            {% else %}
+              <span style="color:var(--muted); font-size:.85rem;">Pending</span>
+            {% endif %}
+          {% else %}
+            {% if sub.score is not none %}
+              <span class="score-val">{{ "%.0f" | format(sub.score) }}%</span>
+              <br><span style="font-size:.7rem; color:var(--muted);">{{ sub.correct_count }}/{{ sub.total_questions }}</span>
+            {% else %}
+              <span style="color:var(--muted); font-size:.85rem;">—</span>
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="font-size:.78rem; color:var(--muted);">
+          {{ sub.submitted_at.strftime('%b %d, %H:%M') if sub.submitted_at else '—' }}
+        </td>
+        {% if hw.type == 'writing' %}
+        <td>
+          {% if sub.written_response %}
+          <div class="writing-response">{{ sub.written_response }}</div>
+          <div style="font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.4rem;">
+            {{ sub.word_count or '?' }} words
+          </div>
+          <div class="feedback-form">
+            <textarea id="fb-{{ sub.id }}" placeholder="Write feedback…">{{ sub.teacher_feedback or '' }}</textarea>
+            <div style="display:flex; gap:.75rem; align-items:center;">
+              <input type="number" id="score-{{ sub.id }}" placeholder="Score /100" min="0" max="100" value="{{ sub.teacher_score or '' }}">
+              <button class="feedback-save" onclick="saveFeedback({{ sub.id }})">Save</button>
+              <span class="feedback-saved" id="saved-{{ sub.id }}">✓ Saved</span>
+            </div>
+          </div>
+          {% else %}
+          <span style="color:var(--muted); font-size:.85rem;">Not submitted yet.</span>
+          {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div style="text-align:center; padding:3rem; color:var(--muted);">
+    <p style="font-size:2rem; margin-bottom:.75rem;">📭</p>
+    <p style="font-weight:700;">No submissions yet.</p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+async function saveFeedback(subId) {
+  const feedback = document.getElementById(`fb-${subId}`).value;
+  const score = document.getElementById(`score-${subId}`).value;
+  const res = await fetch(`/api/admin/submissions/${subId}/feedback`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ feedback, score: score ? parseFloat(score) : null }),
+  });
+  if (res.ok) {
+    const el = document.getElementById(`saved-${subId}`);
+    el.style.display = 'inline';
+    setTimeout(() => { el.style.display = 'none'; }, 2000);
+  }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }} — Units{% endblock %}
+
+{% block extra_css %}
+<style>
+  .units-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) { .units-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 680px) { .units-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 440px) { .units-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .unit-card {
+    background: var(--back-bg);
+    border-radius: 14px;
+    padding: 1.25rem .75rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    box-shadow: 0 2px 10px var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: cardIn .45s ease both;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .unit-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px var(--shadow); }
+  .unit-card.done { border-color: rgba(42,107,61,.25); }
+  .unit-card.partial { border-color: rgba(30,92,114,.2); }
+
+  .unit-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text);
+  }
+  .unit-title {
+    font-size: .6rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .05em;
+    line-height: 1.3;
+  }
+  .unit-progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(26,18,9,.12);
+    margin-top: .2rem;
+  }
+  .unit-card.done .unit-progress-dot { background: var(--cd); }
+  .unit-card.partial .unit-progress-dot { background: var(--cb); }
+
+  .unit-actions {
+    display: flex;
+    gap: .5rem;
+    margin-top: .5rem;
+    opacity: 0;
+    transition: opacity .18s;
+  }
+  .unit-card:hover .unit-actions { opacity: 1; }
+  .unit-action-btn {
+    font-size: .52rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .3em .7em;
+    border-radius: 50px;
+    text-decoration: none;
+    background: var(--text);
+    color: var(--bg);
+    transition: opacity .15s;
+  }
+  .unit-action-btn:hover { opacity: .75; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/books" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← All Books</a>
+
+<div class="header">
+  <p class="header-eyebrow">{{ book.cefr_level }} · {{ book.series or '4000 Essential English Words' }}</p>
+  <h1>{{ book.title | replace('4000 Essential English Words', '') | trim or book.title }}</h1>
+  <p class="header-sub">{{ units | length }} units · Click a unit to start studying</p>
+  <span class="header-rule"></span>
+</div>
+
+<div class="units-grid">
+  {% for unit in units %}
+  {% set prog = progress_map.get(unit.id) %}
+  {% set cards_done = (prog.cards_seen | length) if prog and prog.cards_seen else 0 %}
+  {% set is_done = prog and prog.story_score is not none %}
+  {% set is_partial = cards_done > 0 and not is_done %}
+
+  <div class="unit-card {{ 'done' if is_done else 'partial' if is_partial else '' }}"
+       style="animation-delay: {{ loop.index0 * 0.03 }}s"
+       onclick="window.location='/units/{{ unit.id }}/study'">
+    <span class="unit-num">{{ '%02d' % unit.unit_number }}</span>
+    {% if unit.title %}
+    <span class="unit-title">{{ unit.title }}</span>
+    {% endif %}
+    <div class="unit-progress-dot"></div>
+    <div class="unit-actions">
+      <a class="unit-action-btn" href="/units/{{ unit.id }}/study" onclick="event.stopPropagation()">Cards</a>
+      <a class="unit-action-btn" href="/units/{{ unit.id }}/quiz" onclick="event.stopPropagation()">Quiz</a>
+      <a class="unit-action-btn" href="/units/{{ unit.id }}/story" onclick="event.stopPropagation()">Story</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}{{ hw.title }} — Listening{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hw-wrap { max-width: 760px; margin: 0 auto; }
+
+  /* Gate indicator */
+  .gate-banner {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .gate-icon { font-size: 2rem; }
+  .gate-info { flex: 1; }
+  .gate-label { font-size: .65rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+  .gate-count { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--text); }
+  .gate-count em { color: var(--cb); font-style: normal; }
+  .gate-track { height: 6px; background: rgba(26,18,9,.08); border-radius: 3px; overflow: hidden; margin-top: .5rem; max-width: 260px; }
+  .gate-fill { height: 100%; width: 0%; border-radius: 3px; background: linear-gradient(90deg, var(--cb), var(--cd)); transition: width .5s cubic-bezier(.4,0,.2,1); }
+  .gate-banner.gate-open .gate-fill { background: var(--cd); }
+  .gate-banner.gate-open .gate-count em { color: var(--cd); }
+
+  /* Audio player */
+  .audio-wrap {
+    background: var(--back-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 24px var(--shadow);
+    margin-bottom: 2rem;
+  }
+  .audio-wrap audio { width: 100%; border-radius: 8px; margin-top: .5rem; }
+  .audio-label { font-size: .65rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+
+  /* Transcript toggle */
+  .transcript-toggle { font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--cb); cursor: pointer; margin-top: 1rem; display: inline-block; }
+  .transcript-body { display: none; margin-top: 1rem; font-size: .95rem; line-height: 1.8; color: var(--muted); background: rgba(30,92,114,.04); border-radius: 10px; padding: 1rem 1.25rem; border-left: 3px solid var(--cb); }
+  .transcript-body.open { display: block; }
+
+  /* Questions */
+  #questionsSection { display: none; }
+  .questions-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1.25rem;
+  }
+  .questions-title em { color: var(--cb); font-style: italic; }
+  .q-card {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-bottom: 1.25rem;
+    border: 2px solid transparent;
+    transition: border-color .2s;
+  }
+  .q-card.correct-card { border-color: var(--cd); }
+  .q-card.wrong-card   { border-color: var(--ca); }
+  .q-num { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+  .q-text { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; line-height: 1.5; }
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+  @media (max-width: 560px) { .q-options { grid-template-columns: 1fr; } }
+  .opt-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .92rem;
+    font-weight: 600;
+    padding: .7em 1em;
+    border-radius: 10px;
+    border: 2px solid rgba(26,18,9,.1);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.4;
+    transition: border-color .15s, background .15s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--cb); background: rgba(30,92,114,.05); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
+  .opt-btn.wrong   { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
+  .q-feedback { margin-top: .7rem; font-size: .9rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
+  .q-feedback.show { opacity: 1; }
+  .q-feedback.ok  { color: var(--cd); }
+  .q-feedback.bad { color: var(--ca); }
+
+  .submit-section { text-align: center; margin-top: 2rem; }
+  .submit-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    padding: .85em 2.8em;
+    border-radius: 50px;
+    border: none;
+    background: var(--text);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .submit-btn:hover:not(:disabled) { opacity: .82; }
+  .submit-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  .score-result {
+    display: none;
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px var(--shadow);
+    margin-top: 2rem;
+  }
+  .score-result.show { display: block; }
+  .score-big { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--cb); }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/dashboard" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Dashboard</a>
+
+<div class="hw-wrap">
+  <header class="header">
+    <p class="header-eyebrow">Listening Homework 🎧</p>
+    <h1><em>{{ hw.title }}</em></h1>
+    {% if hw.instructions %}<p class="header-sub">{{ hw.instructions }}</p>{% endif %}
+    {% if hw.due_date %}<p class="header-sub" style="margin-top:.3rem; color:var(--ca);">Due: {{ hw.due_date }}</p>{% endif %}
+    <span class="header-rule"></span>
+  </header>
+
+  <!-- Gate Banner -->
+  <div class="gate-banner {% if gate and gate.gate_open %}gate-open{% endif %}" id="gateBanner">
+    <div class="gate-icon">🎧</div>
+    <div class="gate-info">
+      <div class="gate-label">Listen at least <span id="playsRequired">{{ (hw.hw_listening.play_gate if hw.hw_listening else 3) }}</span> times to unlock questions</div>
+      <div class="gate-count">
+        <em id="playsCompleted">{{ (gate.plays_completed if gate else 0) }}</em>
+        / <span id="playsRequired2">{{ (hw.hw_listening.play_gate if hw.hw_listening else 3) }}</span> listens
+      </div>
+      <div class="gate-track"><div class="gate-fill" id="playCountBar"></div></div>
+    </div>
+  </div>
+
+  <!-- Audio Player -->
+  <div class="audio-wrap">
+    <div class="audio-label">Audio Track</div>
+    <audio id="audioPlayer" controls controlsList="nodownload">
+      <source src="{{ hw.hw_listening.audio_url if hw.hw_listening else '' }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    {% if hw.hw_listening and hw.hw_listening.transcript %}
+    <span class="transcript-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.textContent.includes('Show') ? 'Hide Transcript ▲' : 'Show Transcript ▼'">Show Transcript ▼</span>
+    <div class="transcript-body">{{ hw.hw_listening.transcript }}</div>
+    {% endif %}
+  </div>
+
+  <!-- Questions (locked until gate opens) -->
+  <div id="questionsSection" {% if gate and gate.gate_open %}style="display:block"{% endif %}>
+    <div class="questions-title">Comprehension <em>Questions</em></div>
+    <div id="questionsList"></div>
+    <div class="submit-section">
+      <button class="submit-btn" id="submitBtn" {% if not (gate and gate.gate_open) %}disabled{% endif %}>Submit Answers</button>
+    </div>
+  </div>
+
+  <!-- Score result -->
+  <div class="score-result" id="scoreResult">
+    <div class="score-big" id="scoreBig">—</div>
+    <p style="font-weight:700; color:var(--muted); margin-top:.5rem;">Well done! Your answers have been saved.</p>
+    <a href="/dashboard" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+const ASSIGNMENT_ID = {{ hw.id }};
+const MEDIA_TYPE = 'audio';
+const questions = {{ questions_json | tojson }};
+const letters = ['a', 'b', 'c', 'd'];
+const answers = {};
+let score = 0;
+
+// Build questions
+const list = document.getElementById('questionsList');
+questions.forEach((q, idx) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+    <div class="q-text">${q.question_text}</div>
+    <div class="q-options">
+      ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}" data-qidx="${idx}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
+    </div>
+    <div class="q-feedback" id="fb-${idx}"></div>`;
+
+  card.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.idx);
+      card.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+      answers[q.id] = chosen;
+      const isCorrect = chosen === q.correct_index;
+      if (isCorrect) { btn.classList.add('correct'); card.classList.add('correct-card'); score++; document.getElementById(`fb-${idx}`).textContent = '✓ Correct!'; document.getElementById(`fb-${idx}`).className = 'q-feedback show ok'; }
+      else { btn.classList.add('wrong'); card.querySelectorAll('.opt-btn')[q.correct_index].classList.add('correct'); card.classList.add('wrong-card'); document.getElementById(`fb-${idx}`).textContent = '✗ Incorrect.'; document.getElementById(`fb-${idx}`).className = 'q-feedback show bad'; }
+    });
+  });
+  list.appendChild(card);
+});
+
+// Submit
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const answersList = Object.entries(answers).map(([qid, idx]) => ({ question_id: parseInt(qid), chosen_index: idx }));
+  const res = await fetch('/api/submissions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ assignment_id: ASSIGNMENT_ID, answers: answersList }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    document.getElementById('scoreBig').textContent = `${data.correct} / ${data.total}`;
+    document.getElementById('scoreResult').classList.add('show');
+    document.getElementById('submitBtn').disabled = true;
+  }
+});
+</script>
+<script src="/static/js/media-gate.js"></script>
+<script>
+MediaGate.init(document.getElementById('audioPlayer'));
+// Sync the playsRequired display
+const req = {{ (hw.hw_listening.play_gate if hw.hw_listening else 3) }};
+document.getElementById('playsRequired').textContent = req;
+</script>
+{% endblock %}

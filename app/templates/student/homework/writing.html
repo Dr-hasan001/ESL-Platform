@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}{{ hw.title }} — Writing{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hw-wrap { max-width: 800px; margin: 0 auto; }
+
+  .model-card {
+    background: var(--back-bg);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 22px var(--shadow);
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--cd);
+  }
+  .model-label { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--cd); margin-bottom: .75rem; }
+  .model-text { font-size: 1rem; line-height: 1.9; color: var(--text); white-space: pre-wrap; }
+
+  .useful-card {
+    background: rgba(42,107,61,.05);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border: 1.5px solid rgba(42,107,61,.18);
+  }
+  .useful-label { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--cd); margin-bottom: .75rem; }
+  .useful-phrases { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .phrase-chip {
+    font-size: .82rem;
+    font-weight: 700;
+    padding: .35em 1em;
+    border-radius: 50px;
+    background: rgba(42,107,61,.12);
+    color: var(--cd);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .phrase-chip:hover { background: rgba(42,107,61,.22); }
+
+  .prompt-card {
+    background: var(--back-bg);
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 3px 18px var(--shadow);
+    margin-bottom: 2rem;
+    border-top: 4px solid var(--ca);
+  }
+  .prompt-label { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--ca); margin-bottom: .75rem; }
+  .prompt-text { font-size: 1.15rem; font-weight: 700; color: var(--text); line-height: 1.6; }
+  .word-limits { font-size: .78rem; color: var(--muted); font-weight: 700; margin-top: .5rem; }
+
+  .writing-area {
+    background: var(--back-bg);
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 4px 22px var(--shadow);
+    margin-bottom: 2rem;
+  }
+  .writing-label { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 2px solid rgba(26,18,9,.12);
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+    transition: border-color .2s;
+  }
+  textarea:focus { outline: none; border-color: var(--cd); }
+  .word-count-row { display: flex; justify-content: flex-end; gap: 1rem; align-items: center; margin-top: .6rem; }
+  .word-count-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .word-count-val.ok   { color: var(--cd); }
+  .word-count-val.warn { color: var(--ca); }
+  .word-count-label { font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  .submit-section { text-align: center; margin-top: 1rem; }
+  .submit-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    padding: .85em 2.8em; border-radius: 50px; border: none;
+    background: var(--cd); color: #fff; cursor: pointer; transition: opacity .2s;
+  }
+  .submit-btn:hover:not(:disabled) { opacity: .85; }
+  .submit-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .submitted-msg {
+    display: none;
+    background: rgba(42,107,61,.08);
+    border: 2px solid var(--cd);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .submitted-msg.show { display: block; }
+  .submitted-msg p { font-weight: 700; color: var(--cd); font-size: 1.05rem; }
+
+  .feedback-section {
+    display: none;
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-top: 2rem;
+    border-left: 4px solid var(--cc);
+  }
+  .feedback-section.show { display: block; }
+  .feedback-label { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--cc); margin-bottom: .75rem; }
+  .feedback-text { font-size: 1rem; color: var(--text); line-height: 1.7; }
+  .feedback-score { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--cc); margin-top: .5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/dashboard" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Dashboard</a>
+
+<div class="hw-wrap">
+  <header class="header">
+    <p class="header-eyebrow">Writing Homework 📝</p>
+    <h1><em>{{ hw.title }}</em></h1>
+    {% if hw.instructions %}<p class="header-sub">{{ hw.instructions }}</p>{% endif %}
+    {% if hw.due_date %}<p class="header-sub" style="color:var(--ca);">Due: {{ hw.due_date }}</p>{% endif %}
+    <span class="header-rule"></span>
+  </header>
+
+  {% if hw.hw_writing %}
+
+  {% if hw.hw_writing.model_text %}
+  <div class="model-card">
+    <div class="model-label">📄 Model Text — Study this example before writing</div>
+    <div class="model-text">{{ hw.hw_writing.model_text }}</div>
+  </div>
+  {% endif %}
+
+  {% if hw.hw_writing.useful_language %}
+  <div class="useful-card">
+    <div class="useful-label">💬 Useful Language — Click a phrase to copy it</div>
+    <div class="useful-phrases">
+      {% for phrase in hw.hw_writing.useful_language %}
+      <span class="phrase-chip" onclick="insertPhrase('{{ phrase }}')">{{ phrase }}</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="prompt-card">
+    <div class="prompt-label">✍️ Your Task</div>
+    <div class="prompt-text">{{ hw.hw_writing.prompt }}</div>
+    <div class="word-limits">
+      Word limit: {{ hw.hw_writing.min_words }}–{{ hw.hw_writing.max_words }} words
+      {% if hw.hw_writing.text_type %}· Type: {{ hw.hw_writing.text_type | title }}{% endif %}
+    </div>
+  </div>
+
+  <!-- Writing area (hide if already submitted) -->
+  {% if submission and submission.is_complete %}
+  <div class="writing-area">
+    <div class="writing-label">Your Submitted Response</div>
+    <p style="font-size:1rem; line-height:1.8; color:var(--text);">{{ submission.written_response }}</p>
+    <div class="word-count-row">
+      <span class="word-count-label">Words submitted</span>
+      <span class="word-count-val ok">{{ submission.word_count or '—' }}</span>
+    </div>
+  </div>
+  <div class="submitted-msg show">
+    <p>✓ Your writing has been submitted and is awaiting teacher feedback.</p>
+  </div>
+
+  {% if submission.teacher_feedback %}
+  <div class="feedback-section show">
+    <div class="feedback-label">Teacher Feedback</div>
+    <div class="feedback-text">{{ submission.teacher_feedback }}</div>
+    {% if submission.teacher_score is not none %}
+    <div class="feedback-score">Score: {{ submission.teacher_score }}/100</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div class="writing-area">
+    <div class="writing-label">Write your response below</div>
+    <textarea id="writingArea" placeholder="Start writing here…" oninput="updateWordCount()"></textarea>
+    <div class="word-count-row">
+      <span class="word-count-label">Words</span>
+      <span class="word-count-val warn" id="wordCountVal">0</span>
+      <span class="word-count-label">/ {{ hw.hw_writing.min_words }}–{{ hw.hw_writing.max_words }}</span>
+    </div>
+  </div>
+
+  <div class="submit-section">
+    <button class="submit-btn" id="submitBtn" disabled>Submit Writing</button>
+  </div>
+  <div class="submitted-msg" id="submittedMsg">
+    <p>✓ Your writing has been submitted! Your teacher will review it soon.</p>
+    <a href="/dashboard" class="btn btn-primary" style="margin-top:1rem; display:inline-block;">← Back to Dashboard</a>
+  </div>
+  {% endif %}
+
+  {% endif %}
+</div>
+
+<script>
+const ASSIGNMENT_ID = {{ hw.id }};
+const MIN_WORDS = {{ (hw.hw_writing.min_words if hw.hw_writing else 80) }};
+const MAX_WORDS = {{ (hw.hw_writing.max_words if hw.hw_writing else 150) }};
+
+function countWords(text) {
+  return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+function updateWordCount() {
+  const text = document.getElementById('writingArea')?.value || '';
+  const count = countWords(text);
+  const el = document.getElementById('wordCountVal');
+  const btn = document.getElementById('submitBtn');
+  if (!el) return;
+  el.textContent = count;
+  const ok = count >= MIN_WORDS && count <= MAX_WORDS;
+  el.className = 'word-count-val ' + (ok ? 'ok' : 'warn');
+  if (btn) btn.disabled = !ok;
+}
+
+function insertPhrase(phrase) {
+  const ta = document.getElementById('writingArea');
+  if (!ta) return;
+  const pos = ta.selectionStart;
+  ta.value = ta.value.slice(0, pos) + phrase + ' ' + ta.value.slice(pos);
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = pos + phrase.length + 1;
+  updateWordCount();
+}
+
+const submitBtn = document.getElementById('submitBtn');
+if (submitBtn) {
+  submitBtn.addEventListener('click', async () => {
+    const text = document.getElementById('writingArea').value;
+    const wc = countWords(text);
+    const res = await fetch('/api/submissions', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assignment_id: ASSIGNMENT_ID, written_response: text, word_count: wc }),
+    });
+    if (res.ok) {
+      submitBtn.disabled = true;
+      document.getElementById('writingArea').disabled = true;
+      document.getElementById('submittedMsg').classList.add('show');
+    }
+  });
+}
+</script>
+{% endblock %}

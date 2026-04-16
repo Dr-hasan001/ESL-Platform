@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}{{ hw.title }} — Grammar{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hw-wrap { max-width: 780px; margin: 0 auto; }
+
+  .grammar-info {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.25rem 1.75rem;
+    box-shadow: 0 3px 14px var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    flex-wrap: wrap;
+    border-left: 4px solid var(--cc);
+  }
+  .grammar-point-label { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--cc); }
+  .grammar-point-val { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--text); }
+
+  .questions-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 1.25rem; }
+  .questions-title em { color: var(--cc); font-style: italic; }
+
+  .q-card {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 3px 16px var(--shadow);
+    margin-bottom: 1.25rem;
+    border: 2px solid transparent;
+    transition: border-color .2s;
+  }
+  .q-card.correct-card { border-color: var(--cd); }
+  .q-card.wrong-card   { border-color: var(--ca); }
+  .q-num { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+  .q-text { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; line-height: 1.55; }
+
+  /* Fill-in-the-blank input */
+  .fill-input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: .6em 1em;
+    border-radius: 10px;
+    border: 2px solid rgba(26,18,9,.15);
+    background: var(--bg);
+    color: var(--text);
+    width: 100%;
+    max-width: 340px;
+    transition: border-color .2s;
+  }
+  .fill-input:focus { outline: none; border-color: var(--cc); }
+  .fill-input.correct { border-color: var(--cd); background: rgba(42,107,61,.07); color: var(--cd); }
+  .fill-input.wrong   { border-color: var(--ca); background: rgba(200,72,48,.07); color: var(--ca); }
+  .fill-check {
+    font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .6em 1.6em; border-radius: 50px; border: none;
+    background: var(--cc); color: #fff; cursor: pointer; margin-top: .75rem;
+    transition: opacity .2s;
+  }
+  .fill-check:hover { opacity: .85; }
+  .fill-check:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* Multiple choice */
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+  @media (max-width: 560px) { .q-options { grid-template-columns: 1fr; } }
+  .opt-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    padding: .7em 1em;
+    border-radius: 10px;
+    border: 2px solid rgba(26,18,9,.1);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.4;
+    transition: border-color .15s, background .15s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--cc); background: rgba(74,53,128,.05); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
+  .opt-btn.wrong   { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
+
+  .q-feedback { margin-top: .7rem; font-size: .9rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
+  .q-feedback.show { opacity: 1; }
+  .q-feedback.ok  { color: var(--cd); }
+  .q-feedback.bad { color: var(--ca); }
+
+  .submit-section { text-align: center; margin-top: 2rem; }
+  .submit-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    padding: .85em 2.8em; border-radius: 50px; border: none;
+    background: var(--cc); color: #fff; cursor: pointer; transition: opacity .2s;
+  }
+  .submit-btn:hover { opacity: .85; }
+  .score-result {
+    display: none; background: var(--back-bg); border-radius: 16px;
+    padding: 2rem; text-align: center; box-shadow: 0 4px 20px var(--shadow); margin-top: 2rem;
+  }
+  .score-result.show { display: block; }
+  .score-big { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--cc); }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/dashboard" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Dashboard</a>
+
+<div class="hw-wrap">
+  <header class="header">
+    <p class="header-eyebrow">Grammar Homework ✏️</p>
+    <h1><em>{{ hw.title }}</em></h1>
+    {% if hw.instructions %}<p class="header-sub">{{ hw.instructions }}</p>{% endif %}
+    {% if hw.due_date %}<p class="header-sub" style="color:var(--ca);">Due: {{ hw.due_date }}</p>{% endif %}
+    <span class="header-rule"></span>
+  </header>
+
+  {% if hw.hw_grammar and hw.hw_grammar.grammar_point %}
+  <div class="grammar-info">
+    <div>
+      <div class="grammar-point-label">Grammar Focus</div>
+      <div class="grammar-point-val">{{ hw.hw_grammar.grammar_point }}</div>
+    </div>
+    {% if hw.hw_grammar.exercise_type %}
+    <span class="badge badge-cc">{{ hw.hw_grammar.exercise_type | replace('_', ' ') | title }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="questions-title">Grammar <em>Exercises</em></div>
+  <div id="questionsList"></div>
+
+  <div class="submit-section">
+    <button class="submit-btn" id="submitBtn">Submit Answers</button>
+  </div>
+
+  <div class="score-result" id="scoreResult">
+    <div class="score-big" id="scoreBig">—</div>
+    <p style="font-weight:700; color:var(--muted); margin-top:.5rem;">Your answers have been saved.</p>
+    <a href="/dashboard" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+const ASSIGNMENT_ID = {{ hw.id }};
+const questions = {{ questions_json | tojson }};
+const letters = ['a', 'b', 'c', 'd'];
+const answers = {};
+
+const list = document.getElementById('questionsList');
+questions.forEach((q, idx) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  const fb = `<div class="q-feedback" id="fb-${idx}"></div>`;
+
+  if (q.question_type === 'fill_blank') {
+    card.innerHTML = `
+      <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+      <div class="q-text">${q.question_text}</div>
+      <input class="fill-input" id="fi-${idx}" type="text" placeholder="Type your answer…" autocomplete="off">
+      <br>
+      <button class="fill-check" id="fc-${idx}">Check</button>
+      ${fb}`;
+    const input = card.querySelector(`#fi-${idx}`);
+    const checkBtn = card.querySelector(`#fc-${idx}`);
+    checkBtn.addEventListener('click', () => {
+      const val = input.value.trim().toLowerCase();
+      const correct = (q.correct_text || '').toLowerCase();
+      checkBtn.disabled = true;
+      input.disabled = true;
+      const fbEl = document.getElementById(`fb-${idx}`);
+      if (val === correct) {
+        input.classList.add('correct'); card.classList.add('correct-card');
+        fbEl.textContent = '✓ Correct!'; fbEl.className = 'q-feedback show ok';
+        answers[q.id] = { text: val };
+      } else {
+        input.classList.add('wrong'); card.classList.add('wrong-card');
+        fbEl.textContent = `✗ The answer is: "${q.correct_text}"`; fbEl.className = 'q-feedback show bad';
+        answers[q.id] = { text: val };
+      }
+    });
+  } else {
+    card.innerHTML = `
+      <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+      <div class="q-text">${q.question_text}</div>
+      <div class="q-options">
+        ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
+      </div>
+      ${fb}`;
+    card.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosen = parseInt(btn.dataset.idx);
+        card.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+        answers[q.id] = chosen;
+        const fbEl = document.getElementById(`fb-${idx}`);
+        if (chosen === q.correct_index) {
+          btn.classList.add('correct'); card.classList.add('correct-card');
+          fbEl.textContent = '✓ Correct!'; fbEl.className = 'q-feedback show ok';
+        } else {
+          btn.classList.add('wrong'); card.querySelectorAll('.opt-btn')[q.correct_index]?.classList.add('correct');
+          card.classList.add('wrong-card'); fbEl.textContent = '✗ Incorrect.'; fbEl.className = 'q-feedback show bad';
+        }
+      });
+    });
+  }
+  list.appendChild(card);
+});
+
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const answersList = Object.entries(answers).map(([qid, val]) => ({
+    question_id: parseInt(qid),
+    chosen_index: typeof val === 'number' ? val : null,
+    answer_text: typeof val === 'object' ? val.text : null,
+  }));
+  const res = await fetch('/api/submissions', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ assignment_id: ASSIGNMENT_ID, answers: answersList }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    document.getElementById('scoreBig').textContent = `${data.correct} / ${data.total}`;
+    document.getElementById('scoreResult').classList.add('show');
+    document.getElementById('submitBtn').disabled = true;
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% block title %}Story — Unit {{ unit.unit_number }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .content { max-width: 860px; margin: 0 auto; }
+
+  .story-card {
+    background: #FFFDF8;
+    border-radius: 24px;
+    padding: 3rem 3.5rem;
+    box-shadow: 0 6px 32px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+    margin-bottom: 3rem;
+  }
+  .story-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--ca);
+    font-style: italic;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 2px solid rgba(200,72,48,.12);
+  }
+  .story-body p {
+    font-size: 1.6rem;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: 1.6rem;
+    font-weight: 400;
+  }
+  .story-body p:last-child { margin-bottom: 0; }
+  .vocab {
+    font-weight: 800;
+    color: var(--ca);
+    background: rgba(200,72,48,.07);
+    padding: .05em .25em;
+    border-radius: 4px;
+  }
+
+  .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; white-space: nowrap; }
+  .section-header h2 em { font-style: italic; color: var(--cb); }
+  .section-line { flex: 1; height: 2px; background: linear-gradient(90deg, rgba(26,18,9,.1), transparent); border-radius: 1px; }
+
+  .score-bar {
+    background: #FFFDF8;
+    border-radius: 16px;
+    padding: 1.2rem 1.8rem;
+    box-shadow: 0 3px 16px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .score-label { font-size: .7rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--cb); }
+  .score-progress { flex: 1; min-width: 120px; }
+  .score-track { height: 6px; background: rgba(26,18,9,.08); border-radius: 3px; overflow: hidden; margin-top: .3rem; }
+  .score-fill { height: 100%; width: 0%; border-radius: 3px; background: linear-gradient(90deg, var(--cb), var(--cd)); transition: width .6s cubic-bezier(.4,0,.2,1); }
+
+  .questions { display: flex; flex-direction: column; gap: 1.5rem; }
+  .q-card {
+    background: #FFFDF8;
+    border-radius: 20px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 4px 20px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+    transition: box-shadow .2s ease;
+  }
+  .q-card.correct-card { box-shadow: 0 4px 20px rgba(42,107,61,.15), 0 0 0 2px var(--cd); }
+  .q-card.wrong-card   { box-shadow: 0 4px 20px rgba(200,72,48,.12), 0 0 0 2px var(--ca); }
+  .q-num { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
+  .q-text { font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1.5; margin-bottom: 1.3rem; }
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .opt-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: .85em 1.1em;
+    border-radius: 12px;
+    border: 2px solid rgba(26,18,9,.1);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.45;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--cb); background: rgba(30,92,114,.05); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
+  .opt-btn.wrong   { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
+  .q-feedback { margin-top: .9rem; font-size: 1.1rem; font-weight: 700; opacity: 0; transition: opacity .3s ease; }
+  .q-feedback.show { opacity: 1; }
+  .q-feedback.ok  { color: var(--cd); }
+  .q-feedback.bad { color: var(--ca); }
+
+  @media (max-width: 700px) {
+    .story-card { padding: 2rem 1.5rem; }
+    .story-body p { font-size: 1.3rem; }
+    .q-options { grid-template-columns: 1fr; }
+    .q-text { font-size: 1.25rem; }
+    .opt-btn { font-size: 1.05rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="page-nav">
+  <a href="/books/{{ unit.book_id }}" class="nav-link">← Units</a>
+  <a href="/units/{{ unit.id }}/study" class="nav-link">Study Cards</a>
+  <a href="/units/{{ unit.id }}/quiz"  class="nav-link">Quiz Mode</a>
+  <a href="/units/{{ unit.id }}/story" class="nav-link active">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit {{ unit.unit_number }}</p>
+  <h1>{% if unit.title %}<em>{{ unit.title }}</em>{% else %}Unit <em>{{ unit.unit_number }}</em> Story{% endif %}</h1>
+  <p class="header-sub">Read the story, then answer the comprehension questions</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="content">
+
+  <div class="story-card">
+    <div class="story-title">{{ unit.title or 'Story' }}</div>
+    <div class="story-body">
+      {# story_html is injected server-side with <span class="vocab"> highlights #}
+      {% if unit.story_html is defined and unit.story_html %}
+        {{ unit.story_html | safe }}
+      {% else %}
+        <p class="text-muted" style="font-size:1rem;">Story content for this unit will be added soon.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h2>Comprehension <em>Questions</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Your Score</div>
+      <div class="score-num"><span id="scoreNum">{{ story_score or 0 }}</span> / <span id="totalNum">?</span></div>
+    </div>
+    <div class="score-progress">
+      <div class="score-label">Progress</div>
+      <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
+    </div>
+  </div>
+
+  <div class="questions" id="questions"></div>
+
+</div>
+
+<script>
+// Questions are loaded from the server (story_questions variable)
+// Falls back to empty array if not provided
+const questions = {{ (story_questions or []) | tojson }};
+const unitId = {{ unit.id }};
+let score = {{ story_score or 0 }};
+let answered = 0;
+
+document.getElementById('totalNum').textContent = questions.length || '—';
+
+function updateScore() {
+  document.getElementById('scoreNum').textContent = score;
+  const pct = questions.length ? Math.round((score / questions.length) * 100) : 0;
+  document.getElementById('scoreFill').style.width = pct + '%';
+  // Save score to server
+  fetch(`/api/units/${unitId}/progress`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ story_score: score }),
+  });
+}
+
+function buildQuestion(q, idx) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  const letters = ['a', 'b', 'c', 'd'];
+
+  card.innerHTML = `
+    <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+    <div class="q-text">${q.q || q.question_text || ''}</div>
+    <div class="q-options">
+      ${(q.opts || q.options || []).map((opt, i) => `
+        <button class="opt-btn" data-idx="${i}">
+          <strong>${letters[i]}.</strong> ${opt}
+        </button>`).join('')}
+    </div>
+    <div class="q-feedback" id="fb-${idx}"></div>`;
+
+  const btns = card.querySelectorAll('.opt-btn');
+  const feedback = card.querySelector(`#fb-${idx}`);
+  const ans = q.ans !== undefined ? q.ans : q.correct_index;
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.idx);
+      btns.forEach(b => b.disabled = true);
+      answered++;
+      if (chosen === ans) {
+        btn.classList.add('correct');
+        card.classList.add('correct-card');
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'q-feedback show ok';
+        score++;
+      } else {
+        btn.classList.add('wrong');
+        btns[ans].classList.add('correct');
+        card.classList.add('wrong-card');
+        feedback.textContent = '✗ Not quite — the correct answer is highlighted in green.';
+        feedback.className = 'q-feedback show bad';
+      }
+      updateScore();
+    });
+  });
+  return card;
+}
+
+const container = document.getElementById('questions');
+questions.forEach((q, i) => container.appendChild(buildQuestion(q, i)));
+if (questions.length) updateScore();
+</script>
+{% endblock %}

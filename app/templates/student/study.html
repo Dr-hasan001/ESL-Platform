@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Study Cards — Unit {{ unit.unit_number }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .card-col { display: flex; flex-direction: column; gap: .75rem; animation: cardIn .55s ease both; }
+  .card-wrap { perspective: 1200px; height: 480px; cursor: pointer; }
+  .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.4,0,.2,1); }
+  .card.flipped { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: 22px; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; box-shadow: 0 6px 32px var(--shadow); }
+
+  /* Front */
+  .front { background: var(--back-bg); gap: .5rem; }
+  .ca .front { background: linear-gradient(145deg, #fff5f3, var(--back-bg)); }
+  .cb .front { background: linear-gradient(145deg, #f0f7fa, var(--back-bg)); }
+  .cc .front { background: linear-gradient(145deg, #f4f1fb, var(--back-bg)); }
+  .cd .front { background: linear-gradient(145deg, #f1f8f3, var(--back-bg)); }
+  .f-num { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; line-height: 1; color: rgba(26,18,9,.07); }
+  .ca .f-num { color: rgba(200,72,48,.12); }
+  .cb .f-num { color: rgba(30,92,114,.12); }
+  .cc .f-num { color: rgba(74,53,128,.12); }
+  .cd .f-num { color: rgba(42,107,61,.12); }
+  .f-hint { font-size: .65rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); opacity: .6; }
+
+  /* Back */
+  .back { transform: rotateY(180deg); gap: .6rem; }
+  .ca .back { background: var(--ca); }
+  .cb .back { background: var(--cb); }
+  .cc .back { background: var(--cc); }
+  .cd .back { background: var(--cd); }
+  .b-top { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+  .b-word { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1.1; }
+  .b-pos { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+  .b-emoji { font-size: 2.8rem; line-height: 1; }
+  .b-divider { width: 100%; height: 1px; background: rgba(255,255,255,.2); margin: .2rem 0; }
+  .b-def { font-size: .88rem; color: rgba(255,255,255,.92); line-height: 1.55; font-weight: 400; }
+  .b-example { font-size: .8rem; color: rgba(255,255,255,.7); font-style: italic; line-height: 1.4; }
+  .b-deriv-label { font-size: .55rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); align-self: flex-start; margin-top: .2rem; }
+  .b-chips { display: flex; flex-wrap: wrap; gap: .35rem; align-self: flex-start; }
+  .chip { font-size: .62rem; font-weight: 700; padding: .25em .7em; border-radius: 50px; background: rgba(255,255,255,.18); color: rgba(255,255,255,.9); }
+
+  /* Translation card */
+  .trans-wrap { perspective: 800px; height: 72px; cursor: pointer; }
+  .trans-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .45s cubic-bezier(.4,0,.2,1); }
+  .trans-card.flipped { transform: rotateY(180deg); }
+  .trans-face { position: absolute; inset: 0; border-radius: 12px; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; background: var(--back-bg); box-shadow: 0 2px 10px var(--shadow); border-left: 4px solid; padding: .75rem 1.25rem; }
+  .trans-back { transform: rotateY(180deg); }
+  .t-label { font-size: .8rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+  .t-arabic { font-family: 'Noto Sans Arabic', sans-serif; font-size: 1.6rem; font-weight: 700; direction: rtl; color: var(--text); }
+  .ca .trans-face { border-left-color: var(--ca); }
+  .cb .trans-face { border-left-color: var(--cb); }
+  .cc .trans-face { border-left-color: var(--cc); }
+  .cd .trans-face { border-left-color: var(--cd); }
+  .ca .t-label { color: var(--ca); }
+  .cb .t-label { color: var(--cb); }
+  .cc .t-label { color: var(--cc); }
+  .cd .t-label { color: var(--cd); }
+
+  .footer { text-align: center; margin-top: 4rem; font-size: .72rem; color: var(--muted); opacity: .55; }
+
+  @media (max-width: 900px) { .card-wrap { height: 420px; } .trans-wrap { height: 80px; } }
+  @media (max-width: 560px) { .card-wrap { height: 380px; } .trans-wrap { height: 75px; } .stat-sep { display: none; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="page-nav">
+  <a href="/books/{{ unit.book_id }}" class="nav-link">← Units</a>
+  <a href="/units/{{ unit.id }}/study" class="nav-link active">Study Cards</a>
+  <a href="/units/{{ unit.id }}/quiz"  class="nav-link">Quiz Mode</a>
+  <a href="/units/{{ unit.id }}/story" class="nav-link">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit {{ unit.unit_number }}</p>
+  <h1>Unit <em>{{ unit.unit_number }}</em>{% if unit.title %} · {{ unit.title }}{% endif %}</h1>
+  <p class="header-sub">Click each card to reveal its meaning</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">{{ words | length }}</div><div class="stat-label">Words</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="reviewedNum">0</div><div class="stat-label">Reviewed</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="pctNum">0%</div><div class="stat-label">Complete</div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-meta"><span>Progress</span><span id="progressLabel">0 / {{ words | length }}</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<main class="grid" id="grid"></main>
+<footer class="footer">Tap a card to flip &bull; Tap again to return</footer>
+
+<script>
+const words = {{ words | tojson }};
+const unitId = {{ unit.id }};
+const colors = ['ca','cb','cc','cd'];
+const seen = new Set({{ cards_seen | tojson }});
+
+function updateProgress() {
+  const n = seen.size;
+  const pct = Math.round((n / words.length) * 100);
+  document.getElementById('reviewedNum').textContent = n;
+  document.getElementById('pctNum').textContent = pct + '%';
+  document.getElementById('progressLabel').textContent = n + ' / ' + words.length;
+  document.getElementById('progressFill').style.width = pct + '%';
+  // Save to server
+  fetch(`/api/units/${unitId}/progress`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cards_seen: [...seen] }),
+  });
+}
+
+function buildCard(w, idx) {
+  const col = colors[idx % 4];
+  const num = String(idx + 1).padStart(2, '0');
+  const deriv = Array.isArray(w.deriv) ? w.deriv : (w.derivatives || []);
+
+  const cardCol = document.createElement('div');
+  cardCol.className = `card-col ${col}`;
+  cardCol.style.animationDelay = (idx * 0.04) + 's';
+
+  cardCol.innerHTML = `
+    <div class="card-wrap">
+      <div class="card${seen.has(w.id) ? ' flipped' : ''}">
+        <div class="face front">
+          <div class="f-num">${num}</div>
+          <span class="f-hint">Flip →</span>
+        </div>
+        <div class="face back">
+          <div class="b-top">
+            <div>
+              <div class="b-word">${w.word}</div>
+              <span class="b-pos">${w.pos || w.part_of_speech || ''}</span>
+            </div>
+            <div class="b-emoji">${w.emoji || ''}</div>
+          </div>
+          <div class="b-divider"></div>
+          <div class="b-def">${w.def || w.definition || ''}</div>
+          <div class="b-example">"${w.ex || w.example || ''}"</div>
+          <div class="b-deriv-label">Derivatives</div>
+          <div class="b-chips">${deriv.map(d => `<span class="chip">${d}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="trans-wrap">
+      <div class="trans-card">
+        <div class="trans-face trans-front"><span class="t-label">Translation</span></div>
+        <div class="trans-face trans-back"><span class="t-arabic">${w.ar || w.arabic_translation || ''}</span></div>
+      </div>
+    </div>`;
+
+  cardCol.querySelector('.card-wrap').addEventListener('click', () => {
+    cardCol.querySelector('.card').classList.toggle('flipped');
+    seen.add(w.id);
+    updateProgress();
+  });
+  cardCol.querySelector('.trans-wrap').addEventListener('click', () => {
+    cardCol.querySelector('.trans-card').classList.toggle('flipped');
+  });
+  return cardCol;
+}
+
+const grid = document.getElementById('grid');
+words.forEach((w, i) => grid.appendChild(buildCard(w, i)));
+updateProgress();
+</script>
+{% endblock %}

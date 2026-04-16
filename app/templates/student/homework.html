@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Homework — ESL Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+  .assign-wrap { max-width: 860px; margin: 0 auto; }
+
+  /* ── Page header ── */
+  .assign-header {
+    margin-bottom: 3rem;
+  }
+
+  /* ── Section ── */
+  .hw-section { margin-bottom: 3rem; }
+
+  .hw-section-head {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: .75rem;
+    border-bottom: 2px solid rgba(26,18,9,.07);
+  }
+  .hw-section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .hw-section-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 900; color: var(--text);
+    flex: 1;
+  }
+  .hw-section-count {
+    font-size: .6rem; font-weight: 800;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted);
+    background: rgba(26,18,9,.06);
+    padding: .3em .9em;
+    border-radius: 50px;
+  }
+
+  /* ── Cards ── */
+  .hw-list { display: flex; flex-direction: column; gap: .65rem; }
+
+  .hw-card {
+    background: var(--back-bg);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 10px var(--shadow);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform .18s ease, box-shadow .18s ease;
+    animation: cardIn .4s ease both;
+    border-left: 4px solid transparent;
+  }
+  .hw-card:hover { transform: translateX(5px); box-shadow: 0 5px 20px var(--shadow); }
+
+  .hw-card-info { flex: 1; min-width: 0; }
+  .hw-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .hw-card-meta {
+    font-size: .65rem; color: var(--muted);
+    font-weight: 700; letter-spacing: .05em;
+    margin-top: .2rem;
+  }
+  .hw-due { color: var(--ca); }
+
+  /* section accent colors */
+  .section-listening .hw-card { border-left-color: var(--ca); }
+  .section-reading   .hw-card { border-left-color: var(--cb); }
+  .section-writing   .hw-card { border-left-color: var(--cd); }
+  .section-story     .hw-card { border-left-color: var(--cc); }
+
+  /* ── Empty state ── */
+  .hw-empty {
+    padding: 1.4rem 1.25rem;
+    color: var(--muted);
+    font-size: .84rem;
+    font-weight: 600;
+    background: var(--back-bg);
+    border-radius: 12px;
+    border: 2px dashed rgba(26,18,9,.08);
+    text-align: center;
+  }
+
+  /* stagger cards within each section */
+  .hw-list .hw-card:nth-child(1) { animation-delay: .0s; }
+  .hw-list .hw-card:nth-child(2) { animation-delay: .05s; }
+  .hw-list .hw-card:nth-child(3) { animation-delay: .10s; }
+  .hw-list .hw-card:nth-child(4) { animation-delay: .15s; }
+  .hw-list .hw-card:nth-child(5) { animation-delay: .20s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="assign-wrap">
+
+  <div class="assign-header header">
+    <p class="header-eyebrow">{{ user.cefr_level or '' }} Level</p>
+    <h1>Your <span style="color:var(--cb);">Homework</span></h1>
+    <span class="header-rule"></span>
+  </div>
+
+  {# ── Macro: render one section ── #}
+  {% macro hw_section(id, label, icon, bg, items) %}
+  <div class="hw-section section-{{ id }}">
+    <div class="hw-section-head">
+      <div class="hw-section-icon" style="background:{{ bg }};">{{ icon }}</div>
+      <span class="hw-section-label">{{ label }}</span>
+      {% if items %}
+      <span class="hw-section-count">{{ items|length }} assignment{{ 's' if items|length != 1 }}</span>
+      {% endif %}
+    </div>
+
+    {% if items %}
+    <div class="hw-list">
+      {% for hw in items %}
+      <a class="hw-card" href="/homework/{{ hw.id }}">
+        <div class="hw-card-info">
+          <div class="hw-card-title">{{ hw.title }}</div>
+          <div class="hw-card-meta">
+            {% if hw.due_date %}Due <span class="hw-due">{{ hw.due_date }}</span>{% endif %}
+          </div>
+        </div>
+        {% if hw.status == 'complete' %}
+          <span class="badge badge-done">Done</span>
+        {% elif hw.status == 'in_progress' %}
+          <span class="badge badge-progress">In Progress</span>
+        {% else %}
+          <span class="badge badge-pending">New</span>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="hw-empty">No {{ label | lower }} assignments yet.</div>
+    {% endif %}
+  </div>
+  {% endmacro %}
+
+  {{ hw_section('listening', 'Listening', '🎧', 'rgba(200,72,48,.12)',  sections.listening) }}
+  {{ hw_section('reading',   'Reading',   '📖', 'rgba(30,92,114,.12)',  sections.reading)   }}
+  {{ hw_section('writing',   'Writing',   '✍️', 'rgba(42,107,61,.12)',  sections.writing)   }}
+  {{ hw_section('story',     'Story',     '🎬', 'rgba(74,53,128,.12)',  sections.story)     }}
+
+</div>
+{% endblock %}

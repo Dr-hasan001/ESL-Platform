@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Quiz Mode — Unit {{ unit.unit_number }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .grid { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; } }
+
+  .card-wrap { perspective: 1000px; height: 310px; cursor: pointer; border-radius: 18px; animation: cardIn .5s ease both; }
+  .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+  .card.flipped { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; box-shadow: 0 4px 20px var(--shadow); padding: 1.5rem 1rem; }
+  .q-front { background: var(--back-bg); }
+  .ca .q-front { background: linear-gradient(145deg, #fff5f3, var(--back-bg)); }
+  .cb .q-front { background: linear-gradient(145deg, #f0f7fa, var(--back-bg)); }
+  .cc .q-front { background: linear-gradient(145deg, #f4f1fb, var(--back-bg)); }
+  .cd .q-front { background: linear-gradient(145deg, #f1f8f3, var(--back-bg)); }
+  .f-num { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .7; }
+  .q-mark { font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900; line-height: 1; color: rgba(26,18,9,.08); }
+  .ca .q-mark { color: rgba(200,72,48,.13); }
+  .cb .q-mark { color: rgba(30,92,114,.13); }
+  .cc .q-mark { color: rgba(74,53,128,.13); }
+  .cd .q-mark { color: rgba(42,107,61,.13); }
+  .f-hint { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .55; }
+
+  .q-back { transform: rotateY(180deg); }
+  .ca .q-back { background: var(--ca); }
+  .cb .q-back { background: var(--cb); }
+  .cc .q-back { background: var(--cc); }
+  .cd .q-back { background: var(--cd); }
+  .q-num-back { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .q-emoji { font-size: 4.5rem; line-height: 1; pointer-events: none; }
+  .q-word { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #fff; pointer-events: none; display: none; }
+  .q-word.revealed { display: block; }
+  .q-reveal {
+    font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .5em 1.4em; border-radius: 50px; border: 2px solid rgba(255,255,255,.5);
+    background: transparent; color: #fff; cursor: pointer; transition: all .2s; margin-top: .5rem;
+  }
+  .q-reveal:hover { background: rgba(255,255,255,.2); border-color: #fff; }
+  .q-reveal.hidden { display: none; }
+
+  .footer { text-align: center; margin-top: 4rem; font-size: .72rem; color: var(--muted); opacity: .55; }
+  @media (max-width: 700px) { .q-mark { font-size: 6rem; } .q-emoji { font-size: 3.8rem; } .q-word { font-size: 1.8rem; } .stat-sep { display: none; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="page-nav">
+  <a href="/books/{{ unit.book_id }}" class="nav-link">← Units</a>
+  <a href="/units/{{ unit.id }}/study" class="nav-link">Study Cards</a>
+  <a href="/units/{{ unit.id }}/quiz"  class="nav-link active">Quiz Mode</a>
+  <a href="/units/{{ unit.id }}/story" class="nav-link">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit {{ unit.unit_number }}</p>
+  <h1>Guess the <em>Word</em></h1>
+  <p class="header-sub">Flip the card &mdash; see the emoji &mdash; say the word!</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">{{ words | length }}</div><div class="stat-label">Words</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="hintedNum">0</div><div class="stat-label">Hinted</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="revealedNum">0</div><div class="stat-label">Revealed</div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-meta"><span>Answers revealed</span><span id="progressLabel">0 / {{ words | length }}</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<main class="grid" id="grid"></main>
+<footer class="footer">Tap a card to see the emoji hint &bull; Then press Reveal Answer to check</footer>
+
+<script>
+const words = {{ words | tojson }};
+const unitId = {{ unit.id }};
+const colors = ['ca','cb','cc','cd'];
+const hinted   = new Set();
+const revealed = new Set({{ quiz_revealed | tojson }});
+
+function updateStats() {
+  const r = revealed.size;
+  const pct = Math.round((r / words.length) * 100);
+  document.getElementById('hintedNum').textContent   = hinted.size;
+  document.getElementById('revealedNum').textContent = r;
+  document.getElementById('progressLabel').textContent = r + ' / ' + words.length;
+  document.getElementById('progressFill').style.width  = pct + '%';
+  fetch(`/api/units/${unitId}/progress`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quiz_revealed: [...revealed] }),
+  });
+}
+
+function buildCard(w, position) {
+  const col = colors[(position - 1) % 4];
+  const num = String(position).padStart(2, '0');
+
+  const wrap = document.createElement('div');
+  wrap.className = `card-wrap ${col}`;
+  wrap.style.animationDelay = ((position - 1) * 0.05) + 's';
+
+  wrap.innerHTML = `
+    <div class="card">
+      <div class="face q-front">
+        <span class="f-num">${num}</span>
+        <div class="q-mark">?</div>
+        <span class="f-hint">Tap for hint</span>
+      </div>
+      <div class="face q-back">
+        <span class="q-num-back">${num}</span>
+        <div class="q-emoji">${w.emoji || ''}</div>
+        <div class="q-word${revealed.has(w.id) ? ' revealed' : ''}">${w.word}</div>
+        <button class="q-reveal${revealed.has(w.id) ? ' hidden' : ''}">Reveal Answer</button>
+      </div>
+    </div>`;
+
+  const card      = wrap.querySelector('.card');
+  const wordEl    = wrap.querySelector('.q-word');
+  const revealBtn = wrap.querySelector('.q-reveal');
+
+  let state = revealed.has(w.id) ? 'revealed' : 'front';
+  if (state === 'revealed') card.classList.add('flipped');
+
+  wrap.addEventListener('click', () => {
+    if (state === 'front') {
+      card.classList.add('flipped');
+      hinted.add(w.id);
+      state = 'hint';
+      updateStats();
+    } else if (state === 'revealed') {
+      card.classList.remove('flipped');
+      wordEl.classList.remove('revealed');
+      revealBtn.classList.remove('hidden');
+      state = 'front';
+    }
+  });
+
+  revealBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    wordEl.classList.add('revealed');
+    revealBtn.classList.add('hidden');
+    revealed.add(w.id);
+    state = 'revealed';
+    updateStats();
+  });
+
+  return wrap;
+}
+
+// Fisher-Yates shuffle
+for (let i = words.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [words[i], words[j]] = [words[j], words[i]];
+}
+
+const grid = document.getElementById('grid');
+words.forEach((w, i) => grid.appendChild(buildCard(w, i + 1)));
+updateStats();
+</script>
+{% endblock %}

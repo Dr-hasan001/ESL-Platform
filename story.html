@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit 18 Story — The Priest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #FDFAF4;
+      --text:    #1A1209;
+      --muted:   #6B5E4A;
+      --ca:      #C84830;
+      --cb:      #1E5C72;
+      --cc:      #4A3580;
+      --cd:      #2A6B3D;
+      --shadow:  rgba(26,18,9,0.12);
+      --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        var(--grain),
+        radial-gradient(ellipse at 15% 40%, rgba(200,72,48,.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(30,92,114,.05) 0%, transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2.5rem 2rem 6rem;
+    }
+
+    /* ── Navigation ── */
+    .page-nav {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .6em 1.6em;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all .2s ease;
+    }
+    .nav-link.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .nav-link:not(.active) {
+      color: var(--muted);
+      border: 2px solid rgba(26,18,9,.12);
+    }
+    .nav-link:not(.active):hover {
+      border-color: rgba(26,18,9,.3);
+      color: var(--text);
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .header-eyebrow {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.08;
+    }
+    .header h1 em {
+      font-style: italic;
+      color: var(--ca);
+    }
+    .header-sub {
+      margin-top: .6rem;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+    .header-rule {
+      display: block;
+      width: 72px;
+      height: 3px;
+      border-radius: 2px;
+      margin: 1rem auto 0;
+      background: linear-gradient(90deg, var(--ca), var(--cc));
+    }
+
+    /* ── Content wrapper ── */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── Story card ── */
+    .story-card {
+      background: #FFFDF8;
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 6px 32px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+      margin-bottom: 3rem;
+    }
+    .story-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--ca);
+      font-style: italic;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 2px solid rgba(200,72,48,.12);
+    }
+    .story-body p {
+      font-size: 1.6rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 1.6rem;
+      font-weight: 400;
+    }
+    .story-body p:last-child { margin-bottom: 0; }
+
+    /* Vocabulary word highlight */
+    .vocab {
+      font-weight: 800;
+      color: var(--ca);
+      background: rgba(200,72,48,.07);
+      padding: .05em .25em;
+      border-radius: 4px;
+    }
+
+    /* ── Section divider ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .section-header h2 em {
+      font-style: italic;
+      color: var(--cb);
+    }
+    .section-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(26,18,9,.1), transparent);
+      border-radius: 1px;
+    }
+
+    /* ── Score bar ── */
+    .score-bar {
+      background: #FFFDF8;
+      border-radius: 16px;
+      padding: 1.2rem 1.8rem;
+      box-shadow: 0 3px 16px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .score-label {
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .score-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cb);
+    }
+    .score-progress {
+      flex: 1;
+      min-width: 120px;
+    }
+    .score-track {
+      height: 6px;
+      background: rgba(26,18,9,.08);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: .3rem;
+    }
+    .score-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--cb), var(--cd));
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Question cards ── */
+    .questions { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .q-card {
+      background: #FFFDF8;
+      border-radius: 20px;
+      padding: 2rem 2.2rem;
+      box-shadow: 0 4px 20px var(--shadow), 0 0 0 1px rgba(26,18,9,.05);
+      transition: box-shadow .2s ease;
+    }
+    .q-card.correct-card {
+      box-shadow: 0 4px 20px rgba(42,107,61,.15), 0 0 0 2px var(--cd);
+    }
+    .q-card.wrong-card {
+      box-shadow: 0 4px 20px rgba(200,72,48,.12), 0 0 0 2px var(--ca);
+    }
+
+    .q-num {
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .q-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 1.3rem;
+    }
+    .q-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .7rem;
+    }
+    .opt-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: .85em 1.1em;
+      border-radius: 12px;
+      border: 2px solid rgba(26,18,9,.1);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.45;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--cb);
+      background: rgba(30,92,114,.05);
+    }
+    .opt-btn:disabled { cursor: default; }
+    .opt-btn.correct {
+      background: rgba(42,107,61,.1);
+      border-color: var(--cd);
+      color: var(--cd);
+      font-weight: 800;
+    }
+    .opt-btn.wrong {
+      background: rgba(200,72,48,.08);
+      border-color: var(--ca);
+      color: var(--ca);
+    }
+    .q-feedback {
+      margin-top: .9rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .q-feedback.show { opacity: 1; }
+    .q-feedback.ok  { color: var(--cd); }
+    .q-feedback.bad { color: var(--ca); }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .story-card { padding: 2rem 1.5rem; }
+      .story-body p { font-size: 1.3rem; }
+      .q-options { grid-template-columns: 1fr; }
+      .q-text { font-size: 1.25rem; }
+      .opt-btn { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <a href="index.html" class="nav-link">Study Cards</a>
+  <a href="quiz.html"  class="nav-link">Quiz Mode</a>
+  <a href="story.html" class="nav-link active">Story</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">ESL Vocabulary &middot; Unit 18</p>
+  <h1>The <em>Priest</em></h1>
+  <p class="header-sub">Read the story, then answer the comprehension questions</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="content">
+
+  <!-- ── Story ── -->
+  <div class="story-card">
+    <div class="story-title">The Priest</div>
+    <div class="story-body">
+      <p>
+        A young <span class="vocab">priest</span> was always sad. He was good at his
+        <span class="vocab">profession</span>, but he still had no <span class="vocab">joy</span>.
+        He visited a group of <span class="vocab">monks</span>.
+      </p>
+      <p>
+        When he got to the monks' house, they <span class="vocab">greeted</span> him and let him in.
+        The monks asked the priest, "What is the matter?" The priest said, "I should be happy, but
+        I am not. I don't know what to do." The wise monks <span class="vocab">paused</span> for a
+        minute. Then, one said, "We are <span class="vocab">convinced</span> of your
+        <span class="vocab">faith</span>. You are a very good priest. But to find joy, you have to
+        do more. Above all, <span class="vocab">investigate</span> the
+        <span class="vocab">elements</span> of your life that you love." The priest thought that
+        this answer was <span class="vocab">odd</span>, but he was <span class="vocab">curious</span>.
+      </p>
+      <p>
+        The next day, the priest thought about his <span class="vocab">abilities</span>. He got a
+        few ideas, and he did not want to <span class="vocab">delay</span> any longer. He liked to
+        draw, so he made some <span class="vocab">cartoons</span>. He also liked to write, so he
+        started a <span class="vocab">diary</span>. He was interested in
+        <span class="vocab">agriculture</span>, so he planted some <span class="vocab">grain</span>.
+        He made jam from fruit. He made his own <span class="vocab">labels</span> to put on the jars
+        of jam. He painted his <span class="vocab">ceiling</span>.
+      </p>
+      <p>
+        The priest learned something: It is not too hard to be happy after all. All one has to do is
+        find things one likes doing — and do them!
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Questions ── -->
+  <div class="section-header">
+    <h2>Comprehension <em>Questions</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Your Score</div>
+      <div class="score-num"><span id="scoreNum">0</span> / 10</div>
+    </div>
+    <div class="score-progress">
+      <div class="score-label">Progress</div>
+      <div class="score-track">
+        <div class="score-fill" id="scoreFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions" id="questions"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    q: "What is this story about?",
+    opts: ["Why monks have faith in God", "How a priest finds joy", "How to investigate odd answers", "Why a priest did not like his profession"],
+    ans: 1
+  },
+  {
+    q: "Why did the priest go to the monks?",
+    opts: ["Because he was convinced that he was a fine priest", "Because he wanted to greet them", "Because he wanted their help", "Because he wanted to tell them how happy he became"],
+    ans: 2
+  },
+  {
+    q: "After the priest talked to the monks, what did he think about?",
+    opts: ["His abilities", "His curious job", "His pauses", "His delays"],
+    ans: 0
+  },
+  {
+    q: "According to the passage, all the following are true of the priest EXCEPT _____.",
+    opts: ["He painted his ceiling", "He tried agriculture and planted grain", "He drew cartoons", "He forgot to put labels on his jam"],
+    ans: 3
+  },
+  {
+    q: "What did the monks tell the priest to do to find joy?",
+    opts: ["Pause his work and pray with faith", "Investigate the elements of his life that he loved", "Greet more people and delay his sadness", "Start a new profession like agriculture"],
+    ans: 1
+  },
+  {
+    q: "How did the priest feel about the monks' answer?",
+    opts: ["He was immediately convinced it was right", "He thought it was odd, but he was curious", "He was convinced it was wrong", "He greeted it with joy and began immediately"],
+    ans: 1
+  },
+  {
+    q: "What did the priest make after he became interested in drawing?",
+    opts: ["Labels for jam jars", "Grain paintings", "Cartoons", "Diary illustrations"],
+    ans: 2
+  },
+  {
+    q: "What did the priest plant because he was interested in agriculture?",
+    opts: ["Fruit trees", "Grain", "Labels", "Elements"],
+    ans: 1
+  },
+  {
+    q: "What did the priest put on his jars of jam?",
+    opts: ["Pages from his diary", "Cartoons he drew", "Labels he made himself", "Grain and seeds"],
+    ans: 2
+  },
+  {
+    q: "What lesson did the priest learn by the end of the story?",
+    opts: ["A good profession always brings joy", "Monks are convinced of everyone's faith", "It is not too hard to be happy — just find things you love and do them", "Agriculture and grain are the keys to happiness"],
+    ans: 2
+  }
+];
+
+let score = 0;
+let answered = 0;
+
+function updateScore() {
+  document.getElementById('scoreNum').textContent = score;
+  const pct = Math.round((answered / questions.length) * 100);
+  document.getElementById('scoreFill').style.width =
+    Math.round((score / questions.length) * 100) + '%';
+}
+
+function buildQuestion(q, idx) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+
+  const letters = ['a', 'b', 'c', 'd'];
+
+  card.innerHTML = `
+    <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-options">
+      ${q.opts.map((opt, i) => `
+        <button class="opt-btn" data-idx="${i}">
+          <strong>${letters[i]}.</strong> ${opt}
+        </button>`).join('')}
+    </div>
+    <div class="q-feedback" id="fb-${idx}"></div>`;
+
+  const btns = card.querySelectorAll('.opt-btn');
+  const feedback = card.querySelector(`#fb-${idx}`);
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = parseInt(btn.dataset.idx);
+      btns.forEach(b => b.disabled = true);
+      answered++;
+
+      if (chosen === q.ans) {
+        btn.classList.add('correct');
+        card.classList.add('correct-card');
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'q-feedback show ok';
+        score++;
+      } else {
+        btn.classList.add('wrong');
+        btns[q.ans].classList.add('correct');
+        card.classList.add('wrong-card');
+        feedback.textContent = '✗ Not quite — the correct answer is highlighted in green.';
+        feedback.className = 'q-feedback show bad';
+      }
+      updateScore();
+    });
+  });
+
+  return card;
+}
+
+const container = document.getElementById('questions');
+questions.forEach((q, i) => container.appendChild(buildQuestion(q, i)));
+updateScore();
+</script>
+</body>
+</html>

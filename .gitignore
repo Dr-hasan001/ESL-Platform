@@ -1,0 +1,12 @@
+.env
+credentials.json
+token.json
+.tmp/
+.tmp_*
+__pycache__/
+**/__pycache__/
+*.pyc
+*.db
+*.pdf
+Audio/
+Books/

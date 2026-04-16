@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Book Library — ESL Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+  .shelf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  @media (max-width: 680px) { .shelf-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; } }
+  @media (max-width: 420px) { .shelf-grid { grid-template-columns: 1fr; } }
+
+  .shelf-card {
+    border-radius: 18px;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+    box-shadow: 0 6px 28px var(--shadow);
+    animation: cardIn .55s ease both;
+  }
+  .shelf-card:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 14px 40px var(--shadow); }
+
+  .shelf-level {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+  .shelf-book-name {
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+  }
+  .shelf-series {
+    font-size: .62rem;
+    color: rgba(255,255,255,.6);
+    font-weight: 600;
+    letter-spacing: .06em;
+  }
+  .shelf-units {
+    font-size: .62rem;
+    color: rgba(255,255,255,.7);
+    font-weight: 700;
+    margin-top: .25rem;
+    background: rgba(255,255,255,.15);
+    padding: .3em .9em;
+    border-radius: 50px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/dashboard" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Dashboard</a>
+
+<div class="header">
+  <p class="header-eyebrow">4000 Essential English Words</p>
+  <h1>Choose Your <em>Level</em></h1>
+  <p class="header-sub">Six books · A1 through C2 · 30 units each</p>
+  <span class="header-rule"></span>
+</div>
+
+<div class="shelf-grid">
+  {% set book_colors = ['#C84830','#1E5C72','#4A3580','#2A6B3D','#8B4513','#1A1209'] %}
+  {% for book in books %}
+  <a class="shelf-card" href="/books/{{ book.id }}" style="background: {{ book_colors[loop.index0 % 6] }}; animation-delay: {{ loop.index0 * 0.07 }}s">
+    <span class="shelf-level">{{ book.cefr_level }}</span>
+    <span class="shelf-book-name">Book {{ book.book_number }}</span>
+    <span class="shelf-series">{{ book.series or '4000 Essential English Words' }}</span>
+    <span class="shelf-units">{{ book.unit_count }} Units</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
