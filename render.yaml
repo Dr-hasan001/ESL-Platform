@@ -2,7 +2,7 @@ services:
   - type: web
     name: esl-platform
     env: python
-    plan: starter          # $7/mo — always on, persistent disk
+    plan: starter
     buildCommand: pip install -r requirements.txt
     preDeployCommand: python tools/seed_db.py && python tools/seed_students.py
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -27,6 +27,6 @@ services:
 
 databases:
   - name: esl-db
-    plan: starter          # $7/mo — persistent, no 90-day expiry
+    plan: free             # free tier — upgrade to 'basic' ($7/mo) for no expiry
     databaseName: esl
     user: esl_user
