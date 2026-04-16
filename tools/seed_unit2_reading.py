@@ -1,6 +1,6 @@
 """
-seed_unit2_reading.py - Insert Unit 2 Reading homework (Family).
-Outcomes Elementary A2, Unit 2.
+seed_unit2_reading.py - Insert Unit 7 Reading homework (Free time).
+Outcomes Elementary A2, Unit 7.
 Run: python tools/seed_unit2_reading.py
 """
 
@@ -11,7 +11,6 @@ from app.database import SessionLocal, Base, engine
 from app.models import *  # noqa: F401
 from app.models.homework import HomeworkAssignment, AssignmentStudent, HWReading, HomeworkQuestion
 from app.models.user import User
-from collections import Counter
 
 Base.metadata.create_all(bind=engine)
 db = SessionLocal()
@@ -27,154 +26,131 @@ a2_students = db.query(User).filter(
 ).all()
 
 PASSAGE = (
-    "Hi! My name is Ana. I am from Mexico. I have a big family - I have three brothers and two sisters. "
-    "My parents live in Mexico City with my two younger brothers. I am the oldest child, so I help my parents a lot. "
-    "My grandmother also lives with us. She is 82 years old but she is very active. She cooks for the whole family "
-    "every Sunday. I love big family dinners!\n\n"
-    "My name is David. I am from Australia. I am an only child, which means I do not have any brothers or sisters. "
-    "Some people think it is sad, but I do not agree. I have a lot of friends, and my parents give me a lot of "
-    "attention. My parents are divorced, so I live with my mother during the week and with my father at the weekend. "
-    "Both my parents work, so I help at home a lot.\n\n"
-    "Hello! I am Fatima. I am from Morocco but I live in France now. I have one brother and one sister. "
-    "My sister is married and has two children - a boy and a girl. I love being an aunt! My niece is only one year "
-    "old and my nephew is three. My parents are still in Morocco, so I only see them two or three times a year. "
-    "I talk to them on the phone every day.\n\n"
-    "Hi, I am Pete. I am from the UK. I am married and I have two children - a son called Jack and a daughter "
-    "called Emma. Jack is 15 and Emma is 12. They go to school near our house. My wife is called Helen and she is "
-    "a nurse. I am a teacher. In the evening, the family usually eats dinner together and then the children do "
-    "their homework. At the weekend, we often go to the park or watch films at home."
+    "Hi! My name is Clara. I am from Argentina. In my free time, I love dancing. "
+    "I go to a dance class every Tuesday and Thursday evening. My favourite style is salsa. "
+    "I also like watching films at the cinema with my friends at the weekend. "
+    "I do not watch much TV at home because I prefer to go out and be active.\n\n"
+
+    "Hello, I am Yusuf. I am from Turkey. I spend a lot of my free time playing football. "
+    "I play with my friends in the park every Saturday morning. I also follow a football team online "
+    "and I watch their matches on TV. When I am at home, I enjoy reading books, especially adventure stories. "
+    "I read before I go to sleep every night.\n\n"
+
+    "My name is Sophie. I am from France. My favourite hobby is cooking. "
+    "I like trying new recipes from different countries. Last week I made Japanese food for the first time. "
+    "At the weekend, I sometimes go cycling in the countryside with my brother. "
+    "I think it is important to have an active hobby and a relaxing hobby.\n\n"
+
+    "Hi! I am Liam. I am from Ireland. In my free time, I play video games online with my friends. "
+    "We usually play together in the evening after work. I also like going to concerts. "
+    "I see live music about once a month. My favourite type of music is rock. "
+    "At the weekend, I sometimes go hiking in the mountains. I love being in nature."
 )
 
-# 20 questions — answer distribution: A×5, B×5, C×5, D×5
-# Correct index per question: 0,1,2,3, 1,2,3,0, 2,3,0,1, 3,0,1,2, 0,3,2,1
 QUESTIONS = [
-    # Q1 correct=A(0)
     {
-        "question_text": "Who is Ana in her family?",
-        "options": ["She is the oldest child.", "She is the youngest child.", "She is an only child.", "She is the second child."],
-        "correct_index": 0,
-    },
-    # Q2 correct=B(1)
-    {
-        "question_text": "How many siblings does Ana have in total?",
-        "options": ["Three.", "Five.", "Two.", "Four."],
-        "correct_index": 1,
-    },
-    # Q3 correct=C(2)
-    {
-        "question_text": "How old is Ana's grandmother?",
-        "options": ["72 years old.", "78 years old.", "82 years old.", "86 years old."],
+        "question_text": "How often does Clara go to her dance class?",
+        "options": [
+            "Once a week.",
+            "Every day.",
+            "Twice a week.",
+            "Three times a week.",
+        ],
         "correct_index": 2,
     },
-    # Q4 correct=D(3)
     {
-        "question_text": "What does Ana's grandmother do every Sunday?",
-        "options": ["She goes to church.", "She visits friends.", "She goes shopping.", "She cooks for the whole family."],
-        "correct_index": 3,
-    },
-    # Q5 correct=B(1)
-    {
-        "question_text": "Is David an only child?",
-        "options": ["No, he has one brother.", "Yes, he has no brothers or sisters.", "No, he has one sister.", "No, he has two brothers."],
+        "question_text": "What is Clara's favourite dance style?",
+        "options": [
+            "Tango.",
+            "Salsa.",
+            "Ballet.",
+            "Hip hop.",
+        ],
         "correct_index": 1,
     },
-    # Q6 correct=C(2)
     {
-        "question_text": "Where does David live during the week?",
-        "options": ["With his father.", "With his grandparents.", "With his mother.", "At a school dormitory."],
+        "question_text": "Why does Clara not watch much TV at home?",
+        "options": [
+            "She does not have a TV.",
+            "She is too busy with work.",
+            "She prefers to go out and be active.",
+            "She does not like films.",
+        ],
         "correct_index": 2,
     },
-    # Q7 correct=D(3)
     {
-        "question_text": "What do both of David's parents do?",
-        "options": ["They both cook at home.", "They both live together.", "They both travel for work.", "They both work."],
-        "correct_index": 3,
-    },
-    # Q8 correct=A(0)
-    {
-        "question_text": "Where is Fatima originally from?",
-        "options": ["Morocco.", "France.", "Spain.", "Algeria."],
-        "correct_index": 0,
-    },
-    # Q9 correct=C(2)
-    {
-        "question_text": "How old is Fatima's niece?",
-        "options": ["Three years old.", "Two years old.", "One year old.", "Four years old."],
+        "question_text": "When does Yusuf play football?",
+        "options": [
+            "Every Friday evening.",
+            "Every Sunday afternoon.",
+            "Every Saturday morning.",
+            "Every weekday morning.",
+        ],
         "correct_index": 2,
     },
-    # Q10 correct=D(3)
     {
-        "question_text": "How often does Fatima visit her parents in Morocco?",
-        "options": ["Every week.", "Once a year.", "Every month.", "Two or three times a year."],
-        "correct_index": 3,
-    },
-    # Q11 correct=A(0)
-    {
-        "question_text": "What is Pete's daughter called?",
-        "options": ["Emma.", "Helen.", "Sarah.", "Lucy."],
-        "correct_index": 0,
-    },
-    # Q12 correct=B(1)
-    {
-        "question_text": "How old is Pete's son Jack?",
-        "options": ["12 years old.", "15 years old.", "14 years old.", "16 years old."],
+        "question_text": "What kind of books does Yusuf like to read?",
+        "options": [
+            "Science books.",
+            "Adventure stories.",
+            "History books.",
+            "Comic books.",
+        ],
         "correct_index": 1,
     },
-    # Q13 correct=D(3)
     {
-        "question_text": "What is Pete's wife's job?",
-        "options": ["She is a teacher.", "She is a doctor.", "She is a chef.", "She is a nurse."],
+        "question_text": "What did Sophie cook last week?",
+        "options": [
+            "French food.",
+            "Turkish food.",
+            "Italian food.",
+            "Japanese food.",
+        ],
         "correct_index": 3,
     },
-    # Q14 correct=A(0)
     {
-        "question_text": "What does Pete's family usually do in the evening?",
-        "options": ["They eat dinner together and the children do homework.", "They watch films.", "They go to the park.", "They play games."],
-        "correct_index": 0,
-    },
-    # Q15 correct=B(1)
-    {
-        "question_text": "What does Pete's family often do at the weekend?",
-        "options": ["They visit grandparents.", "They go to the park or watch films at home.", "They go shopping.", "They play sports."],
+        "question_text": "Who does Sophie go cycling with?",
+        "options": [
+            "Her friends.",
+            "Her brother.",
+            "Her parents.",
+            "Her colleagues.",
+        ],
         "correct_index": 1,
     },
-    # Q16 correct=C(2)
     {
-        "question_text": "Where does Fatima live now?",
-        "options": ["Morocco.", "Spain.", "France.", "Belgium."],
+        "question_text": "How often does Liam go to concerts?",
+        "options": [
+            "Every week.",
+            "Every day.",
+            "About once a month.",
+            "Twice a year.",
+        ],
         "correct_index": 2,
     },
-    # Q17 correct=A(0)
     {
-        "question_text": "What is Ana's nationality?",
-        "options": ["Mexican.", "Spanish.", "Brazilian.", "Argentinian."],
-        "correct_index": 0,
-    },
-    # Q18 correct=D(3)
-    {
-        "question_text": "How many children does Fatima's sister have?",
-        "options": ["None.", "Three.", "One.", "Two."],
+        "question_text": "What is Liam's favourite type of music?",
+        "options": [
+            "Jazz.",
+            "Pop.",
+            "Classical.",
+            "Rock.",
+        ],
         "correct_index": 3,
     },
-    # Q19 correct=C(2)
     {
-        "question_text": "What does David think about being an only child?",
-        "options": ["He thinks it is very sad.", "He finds it very difficult.", "He does not think it is sad.", "He wishes he had a brother."],
+        "question_text": "What does Liam like to do at the weekend?",
+        "options": [
+            "Go cycling.",
+            "Cook new recipes.",
+            "Go hiking in the mountains.",
+            "Go to the cinema.",
+        ],
         "correct_index": 2,
-    },
-    # Q20 correct=B(1)
-    {
-        "question_text": "How does Fatima contact her parents every day?",
-        "options": ["She sends emails.", "She calls them on the phone.", "She visits them.", "She sends letters."],
-        "correct_index": 1,
     },
 ]
 
-# Verify distribution
-dist = Counter(q["correct_index"] for q in QUESTIONS)
-print("Answer distribution:", {chr(65 + k): v for k, v in sorted(dist.items())})
-
-TITLE = "Unit 2 Reading - My Family"
+TITLE = "Unit 7 Reading - Free Time"
 if db.query(HomeworkAssignment).filter_by(title=TITLE).first():
     print(f"Already exists: '{TITLE}' — skipping.")
     db.close()
@@ -184,7 +160,7 @@ hw = HomeworkAssignment(
     teacher_id=teacher.id,
     type="reading",
     title=TITLE,
-    instructions="Read what four people say about their families, then answer the comprehension questions.",
+    instructions="Read what four people say about their free time, then answer the comprehension questions.",
     is_active=True,
 )
 db.add(hw)
