@@ -74,10 +74,13 @@
       <div class="hw-info-title">{{ hw.title }}</div>
     </div>
     {% if hw.due_date %}<span class="badge badge-ca">Due {{ hw.due_date }}</span>{% endif %}
-    <span class="badge badge-cb">{{ submissions | length }} submissions</span>
+    {% set done = submissions | selectattr('is_complete') | list | length %}
+    {% set total = student_rows | length if student_rows is defined else submissions | length %}
+    <span class="badge badge-cb">{{ done }}/{{ total }} submitted</span>
   </div>
 
-  {% if submissions %}
+  {% set rows = student_rows if student_rows is defined else [] %}
+  {% if rows %}
   <div class="table-scroll">
   <table class="sub-table">
     <thead>
@@ -90,41 +93,48 @@
       </tr>
     </thead>
     <tbody>
-      {% for sub in submissions %}
+      {% for row in rows %}
+      {% set sub = row.submission %}
       <tr>
         <td>
-          <strong>{{ sub.student.display_name or sub.student.username }}</strong><br>
-          <span style="font-size:.7rem; color:var(--muted);">{{ sub.student.username }}</span>
+          <strong>{{ row.student.display_name or row.student.username }}</strong><br>
+          <span style="font-size:.7rem; color:var(--muted);">{{ row.student.username }}</span>
         </td>
         <td>
-          {% if sub.is_complete %}
-            <span class="badge badge-done">Submitted</span>
+          {% if sub and sub.is_complete %}
+            <span class="badge badge-done">✅ Submitted</span>
+          {% elif sub %}
+            <span class="badge badge-progress">⏳ In Progress</span>
           {% else %}
-            <span class="badge badge-progress">In Progress</span>
+            <span class="badge" style="background:rgba(200,72,48,.12);color:#C84830;">❌ Not Started</span>
           {% endif %}
         </td>
         <td>
-          {% if hw.type == 'writing' %}
-            {% if sub.teacher_score is not none %}
-              <span class="score-val">{{ sub.teacher_score }}/100</span>
+          {% if sub %}
+            {% if hw.type == 'writing' %}
+              {% if sub.teacher_score is not none %}
+                <span class="score-val">{{ sub.teacher_score }}/100</span>
+              {% else %}
+                <span style="color:var(--muted); font-size:.85rem;">Pending</span>
+              {% endif %}
             {% else %}
-              <span style="color:var(--muted); font-size:.85rem;">Pending</span>
+              {% if sub.score is not none %}
+                <span class="score-val">{{ "%.0f" | format(sub.score) }}%</span>
+                <br><span style="font-size:.7rem; color:var(--muted);">{{ sub.correct_count }}/{{ sub.total_questions }}</span>
+              {% else %}
+                <span style="color:var(--muted); font-size:.85rem;">—</span>
+              {% endif %}
             {% endif %}
           {% else %}
-            {% if sub.score is not none %}
-              <span class="score-val">{{ "%.0f" | format(sub.score) }}%</span>
-              <br><span style="font-size:.7rem; color:var(--muted);">{{ sub.correct_count }}/{{ sub.total_questions }}</span>
-            {% else %}
-              <span style="color:var(--muted); font-size:.85rem;">—</span>
-            {% endif %}
+            <span style="color:var(--muted); font-size:.85rem;">—</span>
           {% endif %}
         </td>
         <td style="font-size:.78rem; color:var(--muted);">
-          {{ sub.submitted_at.strftime('%b %d, %H:%M') if sub.submitted_at else '—' }}
+          {{ sub.submitted_at.strftime('%b %d, %H:%M') if sub and sub.submitted_at else '—' }}
         </td>
         {% if hw.type == 'writing' %}
         <td>
-          {% if sub.written_response %}
+          {% if sub and sub.written_response %}
           <div class="writing-response">{{ sub.written_response }}</div>
           <div style="font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.4rem;">
             {{ sub.word_count or '?' }} words
@@ -151,7 +161,7 @@
   {% else %}
   <div style="text-align:center; padding:3rem; color:var(--muted);">
     <p style="font-size:2rem; margin-bottom:.75rem;">📭</p>
-    <p style="font-weight:700;">No submissions yet.</p>
+    <p style="font-weight:700;">No students assigned yet.</p>
   </div>
   {% endif %}
 </div>

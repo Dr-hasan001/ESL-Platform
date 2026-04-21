@@ -62,6 +62,40 @@
   .hw-status.done     { background: rgba(42,107,61,.12);  color: #2A6B3D; }
 
   .top-actions { display: flex; gap: .75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+
+  /* Submission schedule */
+  .schedule-block {
+    background: var(--back-bg);
+    border-radius: 16px;
+    box-shadow: 0 3px 14px var(--shadow);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .schedule-hw-header {
+    display: flex; align-items: center; gap: .75rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(26,18,9,.07);
+    background: rgba(30,92,114,.04);
+  }
+  .schedule-hw-title { font-weight: 800; font-size: .95rem; color: var(--text); }
+  .schedule-hw-meta  { font-size: .65rem; color: var(--muted); font-weight: 700; margin-left: auto; }
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0;
+  }
+  .schedule-student {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .7rem 1.1rem;
+    border-bottom: 1px solid rgba(26,18,9,.05);
+    border-right: 1px solid rgba(26,18,9,.05);
+    font-size: .82rem; font-weight: 700; color: var(--text);
+  }
+  .schedule-student.done         { background: rgba(42,107,61,.06); }
+  .schedule-student.started      { background: rgba(200,150,0,.06); }
+  .schedule-student.not_started  { background: rgba(200,72,48,.04); }
+  .sched-icon { font-size: 1rem; flex-shrink: 0; }
+  .sched-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 {% endblock %}
 
@@ -152,5 +186,43 @@
     </div>
 
   </div>
+
+  <!-- Submission Schedule -->
+  {% if schedule %}
+  <div style="margin-top:3rem;">
+    <p class="section-eyebrow">Submission Tracker</p>
+    <h2 class="section-title">Who Has <em>Submitted</em>?</h2>
+    {% for item in schedule %}
+    {% set done_count = item.rows | selectattr('status','equalto','done') | list | length %}
+    {% set total_count = item.rows | length %}
+    <div class="schedule-block">
+      <div class="schedule-hw-header">
+        <span style="font-size:1.2rem;">📋</span>
+        <span class="schedule-hw-title">{{ item.hw.title }}</span>
+        <span class="schedule-hw-meta">
+          {{ done_count }}/{{ total_count }} submitted
+          {% if done_count == total_count and total_count > 0 %} · All done!{% endif %}
+        </span>
+        <a href="/teacher/submissions/{{ item.hw.id }}" style="font-size:.65rem; font-weight:800; color:var(--cb); text-decoration:none; margin-left:.75rem;">View details →</a>
+      </div>
+      <div class="schedule-grid">
+        {% for row in item.rows %}
+        <div class="schedule-student {{ row.status }}">
+          {% if row.status == 'done' %}
+            <span class="sched-icon">✅</span>
+          {% elif row.status == 'started' %}
+            <span class="sched-icon">⏳</span>
+          {% else %}
+            <span class="sched-icon">❌</span>
+          {% endif %}
+          <span class="sched-name">{{ row.student.display_name or row.student.username }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}

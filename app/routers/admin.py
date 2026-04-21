@@ -70,12 +70,43 @@ async def teacher_dashboard(request: Request, db: Session = Depends(get_db), use
         for hw in assignments
     }
 
+    # Build per-assignment student schedule
+    schedule = []
+    if hw_ids:
+        all_assigned = (
+            db.query(AssignmentStudent, User)
+            .join(User, User.id == AssignmentStudent.student_id)
+            .filter(AssignmentStudent.assignment_id.in_(hw_ids))
+            .all()
+        )
+        all_subs = (
+            db.query(Submission)
+            .filter(Submission.assignment_id.in_(hw_ids))
+            .all()
+        )
+        sub_map = {(s.assignment_id, s.student_id): s for s in all_subs}
+
+        assigned_by_hw: dict[int, list] = {hw.id: [] for hw in assignments}
+        for row, student in all_assigned:
+            sub = sub_map.get((row.assignment_id, student.id))
+            if sub and sub.is_complete:
+                status = "done"
+            elif sub:
+                status = "started"
+            else:
+                status = "not_started"
+            assigned_by_hw[row.assignment_id].append({"student": student, "status": status})
+
+        for hw in assignments:
+            schedule.append({"hw": hw, "rows": assigned_by_hw.get(hw.id, [])})
+
     return templates.TemplateResponse("teacher/dashboard.html", {
         "request": request,
         "user": user,
         "students": students,
         "assignments": assignments,
         "hw_status": hw_status,
+        "schedule": schedule,
     })
 
 
@@ -123,8 +154,24 @@ async def view_submissions(assignment_id: int, request: Request, db: Session = D
         .order_by(User.display_name)
         .all()
     )
+    sub_map = {s.student_id: s for s in subs}
+
+    # All assigned students merged with their submission (or None)
+    assigned_students = (
+        db.query(User)
+        .join(AssignmentStudent, AssignmentStudent.student_id == User.id)
+        .filter(AssignmentStudent.assignment_id == assignment_id)
+        .order_by(User.display_name)
+        .all()
+    )
+    student_rows = [
+        {"student": s, "submission": sub_map.get(s.id)}
+        for s in assigned_students
+    ]
+
     return templates.TemplateResponse("teacher/submissions.html", {
-        "request": request, "user": user, "hw": hw, "submissions": subs,
+        "request": request, "user": user, "hw": hw,
+        "submissions": subs, "student_rows": student_rows,
     })
 
 

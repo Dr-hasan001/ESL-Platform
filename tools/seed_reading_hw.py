@@ -250,39 +250,43 @@ QUESTIONS = [
     },
 ]
 
-# ── Create assignment (skip if already exists) ────────────────────────────────
+# ── Create assignment or ensure all students are assigned ─────────────────────
 TITLE = "Unit 1 Reading - Where Do You Live?"
-if db.query(HomeworkAssignment).filter_by(title=TITLE).first():
-    print(f"Already exists: '{TITLE}' — skipping.")
-    db.close()
-    sys.exit(0)
+hw = db.query(HomeworkAssignment).filter_by(title=TITLE).first()
+if not hw:
+    hw = HomeworkAssignment(
+        teacher_id=teacher.id,
+        type="reading",
+        title=TITLE,
+        instructions="Read what four people say about where they live, then answer the comprehension questions.",
+        is_active=True,
+    )
+    db.add(hw)
+    db.flush()
 
-hw = HomeworkAssignment(
-    teacher_id=teacher.id,
-    type="reading",
-    title=TITLE,
-    instructions="Read what four people say about where they live, then answer the comprehension questions.",
-    is_active=True,
-)
-db.add(hw)
-db.flush()
+    db.add(HWReading(assignment_id=hw.id, passage_text=PASSAGE))
 
-db.add(HWReading(assignment_id=hw.id, passage_text=PASSAGE))
+    for i, q in enumerate(QUESTIONS, start=1):
+        db.add(HomeworkQuestion(
+            assignment_id=hw.id,
+            position=i,
+            question_text=q["question_text"],
+            question_type="multiple_choice",
+            options=q["options"],
+            correct_index=q["correct_index"],
+        ))
+    print(f"Reading homework created: ID={hw.id}  '{hw.title}'")
+else:
+    print(f"Already exists: '{TITLE}' (ID={hw.id}) — ensuring all students assigned.")
 
-for i, q in enumerate(QUESTIONS, start=1):
-    db.add(HomeworkQuestion(
-        assignment_id=hw.id,
-        position=i,
-        question_text=q["question_text"],
-        question_type="multiple_choice",
-        options=q["options"],
-        correct_index=q["correct_index"],
-    ))
-
+# Assign any students not yet in the assignment
+already = {row.student_id for row in db.query(AssignmentStudent).filter_by(assignment_id=hw.id).all()}
+new_assigned = 0
 for student in a2_students:
-    db.add(AssignmentStudent(assignment_id=hw.id, student_id=student.id))
+    if student.id not in already:
+        db.add(AssignmentStudent(assignment_id=hw.id, student_id=student.id))
+        new_assigned += 1
 
 db.commit()
-print(f"Reading homework created: ID={hw.id}  '{hw.title}'")
-print(f"Assigned to {len(a2_students)} student(s): {[s.username for s in a2_students]}")
+print(f"Assigned to {len(a2_students)} student(s) total ({new_assigned} newly added).")
 db.close()
