@@ -21,6 +21,20 @@ from app.models import *  # noqa: F401 — import all models so Base sees them
 from app.services.auth_service import hash_password
 
 Base.metadata.create_all(bind=engine)
+
+# Migrate existing tables — add new columns if they don't exist yet
+from sqlalchemy import text, inspect as sa_inspect
+with engine.connect() as _conn:
+    _users_cols = [c["name"] for c in sa_inspect(engine).get_columns("users")]
+    if "plain_password" not in _users_cols:
+        _conn.execute(text("ALTER TABLE users ADD COLUMN plain_password VARCHAR(100)"))
+    if "class_name" not in _users_cols:
+        _conn.execute(text("ALTER TABLE users ADD COLUMN class_name VARCHAR(60)"))
+    _words_cols = [c["name"] for c in sa_inspect(engine).get_columns("words")]
+    if "image_url" not in _words_cols:
+        _conn.execute(text("ALTER TABLE words ADD COLUMN image_url VARCHAR(500)"))
+    _conn.commit()
+
 db = SessionLocal()
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
