@@ -52,6 +52,15 @@
   .assign-title { font-weight: 800; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .assign-meta { font-size: .62rem; color: var(--muted); font-weight: 700; margin-top: .15rem; }
 
+  /* Status badge */
+  .hw-status {
+    font-size: .62rem; font-weight: 800; letter-spacing: .08em;
+    padding: .3em .7em; border-radius: 50px; white-space: nowrap; flex-shrink: 0;
+  }
+  .hw-status.waiting  { background: rgba(200,72,48,.12); color: #C84830; }
+  .hw-status.partial  { background: rgba(200,150,0,.12);  color: #a07800; }
+  .hw-status.done     { background: rgba(42,107,61,.12);  color: #2A6B3D; }
+
   .top-actions { display: flex; gap: .75rem; margin-bottom: 2rem; flex-wrap: wrap; }
 </style>
 {% endblock %}
@@ -66,6 +75,7 @@
 
   <div class="top-actions">
     <a href="/teacher/assign" class="btn btn-accent">+ Create Assignment</a>
+    <a href="/teacher/students" class="btn" style="background:var(--cb); color:#fff;">Students</a>
   </div>
 
   <div class="teacher-grid">
@@ -93,7 +103,7 @@
           {% endif %}
         </div>
         {% else %}
-        <p class="text-muted" style="font-size:.9rem;">No students yet. Add students via the database seed tool.</p>
+        <p class="text-muted" style="font-size:.9rem;">No students yet. <a href="/teacher/students">Add students</a>.</p>
         {% endfor %}
       </div>
     </div>
@@ -112,6 +122,17 @@
       <div class="assign-list">
         {% for hw in assignments %}
         {% set ic = type_icons.get(hw.type, ('📌', 'rgba(26,18,9,.08)', '#6B5E4A')) %}
+        {% set st = hw_status.get(hw.id, {'assigned': 0, 'submitted': 0}) %}
+        {% if st.submitted == 0 %}
+          {% set badge_cls = 'waiting' %}
+          {% set badge_txt = 'Waiting' if st.assigned == 0 else 'Waiting (0/' ~ st.assigned ~ ')' %}
+        {% elif st.submitted >= st.assigned and st.assigned > 0 %}
+          {% set badge_cls = 'done' %}
+          {% set badge_txt = 'All done (' ~ st.submitted ~ '/' ~ st.assigned ~ ')' %}
+        {% else %}
+          {% set badge_cls = 'partial' %}
+          {% set badge_txt = st.submitted ~ '/' ~ st.assigned ~ ' submitted' %}
+        {% endif %}
         <a class="assign-card" href="/teacher/submissions/{{ hw.id }}" style="animation-delay:{{ loop.index0 * 0.04 }}s">
           <div class="assign-type-icon" style="background:{{ ic[1] }}; color:{{ ic[2] }}">{{ ic[0] }}</div>
           <div class="assign-info">
@@ -122,7 +143,7 @@
               · {{ hw.created_at.strftime('%b %d') if hw.created_at else '' }}
             </div>
           </div>
-          <span style="color:var(--muted); font-size:.8rem;">→</span>
+          <span class="hw-status {{ badge_cls }}">{{ badge_txt }}</span>
         </a>
         {% else %}
         <p class="text-muted" style="font-size:.9rem;">No assignments yet. Create one above.</p>

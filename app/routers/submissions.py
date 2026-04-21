@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+import io
 
 from app.database import get_db
 from app.models.homework import HomeworkAssignment, HomeworkQuestion
@@ -40,11 +42,16 @@ async def submit_homework(body: SubmitBody, db: Session = Depends(get_db), user:
                 detail=f"You must listen/watch {status_info['plays_required']} times before submitting.",
             )
 
-    # Upsert submission
+    # Block resubmission — one attempt only
     submission = db.query(Submission).filter(
         Submission.assignment_id == body.assignment_id,
         Submission.student_id == user.id,
     ).first()
+    if submission and submission.is_complete:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="You have already submitted this assignment. Only one attempt is allowed.",
+        )
     if not submission:
         submission = Submission(assignment_id=body.assignment_id, student_id=user.id)
         db.add(submission)
@@ -90,6 +97,40 @@ async def submit_homework(body: SubmitBody, db: Session = Depends(get_db), user:
     db.commit()
 
     return {"ok": True, "score": float(submission.score or 0), "correct": correct, "total": total}
+
+
+@router.get("/{assignment_id}/pdf")
+async def download_submission_pdf(assignment_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)):
+    """Generate and return a PDF of the student's completed submission."""
+    submission = db.query(Submission).filter(
+        Submission.assignment_id == assignment_id,
+        Submission.student_id == user.id,
+        Submission.is_complete == True,
+    ).first()
+    if not submission:
+        raise HTTPException(status_code=404, detail="Completed submission not found.")
+
+    hw = db.query(HomeworkAssignment).filter(HomeworkAssignment.id == assignment_id).first()
+    questions = (
+        db.query(HomeworkQuestion)
+        .filter(HomeworkQuestion.assignment_id == assignment_id)
+        .order_by(HomeworkQuestion.position)
+        .all()
+    )
+    sub_answers = db.query(SubmissionAnswer).filter(SubmissionAnswer.submission_id == submission.id).all()
+    answers_map = {a.question_id: a for a in sub_answers}
+
+    from app.services.pdf_service import generate_submission_pdf
+    pdf_bytes = generate_submission_pdf(hw, user, submission, questions, answers_map)
+
+    safe_name = "".join(c if c.isalnum() or c in " -_" else "_" for c in (hw.title or "results"))
+    filename = f"{safe_name}_{user.username}.pdf"
+
+    return StreamingResponse(
+        io.BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @router.get("/{assignment_id}")

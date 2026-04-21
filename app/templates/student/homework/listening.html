@@ -83,12 +83,14 @@
   }
   .opt-btn:hover:not(:disabled) { border-color: var(--cb); background: rgba(30,92,114,.05); }
   .opt-btn:disabled { cursor: default; }
-  .opt-btn.correct { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
-  .opt-btn.wrong   { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
+  .opt-btn.selected { border-color: var(--cb); background: rgba(30,92,114,.09); font-weight: 800; }
+  .opt-btn.correct  { background: rgba(42,107,61,.1); border-color: var(--cd); color: var(--cd); font-weight: 800; }
+  .opt-btn.wrong    { background: rgba(200,72,48,.08); border-color: var(--ca); color: var(--ca); }
   .q-feedback { margin-top: .7rem; font-size: .9rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
   .q-feedback.show { opacity: 1; }
   .q-feedback.ok  { color: var(--cd); }
   .q-feedback.bad { color: var(--ca); }
+  .already-done { background: var(--back-bg); border-radius: 16px; padding: 2.5rem; text-align: center; box-shadow: 0 4px 20px var(--shadow); margin-top: 1.5rem; }
 
   .submit-section { text-align: center; margin-top: 2rem; }
   .submit-btn {
@@ -160,6 +162,18 @@
     {% endif %}
   </div>
 
+  {% if submission and submission.is_complete %}
+  <!-- Already submitted — locked -->
+  <div class="already-done">
+    <div style="font-size:2.5rem; margin-bottom:.75rem;">🔒</div>
+    <div style="font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; color:var(--cb);">
+      {{ submission.correct_count }} / {{ submission.total_questions }}
+    </div>
+    <p style="font-weight:700; color:var(--muted); margin-top:.5rem;">You have already submitted this assignment.</p>
+    <a href="/dashboard" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">← Back to Dashboard</a>
+  </div>
+  {% else %}
+
   <!-- Questions (locked until gate opens) -->
   <div id="questionsSection" {% if gate and gate.gate_open %}style="display:block"{% endif %}>
     <div class="questions-title">Comprehension <em>Questions</em></div>
@@ -173,17 +187,25 @@
   <div class="score-result" id="scoreResult">
     <div class="score-big" id="scoreBig">—</div>
     <p style="font-weight:700; color:var(--muted); margin-top:.5rem;">Well done! Your answers have been saved.</p>
-    <a href="/dashboard" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">← Back to Dashboard</a>
+    <div style="display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin-top:1.25rem;">
+      <a href="/api/submissions/{{ hw.id }}/pdf" id="pdfBtn"
+         class="btn btn-accent" style="display:none;" download>
+        Download Results PDF
+      </a>
+      <a href="/dashboard" class="btn btn-primary">← Back to Dashboard</a>
+    </div>
   </div>
+  {% endif %}
 </div>
 
 <script>
+{% if not (submission and submission.is_complete) %}
 const ASSIGNMENT_ID = {{ hw.id }};
 const MEDIA_TYPE = 'audio';
 const questions = {{ questions_json | tojson }};
 const letters = ['a', 'b', 'c', 'd'];
 const answers = {};
-let score = 0;
+let submitted = false;
 
 // Build questions
 const list = document.getElementById('questionsList');
@@ -194,18 +216,17 @@ questions.forEach((q, idx) => {
     <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
     <div class="q-text">${q.question_text}</div>
     <div class="q-options">
-      ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}" data-qidx="${idx}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
+      ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
     </div>
     <div class="q-feedback" id="fb-${idx}"></div>`;
 
+  // Click = select only, no reveal
   card.querySelectorAll('.opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const chosen = parseInt(btn.dataset.idx);
-      card.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-      answers[q.id] = chosen;
-      const isCorrect = chosen === q.correct_index;
-      if (isCorrect) { btn.classList.add('correct'); card.classList.add('correct-card'); score++; document.getElementById(`fb-${idx}`).textContent = '✓ Correct!'; document.getElementById(`fb-${idx}`).className = 'q-feedback show ok'; }
-      else { btn.classList.add('wrong'); card.querySelectorAll('.opt-btn')[q.correct_index].classList.add('correct'); card.classList.add('wrong-card'); document.getElementById(`fb-${idx}`).textContent = '✗ Incorrect.'; document.getElementById(`fb-${idx}`).className = 'q-feedback show bad'; }
+      if (submitted) return;
+      card.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[q.id] = parseInt(btn.dataset.idx);
     });
   });
   list.appendChild(card);
@@ -213,7 +234,19 @@ questions.forEach((q, idx) => {
 
 // Submit
 document.getElementById('submitBtn').addEventListener('click', async () => {
-  const answersList = Object.entries(answers).map(([qid, idx]) => ({ question_id: parseInt(qid), chosen_index: idx }));
+  if (submitted) return;
+
+  if (Object.keys(answers).length < questions.length) {
+    const unanswered = questions.length - Object.keys(answers).length;
+    if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
+  }
+
+  submitted = true;
+  document.getElementById('submitBtn').disabled = true;
+
+  const answersList = Object.entries(answers).map(([qid, idx]) => ({
+    question_id: parseInt(qid), chosen_index: idx,
+  }));
   const res = await fetch('/api/submissions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -221,9 +254,35 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
   });
   if (res.ok) {
     const data = await res.json();
+
+    // Reveal correct / wrong for every question
+    questions.forEach((q, idx) => {
+      const card = list.children[idx];
+      const chosen = answers[q.id] ?? -1;
+      card.querySelectorAll('.opt-btn').forEach((b, i) => {
+        b.disabled = true;
+        b.classList.remove('selected');
+        if (i === q.correct_index) b.classList.add('correct');
+        else if (i === chosen)     b.classList.add('wrong');
+      });
+      const fb = document.getElementById(`fb-${idx}`);
+      if (chosen === q.correct_index) {
+        fb.textContent = '✓ Correct!'; fb.className = 'q-feedback show ok';
+        card.classList.add('correct-card');
+      } else if (chosen >= 0) {
+        fb.textContent = '✗ Incorrect.'; fb.className = 'q-feedback show bad';
+        card.classList.add('wrong-card');
+      }
+    });
+
     document.getElementById('scoreBig').textContent = `${data.correct} / ${data.total}`;
     document.getElementById('scoreResult').classList.add('show');
-    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('pdfBtn').style.display = 'inline-block';
+    document.getElementById('scoreResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    submitted = false;
+    document.getElementById('submitBtn').disabled = false;
+    alert('Something went wrong. Please try again.');
   }
 });
 </script>

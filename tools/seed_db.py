@@ -80,31 +80,6 @@ for book_num, book in book_map.items():
         get_or_create(Unit, book_id=book.id, unit_number=u, defaults={"title": f"Unit {u}", "word_count": 20})
 
 
-# ── 4. Outcomes A2 unit titles (overwrite Unit 1–16 of Book 2) ───────────────
-OUTCOMES_A2_TITLES = [
-    "Stuff",          # Unit 1
-    "Family",         # Unit 2
-    "My life",        # Unit 3
-    "Food",           # Unit 4
-    "Places",         # Unit 5
-    "Work",           # Unit 6
-    "Free time",      # Unit 7
-    "Shopping",       # Unit 8
-    "Plans",          # Unit 9
-    "Days",           # Unit 10
-    "Feelings",       # Unit 11
-    "Experiences",    # Unit 12
-    "Problems",       # Unit 13
-    "The future",     # Unit 14
-    "People",         # Unit 15
-    "Life events",    # Unit 16
-]
-book2 = book_map[2]
-for i, title in enumerate(OUTCOMES_A2_TITLES, start=1):
-    unit = db.query(Unit).filter(Unit.book_id == book2.id, Unit.unit_number == i).first()
-    if unit:
-        unit.title = title
-
 
 # ── 5. General Topics (42 videos) ────────────────────────────────────────────
 TOPICS = [

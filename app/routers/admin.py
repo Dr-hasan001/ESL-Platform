@@ -1,6 +1,12 @@
+import csv
+import io
+import secrets
+import string
+
 from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 import boto3
 from botocore.config import Config
@@ -14,9 +20,15 @@ from app.models.homework import (
 from app.models.submission import Submission
 from app.models.user import User
 from app.routers.deps import current_teacher
+from app.services.auth_service import hash_password
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+
+
+def _random_password(length: int = 8) -> str:
+    alphabet = string.ascii_lowercase + string.digits
+    return "".join(secrets.choice(alphabet) for _ in range(length))
 
 
 # ── HTML pages ────────────────────────────────────────────────────────────────
@@ -24,19 +36,80 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/teacher")
 async def teacher_dashboard(request: Request, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
     students = db.query(User).filter(User.role == "student", User.is_active == True).order_by(User.display_name).all()
-    assignments = db.query(HomeworkAssignment).filter(HomeworkAssignment.teacher_id == user.id).order_by(HomeworkAssignment.created_at.desc()).limit(20).all()
+    assignments = (
+        db.query(HomeworkAssignment)
+        .filter(HomeworkAssignment.teacher_id == user.id)
+        .order_by(HomeworkAssignment.created_at.desc())
+        .limit(20)
+        .all()
+    )
+
+    # Compute submission status per assignment in two bulk queries
+    hw_ids = [a.id for a in assignments]
+    assigned_counts = {}
+    submitted_counts = {}
+    if hw_ids:
+        assigned_counts = dict(
+            db.query(AssignmentStudent.assignment_id, func.count(AssignmentStudent.student_id))
+            .filter(AssignmentStudent.assignment_id.in_(hw_ids))
+            .group_by(AssignmentStudent.assignment_id)
+            .all()
+        )
+        submitted_counts = dict(
+            db.query(Submission.assignment_id, func.count(Submission.id))
+            .filter(Submission.assignment_id.in_(hw_ids), Submission.is_complete == True)
+            .group_by(Submission.assignment_id)
+            .all()
+        )
+
+    hw_status = {
+        hw.id: {
+            "assigned": assigned_counts.get(hw.id, 0),
+            "submitted": submitted_counts.get(hw.id, 0),
+        }
+        for hw in assignments
+    }
+
     return templates.TemplateResponse("teacher/dashboard.html", {
-        "request": request, "user": user, "students": students, "assignments": assignments,
+        "request": request,
+        "user": user,
+        "students": students,
+        "assignments": assignments,
+        "hw_status": hw_status,
     })
 
 
 @router.get("/teacher/assign")
 async def assign_page(request: Request, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
-    students = db.query(User).filter(User.role == "student", User.is_active == True).order_by(User.display_name).all()
     from app.models.topic import Topic
     topics = db.query(Topic).order_by(Topic.cefr_level, Topic.sort_order).all()
+    # Distinct class names (non-null) ordered alphabetically
+    class_names = [
+        row[0] for row in
+        db.query(User.class_name).filter(
+            User.role == "student", User.is_active == True, User.class_name != None
+        ).distinct().order_by(User.class_name).all()
+    ]
     return templates.TemplateResponse("teacher/assign.html", {
-        "request": request, "user": user, "students": students, "topics": topics,
+        "request": request, "user": user, "topics": topics, "class_names": class_names,
+    })
+
+
+@router.get("/teacher/students")
+async def students_page(request: Request, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    students = (
+        db.query(User)
+        .filter(User.role == "student")
+        .order_by(User.class_name, User.display_name)
+        .all()
+    )
+    seen = {}
+    for s in students:
+        key = s.class_name or "No Class"
+        seen.setdefault(key, []).append(s)
+    student_groups = [{"name": k, "students": v} for k, v in seen.items()]
+    return templates.TemplateResponse("teacher/students.html", {
+        "request": request, "user": user, "students": students, "student_groups": student_groups,
     })
 
 
@@ -62,7 +135,7 @@ class CreateAssignmentBody(BaseModel):
     title: str
     instructions: str | None = None
     due_date: str | None = None
-    student_ids: list[int] = []
+    class_name: str | None = None   # assign to all active students in this class
     questions: list[dict] = []
     # type-specific fields
     audio_url: str | None = None
@@ -120,9 +193,15 @@ async def create_assignment(body: CreateAssignmentBody, db: Session = Depends(ge
             correct_text=q.get("correct_text"),
         ))
 
-    # Assign to students
-    for sid in body.student_ids:
-        db.add(AssignmentStudent(assignment_id=hw.id, student_id=sid))
+    # Assign to all active students in the selected class
+    if body.class_name:
+        class_students = db.query(User).filter(
+            User.role == "student",
+            User.class_name == body.class_name,
+            User.is_active == True,
+        ).all()
+        for s in class_students:
+            db.add(AssignmentStudent(assignment_id=hw.id, student_id=s.id))
 
     db.commit()
     return {"id": hw.id, "title": hw.title}
@@ -153,29 +232,156 @@ async def add_feedback(submission_id: int, data: dict, db: Session = Depends(get
     return {"ok": True}
 
 
+# ── Student management ────────────────────────────────────────────────────────
+
+class CreateStudentBody(BaseModel):
+    username: str
+    display_name: str | None = None
+    cefr_level: str | None = None
+    class_name: str | None = None
+    password: str | None = None
+
+
 @router.get("/api/admin/students")
 async def list_students(db: Session = Depends(get_db), user: User = Depends(current_teacher)):
-    students = db.query(User).filter(User.role == "student", User.is_active == True).order_by(User.display_name).all()
-    return [{"id": s.id, "username": s.username, "display_name": s.display_name, "cefr_level": s.cefr_level} for s in students]
-
-
-@router.get("/api/admin/assignments/{assignment_id}/submissions")
-async def get_submissions(assignment_id: int, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
-    subs = db.query(Submission).filter(Submission.assignment_id == assignment_id).all()
+    students = (
+        db.query(User)
+        .filter(User.role == "student")
+        .order_by(User.cefr_level, User.display_name)
+        .all()
+    )
     return [
         {
             "id": s.id,
-            "student_id": s.student_id,
-            "is_complete": s.is_complete,
-            "score": float(s.score) if s.score is not None else None,
-            "teacher_score": float(s.teacher_score) if s.teacher_score is not None else None,
-            "teacher_feedback": s.teacher_feedback,
-            "written_response": s.written_response,
-            "submitted_at": s.submitted_at.isoformat(),
+            "username": s.username,
+            "display_name": s.display_name,
+            "cefr_level": s.cefr_level,
+            "class_name": s.class_name,
+            "plain_password": s.plain_password,
+            "is_active": s.is_active,
         }
-        for s in subs
+        for s in students
     ]
 
+
+@router.post("/api/admin/students")
+async def create_student(body: CreateStudentBody, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    existing = db.query(User).filter(User.username == body.username).first()
+    if existing:
+        raise HTTPException(status_code=409, detail=f"Username '{body.username}' is already taken.")
+
+    plain = body.password or _random_password()
+    student = User(
+        username=body.username,
+        display_name=body.display_name or body.username,
+        cefr_level=body.cefr_level,
+        class_name=body.class_name,
+        password_hash=hash_password(plain),
+        plain_password=plain,
+        role="student",
+        is_active=True,
+    )
+    db.add(student)
+    db.commit()
+    db.refresh(student)
+    return {
+        "id": student.id,
+        "username": student.username,
+        "display_name": student.display_name,
+        "cefr_level": student.cefr_level,
+        "class_name": student.class_name,
+        "password": plain,
+        "is_active": student.is_active,
+    }
+
+
+@router.post("/api/admin/students/{student_id}/reset-password")
+async def reset_password(student_id: int, data: dict = {}, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    student = db.query(User).filter(User.id == student_id, User.role == "student").first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    plain = data.get("password") or _random_password()
+    student.password_hash = hash_password(plain)
+    student.plain_password = plain
+    db.commit()
+    return {"password": plain}
+
+
+@router.patch("/api/admin/students/{student_id}/toggle-active")
+async def toggle_active(student_id: int, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    student = db.query(User).filter(User.id == student_id, User.role == "student").first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    student.is_active = not student.is_active
+    db.commit()
+    return {"is_active": student.is_active}
+
+
+# ── AI question generation ────────────────────────────────────────────────────
+
+class GenerateQuestionsBody(BaseModel):
+    content: str
+    content_type: str = "reading"
+    count: int = 10
+
+
+@router.post("/api/admin/generate-questions")
+async def generate_questions_endpoint(body: GenerateQuestionsBody, user: User = Depends(current_teacher)):
+    if not settings.anthropic_api_key:
+        raise HTTPException(status_code=501, detail="ANTHROPIC_API_KEY is not configured.")
+    if not 1 <= body.count <= 30:
+        raise HTTPException(status_code=400, detail="count must be between 1 and 30.")
+    if not body.content.strip():
+        raise HTTPException(status_code=400, detail="content cannot be empty.")
+
+    from app.services.ai_service import generate_questions
+    try:
+        questions = generate_questions(body.content, body.content_type, body.count)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return {"questions": questions}
+
+
+# ── CSV question parsing ──────────────────────────────────────────────────────
+
+@router.post("/api/admin/parse-questions-csv")
+async def parse_questions_csv(file: UploadFile = File(...), user: User = Depends(current_teacher)):
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="File must be a .csv")
+
+    contents = await file.read()
+    text = contents.decode("utf-8-sig")  # handles BOM from Excel-saved CSVs
+    reader = csv.DictReader(io.StringIO(text))
+
+    required = {"question", "option_a", "option_b", "option_c", "option_d", "correct"}
+    if not required.issubset({f.lower().strip() for f in (reader.fieldnames or [])}):
+        raise HTTPException(
+            status_code=400,
+            detail=f"CSV must have columns: {', '.join(sorted(required))}",
+        )
+
+    letter_to_index = {"a": 0, "b": 1, "c": 2, "d": 3}
+    questions = []
+    for i, row in enumerate(reader, start=2):
+        correct_letter = row.get("correct", "").strip().lower()
+        if correct_letter not in letter_to_index:
+            raise HTTPException(status_code=400, detail=f"Row {i}: 'correct' must be A, B, C, or D.")
+        questions.append({
+            "question_text": row["question"].strip(),
+            "options": [
+                row["option_a"].strip(),
+                row["option_b"].strip(),
+                row["option_c"].strip(),
+                row["option_d"].strip(),
+            ],
+            "correct_index": letter_to_index[correct_letter],
+        })
+
+    return {"questions": questions}
+
+
+# ── Media upload ──────────────────────────────────────────────────────────────
 
 @router.post("/api/admin/upload-audio")
 async def upload_audio(file: UploadFile = File(...), user: User = Depends(current_teacher)):

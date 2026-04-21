@@ -23,20 +23,23 @@
   .f-hint { font-size: .65rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); opacity: .6; }
 
   /* Back */
-  .back { transform: rotateY(180deg); gap: .6rem; }
+  .back { transform: rotateY(180deg); gap: 0; padding: 0; justify-content: flex-start; }
   .ca .back { background: var(--ca); }
   .cb .back { background: var(--cb); }
   .cc .back { background: var(--cc); }
   .cd .back { background: var(--cd); }
-  .b-top { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-  .b-word { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1.1; }
+  .b-img-half { width: 100%; height: 50%; overflow: hidden; border-radius: 22px 22px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
+  .b-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .b-img-half:hover .b-card-img { transform: scale(1.05); }
+  .b-emoji-big { font-size: 5rem; line-height: 1; }
+  .b-text-half { width: 100%; flex: 1; padding: .85rem 1.4rem; display: flex; flex-direction: column; gap: .28rem; overflow: hidden; }
+  .b-word { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: #fff; line-height: 1.1; }
   .b-pos { font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.65); }
-  .b-emoji { font-size: 2.8rem; line-height: 1; }
-  .b-divider { width: 100%; height: 1px; background: rgba(255,255,255,.2); margin: .2rem 0; }
-  .b-def { font-size: .88rem; color: rgba(255,255,255,.92); line-height: 1.55; font-weight: 400; }
-  .b-example { font-size: .8rem; color: rgba(255,255,255,.7); font-style: italic; line-height: 1.4; }
-  .b-deriv-label { font-size: .55rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); align-self: flex-start; margin-top: .2rem; }
-  .b-chips { display: flex; flex-wrap: wrap; gap: .35rem; align-self: flex-start; }
+  .b-divider { width: 100%; height: 1px; background: rgba(255,255,255,.2); margin: .1rem 0; }
+  .b-def { font-size: .85rem; color: rgba(255,255,255,.92); line-height: 1.5; font-weight: 400; }
+  .b-example { font-size: .78rem; color: rgba(255,255,255,.7); font-style: italic; line-height: 1.4; }
+  .b-deriv-label { font-size: .55rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); align-self: flex-start; margin-top: .1rem; }
+  .b-chips { display: flex; flex-wrap: wrap; gap: .3rem; align-self: flex-start; }
   .chip { font-size: .62rem; font-weight: 700; padding: .25em .7em; border-radius: 50px; background: rgba(255,255,255,.18); color: rgba(255,255,255,.9); }
 
   /* Translation card */
@@ -60,6 +63,14 @@
 
   @media (max-width: 900px) { .card-wrap { height: 420px; } .trans-wrap { height: 80px; } }
   @media (max-width: 560px) { .card-wrap { height: 380px; } .trans-wrap { height: 75px; } .stat-sep { display: none; } }
+  @media (max-width: 380px) {
+    .card-wrap { height: 340px; }
+    .face { padding: 1.5rem 1rem; }
+    .b-word { font-size: 1.5rem; }
+    .b-def { font-size: .82rem; }
+    .b-example { font-size: .75rem; }
+    .f-num { font-size: 3.5rem; }
+  }
 </style>
 {% endblock %}
 
@@ -95,7 +106,7 @@
 <footer class="footer">Tap a card to flip &bull; Tap again to return</footer>
 
 <script>
-const words = {{ words | tojson }};
+const words = {{ words_json | tojson }};
 const unitId = {{ unit.id }};
 const colors = ['ca','cb','cc','cd'];
 const seen = new Set({{ cards_seen | tojson }});
@@ -131,18 +142,20 @@ function buildCard(w, idx) {
           <span class="f-hint">Flip →</span>
         </div>
         <div class="face back">
-          <div class="b-top">
-            <div>
-              <div class="b-word">${w.word}</div>
-              <span class="b-pos">${w.pos || w.part_of_speech || ''}</span>
-            </div>
-            <div class="b-emoji">${w.emoji || ''}</div>
+          <div class="b-img-half">
+            ${w.image_url
+              ? `<img src="${w.image_url}" alt="${w.word}" class="b-card-img">`
+              : `<div class="b-emoji-big">${w.emoji || ''}</div>`}
           </div>
-          <div class="b-divider"></div>
-          <div class="b-def">${w.def || w.definition || ''}</div>
-          <div class="b-example">"${w.ex || w.example || ''}"</div>
-          <div class="b-deriv-label">Derivatives</div>
-          <div class="b-chips">${deriv.map(d => `<span class="chip">${d}</span>`).join('')}</div>
+          <div class="b-text-half">
+            <div class="b-word">${w.word}</div>
+            <span class="b-pos">${w.pos || w.part_of_speech || ''}</span>
+            <div class="b-divider"></div>
+            <div class="b-def">${w.def || w.definition || ''}</div>
+            <div class="b-example">"${w.ex || w.example || ''}"</div>
+            <div class="b-deriv-label">Derivatives</div>
+            <div class="b-chips">${deriv.map(d => `<span class="chip">${d}</span>`).join('')}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -167,5 +180,21 @@ function buildCard(w, idx) {
 const grid = document.getElementById('grid');
 words.forEach((w, i) => grid.appendChild(buildCard(w, i)));
 updateProgress();
+
+const overlay = document.getElementById('zoom-overlay');
+const zoomImg  = document.getElementById('zoom-img');
+overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('b-card-img')) {
+    e.stopPropagation();
+    zoomImg.src = e.target.src;
+    overlay.style.display = 'flex';
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.style.display = 'none'; });
 </script>
+
+<div id="zoom-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;">
+  <img id="zoom-img" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 8px 60px rgba(0,0,0,.7);">
+</div>
 {% endblock %}

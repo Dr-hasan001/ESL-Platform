@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.book import Book, Unit, Word, UnitProgress
+from app.models.book import Book, Unit, Word, UnitProgress, UnitStory
 from app.models.user import User
 from app.routers.deps import current_user
 
@@ -52,6 +52,24 @@ async def units_page(book_id: int, request: Request, db: Session = Depends(get_d
     })
 
 
+def _serialize_words(words):
+    return [
+        {
+            "id": w.id,
+            "position": w.position,
+            "word": w.word,
+            "emoji": w.emoji,
+            "image_url": w.image_url,
+            "pos": w.part_of_speech,
+            "def": w.definition,
+            "ex": w.example,
+            "ar": w.arabic_translation,
+            "deriv": w.derivatives or [],
+        }
+        for w in words
+    ]
+
+
 @router.get("/units/{unit_id}/study")
 async def study_page(unit_id: int, request: Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
     unit = db.query(Unit).filter(Unit.id == unit_id).first()
@@ -62,7 +80,8 @@ async def study_page(unit_id: int, request: Request, db: Session = Depends(get_d
     progress = db.query(UnitProgress).filter(UnitProgress.user_id == user.id, UnitProgress.unit_id == unit_id).first()
     cards_seen = progress.cards_seen if progress else []
     return templates.TemplateResponse("student/study.html", {
-        "request": request, "unit": unit, "words": words, "cards_seen": cards_seen, "user": user,
+        "request": request, "unit": unit, "words": words,
+        "words_json": _serialize_words(words), "cards_seen": cards_seen, "user": user,
     })
 
 
@@ -76,7 +95,8 @@ async def quiz_page(unit_id: int, request: Request, db: Session = Depends(get_db
     progress = db.query(UnitProgress).filter(UnitProgress.user_id == user.id, UnitProgress.unit_id == unit_id).first()
     quiz_revealed = progress.quiz_revealed if progress else []
     return templates.TemplateResponse("student/quiz.html", {
-        "request": request, "unit": unit, "words": words, "quiz_revealed": quiz_revealed, "user": user,
+        "request": request, "unit": unit, "words": words,
+        "words_json": _serialize_words(words), "quiz_revealed": quiz_revealed, "user": user,
     })
 
 
@@ -89,8 +109,13 @@ async def story_page(unit_id: int, request: Request, db: Session = Depends(get_d
     words = db.query(Word).filter(Word.unit_id == unit_id).order_by(Word.position).all()
     progress = db.query(UnitProgress).filter(UnitProgress.user_id == user.id, UnitProgress.unit_id == unit_id).first()
     story_score = progress.story_score if progress else None
+    unit_story = db.query(UnitStory).filter(UnitStory.unit_id == unit_id).first()
     return templates.TemplateResponse("student/story.html", {
-        "request": request, "unit": unit, "words": words, "story_score": story_score, "user": user,
+        "request": request, "unit": unit, "words": words,
+        "words_json": _serialize_words(words), "story_score": story_score, "user": user,
+        "story_html": unit_story.story_html if unit_story else None,
+        "story_title": unit_story.story_title if unit_story else None,
+        "story_questions": unit_story.story_questions if unit_story else [],
     })
 
 

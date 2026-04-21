@@ -243,4 +243,54 @@ body {
 .mb-2 { margin-bottom: 1rem; }
 .mb-3 { margin-bottom: 1.5rem; }
 
-@media (max-width: 700px) { body { padding: 2rem 1rem 4rem; } }
+/* ─── Responsive: Tablet (≤700px) ─────────────────── */
+@media (max-width: 700px) {
+  body { padding: 2rem 1rem 4rem; }
+  .header h1 { line-height: 1.12; }
+}
+
+/* ─── Responsive: Mobile (≤640px) ─────────────────── */
+@media (max-width: 640px) {
+  /* Top bar wraps to two rows:
+     Row 1 — Brand (left) + Right-side controls (right)
+     Row 2 — Student nav pills (full width) */
+  .top-bar {
+    flex-wrap: wrap;
+    gap: .3rem .5rem;
+    margin-bottom: 1.25rem;
+  }
+  .top-bar-brand { order: 1; flex: 1 0 auto; }
+  .top-bar-right { order: 2; flex-shrink: 0; gap: .75rem; }
+  .top-nav {
+    order: 3;
+    width: 100%;
+    padding-top: .5rem;
+    border-top: 1px solid rgba(26,18,9,.06);
+  }
+  /* Username hidden on mobile — user is already authenticated */
+  .top-bar-user { display: none; }
+
+  /* Page navigation tabs */
+  .page-nav { gap: .35rem; margin-bottom: 1.75rem; }
+  .nav-link { padding: .5em .9em; font-size: .65rem; letter-spacing: .12em; }
+
+  /* Stats row */
+  .stats { gap: 1.25rem; }
+  .stat-num { font-size: 1.6rem; }
+
+  /* Progress bar */
+  .progress-wrap { max-width: 100%; }
+}
+
+/* ─── Responsive: Small Phone (≤420px) ────────────── */
+@media (max-width: 420px) {
+  body { padding: 1.5rem .75rem 3rem; }
+  .header h1 { font-size: clamp(1.7rem, 7.5vw, 2.4rem); }
+  .stats { gap: .85rem; }
+  .stat-num { font-size: 1.35rem; }
+  .stat-sep { display: none; }
+  .nav-link { padding: .45em .7em; font-size: .6rem; }
+  .btn { padding: .6em 1.4em; }
+  .top-bar-logout { padding: .35em .8em; font-size: .6rem; }
+  .nav-pill { padding: .5em 1em; }
+}

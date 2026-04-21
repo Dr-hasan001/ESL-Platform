@@ -39,7 +39,7 @@ A2_STUDENTS = [
 B1_STUDENTS = [
     ("Yasser",          "yasser",   "yasser2847"),
     ("Muna",            "muna",     "muna5193"),
-    ("Hasan",           "hasan",    "hasan7364"),
+    ("Hasan",           "hasan",    "hasan2026"),
     ("Haider",          "haider",   "haider8251"),
     ("Sajad Mohammed",  "sajad",    "sajad3679"),
     ("Wissam",          "wissam",   "wissam4928"),

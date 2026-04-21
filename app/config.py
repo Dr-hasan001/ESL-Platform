@@ -16,5 +16,8 @@ class Settings(BaseSettings):
     r2_bucket_name: str = ""
     r2_public_url: str = ""  # e.g. https://pub-xxxx.r2.dev
 
+    # Anthropic (optional — only needed for AI question generation)
+    anthropic_api_key: str = ""
+
 
 settings = Settings()

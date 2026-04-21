@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% block title %}Students — Teacher{% endblock %}
+
+{% block extra_css %}
+<style>
+  .students-wrap { max-width: 1000px; margin: 0 auto; }
+
+  .class-section { margin-bottom: 2.5rem; }
+  .class-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 900;
+    margin-bottom: .75rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .class-heading em { color: var(--cb); font-style: italic; }
+  .class-count {
+    font-family: 'Nunito', sans-serif;
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Table */
+  .students-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--back-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 22px var(--shadow);
+  }
+  .students-table th {
+    font-size: .6rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); padding: .9rem 1.2rem; text-align: left;
+    border-bottom: 1.5px solid rgba(26,18,9,.08);
+  }
+  .students-table td {
+    padding: .85rem 1.2rem; font-size: .88rem; font-weight: 600;
+    border-bottom: 1px solid rgba(26,18,9,.06);
+    vertical-align: middle;
+  }
+  .students-table tr:last-child td { border-bottom: none; }
+  .students-table tr.inactive td { opacity: .45; }
+
+  /* Password cell */
+  .pw-wrap { display: flex; align-items: center; gap: .5rem; }
+  .pw-mask { font-family: monospace; letter-spacing: .12em; color: var(--muted); }
+  .pw-reveal-btn {
+    font-size: .6rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .2em .6em; border-radius: 20px; border: 1.5px solid rgba(26,18,9,.15);
+    background: transparent; color: var(--muted); cursor: pointer; transition: all .15s;
+  }
+  .pw-reveal-btn:hover { border-color: var(--cb); color: var(--cb); }
+
+  /* Action buttons */
+  .act-btn {
+    font-size: .6rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: .28em .75em; border-radius: 20px; border: 1.5px solid rgba(26,18,9,.15);
+    background: transparent; color: var(--muted); cursor: pointer; transition: all .15s;
+    margin-right: .3rem;
+  }
+  .act-btn:hover { border-color: var(--cb); color: var(--cb); }
+  .act-btn.danger:hover { border-color: var(--ca); color: var(--ca); }
+
+  /* Add student modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.45); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--back-bg);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    width: min(480px, 95vw);
+    box-shadow: 0 12px 48px rgba(0,0,0,.25);
+    animation: cardIn .3s ease;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; margin-bottom: 1.5rem;
+  }
+  .modal-title em { color: var(--ca); font-style: italic; }
+  .form-group { margin-bottom: 1rem; }
+  label { display: block; font-size: .6rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+  input[type=text], select {
+    width: 100%; padding: .7rem 1rem; border-radius: 10px;
+    border: 2px solid rgba(26,18,9,.1); background: var(--bg);
+    font-family: 'Nunito', sans-serif; font-size: .92rem; color: var(--text);
+    transition: border-color .2s; box-sizing: border-box;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--cb); }
+  .modal-hint { font-size: .72rem; color: var(--muted); margin-top: .25rem; }
+  .modal-actions { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .modal-actions .btn { flex: 1; text-align: center; }
+  .btn-cancel { background: transparent; border: 2px solid rgba(26,18,9,.12); color: var(--muted); }
+  .btn-cancel:hover { border-color: var(--ca); color: var(--ca); }
+
+  /* Credential reveal after add */
+  .cred-box {
+    display: none; background: rgba(42,107,61,.08); border: 1.5px solid rgba(42,107,61,.25);
+    border-radius: 12px; padding: 1rem 1.25rem; margin-top: 1rem;
+    font-family: monospace; font-size: .9rem; line-height: 1.8;
+  }
+  .cred-box.show { display: block; }
+
+  .top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/teacher" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Teacher Dashboard</a>
+
+<div class="students-wrap">
+  <header class="header" style="text-align:left; margin-bottom:1.5rem;">
+    <p class="header-eyebrow">Teacher Panel</p>
+    <h1>Student <em>Management</em></h1>
+    <span class="header-rule" style="margin:1rem 0 0;"></span>
+  </header>
+
+  <div class="top-row">
+    <p style="color:var(--muted); font-size:.88rem; font-weight:700;">{{ students|length }} student{{ 's' if students|length != 1 }}</p>
+    <button class="btn btn-accent" onclick="openModal()">+ Add Student</button>
+  </div>
+
+  {% for cls in student_groups %}
+  <div class="class-section">
+    <div class="class-heading">
+      <em>{{ cls.name }}</em>
+      <span class="class-count">{{ cls.students|length }} student{{ 's' if cls.students|length != 1 }}</span>
+    </div>
+    <table class="students-table">
+      <thead>
+        <tr>
+          <th>Name</th><th>Username</th><th>Password</th><th>Level</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in cls.students %}
+        <tr id="row-{{ s.id }}" {% if not s.is_active %}class="inactive"{% endif %}>
+          <td style="font-weight:800;">{{ s.display_name or s.username }}</td>
+          <td style="font-family:monospace;">{{ s.username }}</td>
+          <td>
+            <div class="pw-wrap">
+              <span class="pw-mask" id="pw-{{ s.id }}">••••••••</span>
+              <button class="pw-reveal-btn" onclick="togglePw({{ s.id }}, '{{ s.plain_password or '(not set)' }}')">Show</button>
+            </div>
+          </td>
+          <td>{% if s.cefr_level %}<span class="badge badge-cb">{{ s.cefr_level }}</span>{% else %}—{% endif %}</td>
+          <td>
+            <span id="status-{{ s.id }}" style="font-size:.72rem; font-weight:800; color:{% if s.is_active %}var(--cd){% else %}var(--ca){% endif %};">
+              {% if s.is_active %}Active{% else %}Inactive{% endif %}
+            </span>
+          </td>
+          <td>
+            <button class="act-btn" onclick="resetPassword({{ s.id }})">Reset PW</button>
+            <button class="act-btn danger" onclick="toggleActive({{ s.id }}, {{ 'true' if s.is_active else 'false' }})">
+              {% if s.is_active %}Deactivate{% else %}Activate{% endif %}
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p style="text-align:center; color:var(--muted); padding:2rem;">No students yet. Add one above.</p>
+  {% endfor %}
+</div>
+
+<!-- Add Student Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal-box">
+    <div class="modal-title">Add <em>Student</em></div>
+
+    <div class="form-group">
+      <label>Username *</label>
+      <input type="text" id="newUsername" placeholder="e.g. ali_hassan">
+    </div>
+    <div class="form-group">
+      <label>Display Name</label>
+      <input type="text" id="newDisplayName" placeholder="e.g. Ali Hassan">
+    </div>
+    <div class="form-group">
+      <label>Class Name</label>
+      <input type="text" id="newClassName" placeholder="e.g. PM 91">
+    </div>
+    <div class="form-group">
+      <label>CEFR Level</label>
+      <select id="newLevel">
+        <option value="">— Select —</option>
+        <option value="A1">A1</option>
+        <option value="A2">A2</option>
+        <option value="B1">B1</option>
+        <option value="B2">B2</option>
+        <option value="C1">C1</option>
+        <option value="C2">C2</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="text" id="newPassword" placeholder="Leave blank to auto-generate">
+      <p class="modal-hint">If left blank, a random password will be generated.</p>
+    </div>
+
+    <div class="cred-box" id="credBox"></div>
+
+    <div class="modal-actions" id="modalActions">
+      <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="addStudent()">Create Student</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePw(id, pw) {
+  const el = document.getElementById('pw-' + id);
+  const btn = el.nextElementSibling;
+  if (el.textContent === '••••••••') {
+    el.textContent = pw;
+    btn.textContent = 'Hide';
+  } else {
+    el.textContent = '••••••••';
+    btn.textContent = 'Show';
+  }
+}
+
+function openModal() {
+  document.getElementById('newUsername').value = '';
+  document.getElementById('newDisplayName').value = '';
+  document.getElementById('newClassName').value = '';
+  document.getElementById('newLevel').value = '';
+  document.getElementById('newPassword').value = '';
+  document.getElementById('credBox').className = 'cred-box';
+  document.getElementById('modalActions').innerHTML = `
+    <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-accent" onclick="addStudent()">Create Student</button>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+async function addStudent() {
+  const username = document.getElementById('newUsername').value.trim();
+  if (!username) { alert('Username is required.'); return; }
+
+  const body = {
+    username,
+    display_name: document.getElementById('newDisplayName').value.trim() || null,
+    class_name: document.getElementById('newClassName').value.trim() || null,
+    cefr_level: document.getElementById('newLevel').value || null,
+    password: document.getElementById('newPassword').value.trim() || null,
+  };
+
+  const res = await fetch('/api/admin/students', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (res.status === 409) {
+    alert('That username is already taken. Please choose another.');
+    return;
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    alert('Error: ' + (err.detail || 'Could not create student.'));
+    return;
+  }
+
+  const data = await res.json();
+  const credBox = document.getElementById('credBox');
+  credBox.innerHTML = `
+    <strong style="color:var(--cd);">Student created!</strong><br>
+    Username: <strong>${data.username}</strong><br>
+    Password: <strong>${data.password}</strong><br>
+    Class: ${data.class_name || '—'} &nbsp; Level: ${data.cefr_level || '—'}`;
+  credBox.classList.add('show');
+  document.getElementById('modalActions').innerHTML =
+    '<button class="btn btn-cancel" onclick="closeModal()">Close</button>';
+
+  // Reload the page so the new student appears in the right class table
+  setTimeout(() => location.reload(), 1800);
+}
+
+async function resetPassword(id) {
+  if (!confirm('Generate a new random password for this student?')) return;
+  const res = await fetch(`/api/admin/students/${id}/reset-password`, { method: 'POST' });
+  if (!res.ok) { alert('Failed to reset password.'); return; }
+  const data = await res.json();
+  const pwEl = document.getElementById('pw-' + id);
+  if (pwEl) {
+    pwEl.textContent = data.password;
+    const btn = pwEl.nextElementSibling;
+    if (btn) btn.textContent = 'Hide';
+  }
+  alert(`New password: ${data.password}`);
+}
+
+async function toggleActive(id, currentlyActive) {
+  const action = currentlyActive ? 'deactivate' : 'activate';
+  if (!confirm(`Are you sure you want to ${action} this student?`)) return;
+  const res = await fetch(`/api/admin/students/${id}/toggle-active`, { method: 'PATCH' });
+  if (!res.ok) { alert('Failed to update status.'); return; }
+  const data = await res.json();
+  const row = document.getElementById('row-' + id);
+  const statusEl = document.getElementById('status-' + id);
+  const btn = row.querySelector('.act-btn.danger');
+  if (data.is_active) {
+    row.classList.remove('inactive');
+    if (statusEl) { statusEl.textContent = 'Active'; statusEl.style.color = 'var(--cd)'; }
+    if (btn) btn.setAttribute('onclick', `toggleActive(${id}, true)`);
+    if (btn) btn.textContent = 'Deactivate';
+  } else {
+    row.classList.add('inactive');
+    if (statusEl) { statusEl.textContent = 'Inactive'; statusEl.style.color = 'var(--ca)'; }
+    if (btn) btn.setAttribute('onclick', `toggleActive(${id}, false)`);
+    if (btn) btn.textContent = 'Activate';
+  }
+}
+</script>
+{% endblock %}

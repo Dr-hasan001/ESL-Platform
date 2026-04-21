@@ -30,6 +30,19 @@ class Unit(Base):
     book = relationship("Book", back_populates="units")
     words = relationship("Word", back_populates="unit", order_by="Word.position")
     progress = relationship("UnitProgress", back_populates="unit")
+    story = relationship("UnitStory", back_populates="unit", uselist=False)
+
+
+class UnitStory(Base):
+    __tablename__ = "unit_stories"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    unit_id: Mapped[int] = mapped_column(Integer, ForeignKey("units.id", ondelete="CASCADE"), nullable=False, unique=True)
+    story_title: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    story_html: Mapped[str] = mapped_column(Text, nullable=False)          # HTML with <span class="vocab"> highlights
+    story_questions: Mapped[list] = mapped_column(JSON, default=list)      # [{q, opts, ans}, ...]
+
+    unit = relationship("Unit", back_populates="story")
 
 
 class Word(Base):
@@ -44,6 +57,7 @@ class Word(Base):
     example: Mapped[str | None] = mapped_column(Text, nullable=True)
     arabic_translation: Mapped[str | None] = mapped_column(String(200), nullable=True)
     emoji: Mapped[str | None] = mapped_column(String(10), nullable=True)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     derivatives: Mapped[list | None] = mapped_column(JSON, default=list)
 
     unit = relationship("Unit", back_populates="words")

@@ -103,6 +103,16 @@
     .q-options { grid-template-columns: 1fr; }
     .q-text { font-size: 1.25rem; }
     .opt-btn { font-size: 1.05rem; }
+    .section-header h2 { font-size: 1.5rem; }
+    .score-bar { padding: 1rem 1.25rem; }
+  }
+  @media (max-width: 480px) {
+    .story-card { padding: 1.5rem 1.1rem; }
+    .story-title { font-size: 1.6rem; margin-bottom: 1.2rem; }
+    .story-body p { font-size: 1.1rem; line-height: 1.75; }
+    .q-card { padding: 1.25rem 1.1rem; }
+    .q-text { font-size: 1.1rem; }
+    .opt-btn { font-size: .95rem; padding: .75em .85em; }
   }
 </style>
 {% endblock %}
@@ -117,7 +127,7 @@
 
 <header class="header">
   <p class="header-eyebrow">ESL Vocabulary &middot; Unit {{ unit.unit_number }}</p>
-  <h1>{% if unit.title %}<em>{{ unit.title }}</em>{% else %}Unit <em>{{ unit.unit_number }}</em> Story{% endif %}</h1>
+  <h1>Unit <em>{{ unit.unit_number }}</em> — {{ story_title or 'Story' }}</h1>
   <p class="header-sub">Read the story, then answer the comprehension questions</p>
   <span class="header-rule"></span>
 </header>
@@ -125,11 +135,10 @@
 <div class="content">
 
   <div class="story-card">
-    <div class="story-title">{{ unit.title or 'Story' }}</div>
+    <div class="story-title">{{ story_title or unit.title or 'Story' }}</div>
     <div class="story-body">
-      {# story_html is injected server-side with <span class="vocab"> highlights #}
-      {% if unit.story_html is defined and unit.story_html %}
-        {{ unit.story_html | safe }}
+      {% if story_html %}
+        {{ story_html | safe }}
       {% else %}
         <p class="text-muted" style="font-size:1rem;">Story content for this unit will be added soon.</p>
       {% endif %}

@@ -24,25 +24,29 @@
   .cd .q-mark { color: rgba(42,107,61,.13); }
   .f-hint { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .55; }
 
-  .q-back { transform: rotateY(180deg); }
+  .q-back { transform: rotateY(180deg); padding: 0; justify-content: flex-start; gap: 0; }
   .ca .q-back { background: var(--ca); }
   .cb .q-back { background: var(--cb); }
   .cc .q-back { background: var(--cc); }
   .cd .q-back { background: var(--cd); }
+  .q-img-half { width: 100%; height: 55%; overflow: hidden; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
+  .q-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .q-img-half:hover .q-card-img { transform: scale(1.05); }
+  .q-emoji-big { font-size: 4rem; line-height: 1; pointer-events: none; }
+  .q-text-half { width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .45rem; padding: .6rem 1rem; }
   .q-num-back { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); }
-  .q-emoji { font-size: 4.5rem; line-height: 1; pointer-events: none; }
-  .q-word { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #fff; pointer-events: none; display: none; }
+  .q-word { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: #fff; pointer-events: none; display: none; }
   .q-word.revealed { display: block; }
   .q-reveal {
     font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
     padding: .5em 1.4em; border-radius: 50px; border: 2px solid rgba(255,255,255,.5);
-    background: transparent; color: #fff; cursor: pointer; transition: all .2s; margin-top: .5rem;
+    background: transparent; color: #fff; cursor: pointer; transition: all .2s;
   }
   .q-reveal:hover { background: rgba(255,255,255,.2); border-color: #fff; }
   .q-reveal.hidden { display: none; }
 
   .footer { text-align: center; margin-top: 4rem; font-size: .72rem; color: var(--muted); opacity: .55; }
-  @media (max-width: 700px) { .q-mark { font-size: 6rem; } .q-emoji { font-size: 3.8rem; } .q-word { font-size: 1.8rem; } .stat-sep { display: none; } }
+  @media (max-width: 700px) { .q-mark { font-size: 6rem; } .q-emoji-big { font-size: 3.2rem; } .q-word { font-size: 1.6rem; } .stat-sep { display: none; } }
 </style>
 {% endblock %}
 
@@ -78,7 +82,7 @@
 <footer class="footer">Tap a card to see the emoji hint &bull; Then press Reveal Answer to check</footer>
 
 <script>
-const words = {{ words | tojson }};
+const words = {{ words_json | tojson }};
 const unitId = {{ unit.id }};
 const colors = ['ca','cb','cc','cd'];
 const hinted   = new Set();
@@ -113,10 +117,16 @@ function buildCard(w, position) {
         <span class="f-hint">Tap for hint</span>
       </div>
       <div class="face q-back">
-        <span class="q-num-back">${num}</span>
-        <div class="q-emoji">${w.emoji || ''}</div>
-        <div class="q-word${revealed.has(w.id) ? ' revealed' : ''}">${w.word}</div>
-        <button class="q-reveal${revealed.has(w.id) ? ' hidden' : ''}">Reveal Answer</button>
+        <div class="q-img-half">
+          ${w.image_url
+            ? `<img src="${w.image_url}" alt="${w.word}" class="q-card-img">`
+            : `<div class="q-emoji-big">${w.emoji || ''}</div>`}
+        </div>
+        <div class="q-text-half">
+          <span class="q-num-back">${num}</span>
+          <div class="q-word${revealed.has(w.id) ? ' revealed' : ''}">${w.word}</div>
+          <button class="q-reveal${revealed.has(w.id) ? ' hidden' : ''}">Reveal Answer</button>
+        </div>
       </div>
     </div>`;
 
@@ -162,5 +172,21 @@ for (let i = words.length - 1; i > 0; i--) {
 const grid = document.getElementById('grid');
 words.forEach((w, i) => grid.appendChild(buildCard(w, i + 1)));
 updateStats();
+
+const overlay = document.getElementById('zoom-overlay');
+const zoomImg  = document.getElementById('zoom-img');
+overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('q-card-img')) {
+    e.stopPropagation();
+    zoomImg.src = e.target.src;
+    overlay.style.display = 'flex';
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.style.display = 'none'; });
 </script>
+
+<div id="zoom-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;">
+  <img id="zoom-img" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 8px 60px rgba(0,0,0,.7);">
+</div>
 {% endblock %}

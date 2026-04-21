@@ -76,6 +76,31 @@
   }
   .add-question-btn:hover { border-color: var(--cb); color: var(--cb); }
 
+  /* Question source toggle */
+  .qs-toggle { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .qs-btn {
+    font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .5em 1.2em; border-radius: 50px;
+    border: 2px solid rgba(26,18,9,.12); background: transparent; color: var(--muted);
+    cursor: pointer; transition: all .2s;
+  }
+  .qs-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* AI / CSV panels */
+  .qs-panel { display: none; }
+  .qs-panel.active { display: block; }
+  .ai-row { display: flex; gap: .75rem; align-items: flex-end; flex-wrap: wrap; }
+  .ai-row .form-group { margin-bottom: 0; }
+  .gen-btn {
+    font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .7em 1.5em; border-radius: 50px; border: none;
+    background: var(--cb); color: #fff; cursor: pointer; transition: opacity .2s; white-space: nowrap;
+  }
+  .gen-btn:hover { opacity: .85; }
+  .gen-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .csv-hint { font-size: .72rem; color: var(--muted); margin-top: .5rem; }
+  .questions-count { font-size: .78rem; font-weight: 800; color: var(--cd); margin-top: .75rem; display: none; }
+
   /* Student checkboxes */
   .student-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
   @media (max-width: 560px) { .student-grid { grid-template-columns: 1fr 1fr; } }
@@ -250,24 +275,57 @@
   <!-- Questions -->
   <div class="form-card" id="questionsPanel">
     <div class="form-section-title">3. Questions</div>
-    <div id="questionsContainer"></div>
-    <button class="add-question-btn" onclick="addQuestion()">+ Add Question</button>
+
+    <!-- Source toggle -->
+    <div class="qs-toggle">
+      <button class="qs-btn active" data-mode="manual" onclick="selectQMode(this)">Manual</button>
+      <button class="qs-btn" data-mode="ai" onclick="selectQMode(this)">AI Generate</button>
+      <button class="qs-btn" data-mode="csv" onclick="selectQMode(this)">Upload CSV</button>
+    </div>
+
+    <!-- Manual mode (default) -->
+    <div class="qs-panel active" id="qs-manual">
+      <div id="questionsContainer"></div>
+      <button class="add-question-btn" onclick="addQuestion()">+ Add Question</button>
+    </div>
+
+    <!-- AI Generate mode -->
+    <div class="qs-panel" id="qs-ai">
+      <div class="ai-row">
+        <div class="form-group">
+          <label>Number of Questions (1–30)</label>
+          <input type="number" id="aiCount" value="10" min="1" max="30" style="width:120px;">
+        </div>
+        <button class="gen-btn" id="genBtn" onclick="generateAIQuestions()">Generate Questions</button>
+      </div>
+      <p class="csv-hint" style="margin-top:.5rem;">Paste your reading passage or transcript in the content panel above — Claude will read it and create questions automatically.</p>
+      <div class="questions-count" id="aiQCount"></div>
+      <div id="aiQuestionsContainer"></div>
+    </div>
+
+    <!-- CSV Upload mode -->
+    <div class="qs-panel" id="qs-csv">
+      <div class="form-group">
+        <label>Upload CSV File</label>
+        <input type="file" id="csvFile" accept=".csv" onchange="uploadCSV(this)">
+      </div>
+      <p class="csv-hint">Required columns: <code>question, option_a, option_b, option_c, option_d, correct</code> (correct = A/B/C/D)</p>
+      <div class="questions-count" id="csvQCount"></div>
+      <div id="csvQuestionsContainer"></div>
+    </div>
   </div>
 
-  <!-- Assign to students -->
+  <!-- Assign to class -->
   <div class="form-card">
-    <div class="form-section-title">4. Assign to Students</div>
-    <div class="student-grid">
-      {% for s in students %}
-      <label class="student-check-item">
-        <input type="checkbox" name="students" value="{{ s.id }}">
-        {{ s.display_name or s.username }}
-        {% if s.cefr_level %}<span class="badge badge-cb" style="margin-left:auto;">{{ s.cefr_level }}</span>{% endif %}
-      </label>
+    <div class="form-section-title">4. Assign to Class</div>
+    <div class="type-selector" id="levelSelector">
+      {% for cls in class_names %}
+      <button class="type-btn" data-class="{{ cls }}" onclick="selectLevel(this)">{{ cls }}</button>
       {% else %}
-      <p class="text-muted" style="font-size:.85rem; grid-column:1/-1;">No students yet.</p>
+      <p class="text-muted" style="font-size:.85rem;">No classes found. Add students with a class name first.</p>
       {% endfor %}
     </div>
+    <p id="levelHint" style="font-size:.78rem; color:var(--muted); font-weight:700; margin-top:.25rem;">Select a class — the assignment will go to all active students in that class.</p>
   </div>
 
   <button class="submit-btn" onclick="submitAssignment()">Create Assignment</button>
@@ -277,8 +335,11 @@
 
 <script>
 let currentType = 'listening';
+let currentQMode = 'manual';
+let currentLevel = null;
 let questionCount = 0;
 
+// ── Homework type selector ────────────────────────────────────────────────────
 function selectType(btn) {
   document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.type-panel').forEach(p => p.classList.remove('active'));
@@ -286,10 +347,27 @@ function selectType(btn) {
   currentType = btn.dataset.type;
   const panel = document.getElementById('panel-' + currentType);
   if (panel) panel.classList.add('active');
-  // Hide questions panel for writing
   document.getElementById('questionsPanel').style.display = currentType === 'writing' ? 'none' : 'block';
 }
 
+// ── Class selector ────────────────────────────────────────────────────────────
+function selectLevel(btn) {
+  document.querySelectorAll('#levelSelector .type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLevel = btn.dataset.class;
+  document.getElementById('levelHint').textContent = `All active students in class "${currentLevel}" will receive this assignment.`;
+}
+
+// ── Question source mode selector ─────────────────────────────────────────────
+function selectQMode(btn) {
+  document.querySelectorAll('.qs-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.qs-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  currentQMode = btn.dataset.mode;
+  document.getElementById('qs-' + currentQMode).classList.add('active');
+}
+
+// ── Manual question builder ───────────────────────────────────────────────────
 function addQuestion() {
   const container = document.getElementById('questionsContainer');
   const idx = questionCount++;
@@ -340,6 +418,88 @@ function updateQType(sel, idx) {
   else { mc.style.display = 'block'; fi.style.display = 'none'; }
 }
 
+// ── Render AI/CSV questions as read-only preview cards ────────────────────────
+// questions = [{question_text, options:[A,B,C,D], correct_index}]
+// stored in window._importedQuestions so buildQuestions() can read them
+function renderImportedQuestions(questions, containerId, countId) {
+  window._importedQuestions = questions;
+  const container = document.getElementById(containerId);
+  const countEl  = document.getElementById(countId);
+  container.innerHTML = '';
+  questions.forEach((q, i) => {
+    const labels = ['A','B','C','D'];
+    const div = document.createElement('div');
+    div.className = 'question-item';
+    div.innerHTML = `
+      <div class="question-num">Question ${i + 1}</div>
+      <div class="form-group" style="margin-bottom:.5rem;"><strong style="font-size:.9rem;">${q.question_text}</strong></div>
+      <div class="options-grid">
+        ${q.options.map((opt, j) => `
+          <div style="display:flex;align-items:center;gap:.4rem;">
+            <span style="font-size:.68rem;font-weight:800;color:${j === q.correct_index ? 'var(--cd)' : 'var(--muted)'};">${labels[j]}${j === q.correct_index ? ' ✓' : ''}</span>
+            <span style="font-size:.82rem;">${opt}</span>
+          </div>`).join('')}
+      </div>`;
+    container.appendChild(div);
+  });
+  countEl.textContent = `${questions.length} question${questions.length !== 1 ? 's' : ''} loaded`;
+  countEl.style.display = 'block';
+}
+
+// ── AI Generate ───────────────────────────────────────────────────────────────
+async function generateAIQuestions() {
+  // Get content from whichever panel is active
+  let content = '';
+  if (currentType === 'reading')   content = (document.getElementById('readingPassage')?.value || '').trim();
+  if (currentType === 'listening') content = (document.getElementById('listeningTranscript')?.value || '').trim();
+  if (currentType === 'grammar')   content = (document.getElementById('grammarPoint')?.value || '').trim();
+  if (!content) {
+    alert('Please paste your passage or transcript in the content section above first.');
+    return;
+  }
+
+  const count = parseInt(document.getElementById('aiCount').value) || 10;
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+
+  try {
+    const res = await fetch('/api/admin/generate-questions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content, content_type: currentType, count }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      alert('Error: ' + (err.detail || 'Could not generate questions.'));
+      return;
+    }
+    const data = await res.json();
+    renderImportedQuestions(data.questions, 'aiQuestionsContainer', 'aiQCount');
+  } catch (e) {
+    alert('Network error: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generate Questions';
+  }
+}
+
+// ── CSV Upload ────────────────────────────────────────────────────────────────
+async function uploadCSV(input) {
+  if (!input.files.length) return;
+  const form = new FormData();
+  form.append('file', input.files[0]);
+  const res = await fetch('/api/admin/parse-questions-csv', { method: 'POST', body: form });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    alert('CSV Error: ' + (err.detail || 'Could not parse file.'));
+    return;
+  }
+  const data = await res.json();
+  renderImportedQuestions(data.questions, 'csvQuestionsContainer', 'csvQCount');
+}
+
+// ── Media upload ──────────────────────────────────────────────────────────────
 async function uploadMedia(input, targetId) {
   if (!input.files.length) return;
   const form = new FormData();
@@ -348,9 +508,20 @@ async function uploadMedia(input, targetId) {
   if (res.ok) { const data = await res.json(); document.getElementById(targetId).value = data.url; }
 }
 
+// ── Build questions payload for submission ────────────────────────────────────
 function buildQuestions() {
-  const items = document.querySelectorAll('.question-item');
-  return Array.from(items).map((item, i) => {
+  if (currentQMode === 'ai' || currentQMode === 'csv') {
+    // Use the imported questions (already structured correctly)
+    return (window._importedQuestions || []).map(q => ({
+      question_text: q.question_text,
+      question_type: 'multiple_choice',
+      options: q.options,
+      correct_index: q.correct_index,
+    }));
+  }
+  // Manual mode
+  const items = document.querySelectorAll('#questionsContainer .question-item');
+  return Array.from(items).map(item => {
     const type = item.querySelector('.q-type').value;
     const text = item.querySelector('.q-text').value;
     if (type === 'fill_blank') {
@@ -362,16 +533,18 @@ function buildQuestions() {
   });
 }
 
+// ── Submit assignment ─────────────────────────────────────────────────────────
 async function submitAssignment() {
   const title = document.getElementById('hwTitle').value.trim();
   if (!title) { alert('Please enter a title.'); return; }
+  if (!currentLevel) { alert('Please select a level to assign this homework to.'); return; }
 
   const body = {
     type: currentType,
     title,
     instructions: document.getElementById('hwInstructions').value || null,
     due_date: document.getElementById('hwDue').value || null,
-    student_ids: Array.from(document.querySelectorAll('input[name=students]:checked')).map(e => parseInt(e.value)),
+    class_name: currentLevel,
     questions: buildQuestions(),
   };
 

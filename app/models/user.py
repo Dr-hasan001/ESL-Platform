@@ -15,6 +15,8 @@ class User(Base):
     role: Mapped[str] = mapped_column(String(10), nullable=False, default="student")  # student | teacher
     display_name: Mapped[str | None] = mapped_column(String(120), nullable=True)
     cefr_level: Mapped[str | None] = mapped_column(String(3), nullable=True)  # A1–C2 (students only)
+    plain_password: Mapped[str | None] = mapped_column(String(100), nullable=True)  # stored for teacher credential sheet
+    class_name: Mapped[str | None] = mapped_column(String(60), nullable=True)  # e.g. "PM 91"
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 

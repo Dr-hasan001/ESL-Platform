@@ -51,6 +51,16 @@
   }
   .feedback-save:hover { opacity: .85; }
   .feedback-saved { color: var(--cd); font-size: .75rem; font-weight: 800; display: none; }
+
+  /* ── Responsive table ── */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+  @media (max-width: 640px) {
+    .sub-table { min-width: 520px; }
+    .sub-table th, .sub-table td { padding: .6rem .75rem; }
+    .submissions-wrap { padding: 0; }
+    .hw-info { padding: 1rem 1.25rem; gap: .75rem; }
+    .hw-info-title { font-size: 1.1rem; }
+  }
 </style>
 {% endblock %}
 
@@ -68,6 +78,7 @@
   </div>
 
   {% if submissions %}
+  <div class="table-scroll">
   <table class="sub-table">
     <thead>
       <tr>
@@ -123,6 +134,7 @@
             <div style="display:flex; gap:.75rem; align-items:center;">
               <input type="number" id="score-{{ sub.id }}" placeholder="Score /100" min="0" max="100" value="{{ sub.teacher_score or '' }}">
               <button class="feedback-save" onclick="saveFeedback({{ sub.id }})">Save</button>
+              <button class="feedback-save" style="background:var(--ca);" onclick="clearFeedback({{ sub.id }})">Clear</button>
               <span class="feedback-saved" id="saved-{{ sub.id }}">✓ Saved</span>
             </div>
           </div>
@@ -135,6 +147,7 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
   {% else %}
   <div style="text-align:center; padding:3rem; color:var(--muted);">
     <p style="font-size:2rem; margin-bottom:.75rem;">📭</p>
@@ -144,6 +157,23 @@
 </div>
 
 <script>
+async function clearFeedback(subId) {
+  if (!confirm('Remove this comment and score?')) return;
+  const res = await fetch(`/api/admin/submissions/${subId}/feedback`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ feedback: null, score: null }),
+  });
+  if (res.ok) {
+    document.getElementById(`fb-${subId}`).value = '';
+    document.getElementById(`score-${subId}`).value = '';
+    const el = document.getElementById(`saved-${subId}`);
+    el.textContent = '✓ Cleared';
+    el.style.display = 'inline';
+    setTimeout(() => { el.style.display = 'none'; el.textContent = '✓ Saved'; }, 2000);
+  }
+}
+
 async function saveFeedback(subId) {
   const feedback = document.getElementById(`fb-${subId}`).value;
   const score = document.getElementById(`score-${subId}`).value;
