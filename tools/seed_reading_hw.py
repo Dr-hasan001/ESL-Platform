@@ -278,6 +278,20 @@ if not hw:
     print(f"Reading homework created: ID={hw.id}  '{hw.title}'")
 else:
     print(f"Already exists: '{TITLE}' (ID={hw.id}) — ensuring all students assigned.")
+    # Update questions if count doesn't match (e.g. old 10-question version on Render)
+    existing_q_count = db.query(HomeworkQuestion).filter_by(assignment_id=hw.id).count()
+    if existing_q_count != len(QUESTIONS):
+        db.query(HomeworkQuestion).filter_by(assignment_id=hw.id).delete()
+        for i, q in enumerate(QUESTIONS, start=1):
+            db.add(HomeworkQuestion(
+                assignment_id=hw.id,
+                position=i,
+                question_text=q["question_text"],
+                question_type="multiple_choice",
+                options=q["options"],
+                correct_index=q["correct_index"],
+            ))
+        print(f"  Updated questions: {existing_q_count} → {len(QUESTIONS)}")
 
 # Assign any students not yet in the assignment
 already = {row.student_id for row in db.query(AssignmentStudent).filter_by(assignment_id=hw.id).all()}
