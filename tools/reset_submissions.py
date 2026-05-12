@@ -1,6 +1,7 @@
 """
-reset_submissions.py — Wipe all submission data so students start fresh.
-Safe to re-run; skips silently if tables are already empty.
+reset_submissions.py — Deploy hook for removing specific obsolete assignments.
+
+DOES NOT WIPE SUBMISSIONS. Student work is preserved across deploys.
 
 Run: python tools/reset_submissions.py
 """
@@ -14,12 +15,12 @@ Base.metadata.create_all(bind=engine)
 db = SessionLocal()
 
 from app.models.submission import Submission, SubmissionAnswer
-from app.models.homework import HomeworkAssignment, HomeworkQuestion, AssignmentStudent, HWReading
+from app.models.homework import (
+    HomeworkAssignment, HomeworkQuestion, AssignmentStudent,
+    HWReading, HWListening, HWGrammar, HWWriting, HWGeneralTopic,
+)
 
-answers_deleted = db.query(SubmissionAnswer).delete()
-subs_deleted    = db.query(Submission).delete()
-
-# Assignments to delete on every deploy
+# Assignments to delete on every deploy (full cleanup, including any submissions for them)
 REMOVE_TITLES = [
     "Unit 2 Reading - Tell Us About Your Free Time",
     "Unit 7 Reading - Free Time",
@@ -29,9 +30,18 @@ removed = 0
 for title in REMOVE_TITLES:
     hw = db.query(HomeworkAssignment).filter_by(title=title).first()
     if hw:
+        # Delete only the submissions tied to THIS assignment, then the assignment itself.
+        sub_ids = [s.id for s in db.query(Submission).filter(Submission.assignment_id == hw.id).all()]
+        if sub_ids:
+            db.query(SubmissionAnswer).filter(SubmissionAnswer.submission_id.in_(sub_ids)).delete(synchronize_session=False)
+            db.query(Submission).filter(Submission.id.in_(sub_ids)).delete(synchronize_session=False)
         db.query(HomeworkQuestion).filter_by(assignment_id=hw.id).delete()
         db.query(AssignmentStudent).filter_by(assignment_id=hw.id).delete()
         db.query(HWReading).filter_by(assignment_id=hw.id).delete()
+        db.query(HWListening).filter_by(assignment_id=hw.id).delete()
+        db.query(HWGrammar).filter_by(assignment_id=hw.id).delete()
+        db.query(HWWriting).filter_by(assignment_id=hw.id).delete()
+        db.query(HWGeneralTopic).filter_by(assignment_id=hw.id).delete()
         db.delete(hw)
         removed += 1
         print(f"  Deleted assignment: '{title}'")
@@ -39,4 +49,4 @@ for title in REMOVE_TITLES:
 db.commit()
 db.close()
 
-print(f"Submissions reset: {subs_deleted} submissions, {answers_deleted} answers deleted. {removed} assignment(s) removed.")
+print(f"Deploy cleanup complete. {removed} assignment(s) removed. Submissions preserved.")

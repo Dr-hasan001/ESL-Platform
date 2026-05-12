@@ -211,6 +211,7 @@ async def create_assignment(body: CreateAssignmentBody, db: Session = Depends(ge
         title=body.title,
         instructions=body.instructions,
         due_date=due,
+        class_name=body.class_name,
     )
     db.add(hw)
     db.flush()
@@ -300,6 +301,65 @@ async def add_feedback(submission_id: int, data: dict, db: Session = Depends(get
     return {"ok": True}
 
 
+# ── Class-based homework sync ─────────────────────────────────────────────────
+
+def _assign_class_homework_to_student(db: Session, student: User) -> int:
+    """Assign every active class-scoped homework matching the student's class.
+    Returns the number of new assignment rows created."""
+    if not student.class_name:
+        return 0
+    class_assignments = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.is_active == True,
+        HomeworkAssignment.class_name == student.class_name,
+    ).all()
+    new_count = 0
+    for hw in class_assignments:
+        exists = db.query(AssignmentStudent).filter(
+            AssignmentStudent.assignment_id == hw.id,
+            AssignmentStudent.student_id == student.id,
+        ).first()
+        if not exists:
+            db.add(AssignmentStudent(assignment_id=hw.id, student_id=student.id))
+            new_count += 1
+    if new_count:
+        db.commit()
+    return new_count
+
+
+def _sync_class_homework_membership(db: Session) -> dict:
+    """For every active class-scoped assignment, ensure every active student
+    in that class is assigned. Idempotent. Returns counts per assignment."""
+    summary = {}
+    assignments = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.is_active == True,
+        HomeworkAssignment.class_name.isnot(None),
+    ).all()
+    for hw in assignments:
+        students = db.query(User).filter(
+            User.role == "student",
+            User.is_active == True,
+            User.class_name == hw.class_name,
+        ).all()
+        new_count = 0
+        for s in students:
+            exists = db.query(AssignmentStudent).filter(
+                AssignmentStudent.assignment_id == hw.id,
+                AssignmentStudent.student_id == s.id,
+            ).first()
+            if not exists:
+                db.add(AssignmentStudent(assignment_id=hw.id, student_id=s.id))
+                new_count += 1
+        summary[f"{hw.id}:{hw.title}"] = {"class": hw.class_name, "added": new_count}
+    db.commit()
+    return summary
+
+
+@router.post("/api/admin/sync-class-homework")
+async def sync_class_homework(db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    """Manually trigger a class-homework sync."""
+    return {"ok": True, "summary": _sync_class_homework_membership(db)}
+
+
 # ── Student management ────────────────────────────────────────────────────────
 
 class CreateStudentBody(BaseModel):
@@ -353,39 +413,8 @@ async def create_student(body: CreateStudentBody, db: Session = Depends(get_db),
     db.commit()
     db.refresh(student)
 
-    # Auto-assign all active homework that already targets this class.
-    # Detection: any assignment where at least one active student in the same
-    # class is already assigned is considered a "class assignment".
-    auto_count = 0
-    if student.class_name:
-        classmate_ids = [
-            s.id for s in db.query(User).filter(
-                User.role == "student",
-                User.class_name == student.class_name,
-                User.is_active == True,
-                User.id != student.id,
-            ).all()
-        ]
-        if classmate_ids:
-            class_assignment_ids = {
-                row.assignment_id for row in db.query(AssignmentStudent).filter(
-                    AssignmentStudent.student_id.in_(classmate_ids)
-                ).all()
-            }
-            active_class_assignments = db.query(HomeworkAssignment).filter(
-                HomeworkAssignment.id.in_(class_assignment_ids),
-                HomeworkAssignment.is_active == True,
-            ).all()
-            for hw in active_class_assignments:
-                exists = db.query(AssignmentStudent).filter(
-                    AssignmentStudent.assignment_id == hw.id,
-                    AssignmentStudent.student_id == student.id,
-                ).first()
-                if not exists:
-                    db.add(AssignmentStudent(assignment_id=hw.id, student_id=student.id))
-                    auto_count += 1
-            if auto_count:
-                db.commit()
+    # Auto-assign every active class-scoped assignment for this student's class.
+    auto_count = _assign_class_homework_to_student(db, student)
 
     return {
         "id": student.id,

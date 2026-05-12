@@ -16,6 +16,8 @@ class HomeworkAssignment(Base):
     due_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # Target class — if set, every student in this class (current and future) gets this assignment.
+    class_name: Mapped[str | None] = mapped_column(String(120), nullable=True, index=True)
 
     teacher = relationship("User", foreign_keys=[teacher_id])
     assigned_students = relationship("AssignmentStudent", back_populates="assignment", cascade="all, delete-orphan")
