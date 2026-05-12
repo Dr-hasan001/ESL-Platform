@@ -196,7 +196,7 @@
   {% else %}
   <div class="writing-area">
     <div class="writing-label">Write your response below</div>
-    <textarea id="writingArea" placeholder="Start writing here…" oninput="updateWordCount()"></textarea>
+    <textarea id="writingArea" placeholder="Start writing here…" oninput="updateWordCount(); scheduleDraftSave()">{{ saved_written or '' }}</textarea>
     <div class="word-count-row">
       <span class="word-count-label">Words</span>
       <span class="word-count-val warn" id="wordCountVal">0</span>
@@ -246,6 +246,40 @@ function insertPhrase(phrase) {
   ta.selectionStart = ta.selectionEnd = pos + phrase.length + 1;
   updateWordCount();
 }
+
+// Auto-save the writing draft 1s after the student stops typing
+let draftSaveTimer;
+function scheduleDraftSave() {
+  clearTimeout(draftSaveTimer);
+  draftSaveTimer = setTimeout(async () => {
+    const text = document.getElementById('writingArea')?.value || '';
+    const wc = countWords(text);
+    try {
+      await fetch(`/api/submissions/${ASSIGNMENT_ID}/draft`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ written_response: text, word_count: wc }),
+      });
+      showSaveIndicator();
+    } catch (e) { /* network blip — keep typing, will retry on next input */ }
+  }, 1000);
+}
+
+function showSaveIndicator() {
+  let el = document.getElementById('saveIndicator');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'saveIndicator';
+    el.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2A6B3D;color:#fff;padding:.55em 1.1em;border-radius:50px;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 4px 18px rgba(0,0,0,.18);opacity:0;transition:opacity .25s;z-index:9999;';
+    el.textContent = '✓ Saved';
+    document.body.appendChild(el);
+  }
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 1200);
+}
+
+// Initialize word counter with pre-loaded draft text
+updateWordCount();
 
 const submitBtn = document.getElementById('submitBtn');
 if (submitBtn) {

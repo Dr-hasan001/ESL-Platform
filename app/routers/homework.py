@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models.homework import HomeworkAssignment, AssignmentStudent, HWGeneralTopic
-from app.models.submission import Submission
+from app.models.submission import Submission, SubmissionAnswer
 from app.models.user import User
 from app.routers.deps import current_user
 from app.services import media_gate_service as gate
@@ -71,11 +71,24 @@ async def homework_page(assignment_id: int, request: Request, db: Session = Depe
         for q in (hw.questions if hw else [])
     ]
 
+    # Pre-saved answers (for in-progress submissions) → { question_id: chosen_index }
+    saved_answers = {}
+    saved_written = None
+    if submission and not submission.is_complete:
+        for sa in db.query(SubmissionAnswer).filter(SubmissionAnswer.submission_id == submission.id).all():
+            saved_answers[sa.question_id] = {
+                "chosen_index": sa.chosen_index,
+                "answer_text": sa.answer_text,
+            }
+        saved_written = submission.written_response
+
     template_name = HW_TEMPLATES.get(hw.type, "student/homework/reading.html") if hw else "student/homework/reading.html"
     return templates.TemplateResponse(template_name, {
         "request": request, "hw": hw, "user": user,
         "submission": submission, "gate": gate_info,
         "questions_json": questions_json,
+        "saved_answers": saved_answers,
+        "saved_written": saved_written,
     })
 
 

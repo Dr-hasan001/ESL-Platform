@@ -99,6 +99,91 @@ async def submit_homework(body: SubmitBody, db: Session = Depends(get_db), user:
     return {"ok": True, "score": float(submission.score or 0), "correct": correct, "total": total}
 
 
+class SaveAnswerBody(BaseModel):
+    question_id: int
+    chosen_index: int | None = None
+    answer_text: str | None = None
+
+
+@router.post("/{assignment_id}/answer")
+async def save_single_answer(assignment_id: int, body: SaveAnswerBody, db: Session = Depends(get_db), user: User = Depends(current_user)):
+    """Persist a single answer for an in-progress submission. Idempotent: upserts."""
+    hw = db.query(HomeworkAssignment).filter(HomeworkAssignment.id == assignment_id).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+
+    submission = db.query(Submission).filter(
+        Submission.assignment_id == assignment_id,
+        Submission.student_id == user.id,
+    ).first()
+    if submission and submission.is_complete:
+        raise HTTPException(status_code=409, detail="Submission is already complete; cannot edit answers.")
+    if not submission:
+        submission = Submission(assignment_id=assignment_id, student_id=user.id, is_complete=False)
+        db.add(submission)
+        db.flush()
+
+    q = db.query(HomeworkQuestion).filter(
+        HomeworkQuestion.id == body.question_id,
+        HomeworkQuestion.assignment_id == assignment_id,
+    ).first()
+    if not q:
+        raise HTTPException(status_code=404, detail="Question not found in this assignment")
+
+    is_correct = None
+    if q.question_type == "multiple_choice" and body.chosen_index is not None:
+        is_correct = body.chosen_index == q.correct_index
+
+    existing = db.query(SubmissionAnswer).filter(
+        SubmissionAnswer.submission_id == submission.id,
+        SubmissionAnswer.question_id == body.question_id,
+    ).first()
+    if existing:
+        existing.chosen_index = body.chosen_index
+        existing.answer_text = body.answer_text
+        existing.is_correct = is_correct
+    else:
+        db.add(SubmissionAnswer(
+            submission_id=submission.id,
+            question_id=body.question_id,
+            chosen_index=body.chosen_index,
+            answer_text=body.answer_text,
+            is_correct=is_correct,
+        ))
+
+    db.commit()
+    return {"ok": True}
+
+
+class SaveDraftBody(BaseModel):
+    written_response: str | None = None
+    word_count: int | None = None
+
+
+@router.post("/{assignment_id}/draft")
+async def save_writing_draft(assignment_id: int, body: SaveDraftBody, db: Session = Depends(get_db), user: User = Depends(current_user)):
+    """Persist an in-progress writing response. Idempotent."""
+    hw = db.query(HomeworkAssignment).filter(HomeworkAssignment.id == assignment_id).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+
+    submission = db.query(Submission).filter(
+        Submission.assignment_id == assignment_id,
+        Submission.student_id == user.id,
+    ).first()
+    if submission and submission.is_complete:
+        raise HTTPException(status_code=409, detail="Submission is already complete.")
+    if not submission:
+        submission = Submission(assignment_id=assignment_id, student_id=user.id, is_complete=False)
+        db.add(submission)
+        db.flush()
+
+    submission.written_response = body.written_response
+    submission.word_count = body.word_count
+    db.commit()
+    return {"ok": True}
+
+
 @router.get("/{assignment_id}/pdf")
 async def download_submission_pdf(assignment_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)):
     """Generate and return a PDF of the student's completed submission."""

@@ -203,9 +203,40 @@
 const ASSIGNMENT_ID = {{ hw.id }};
 const MEDIA_TYPE = 'audio';
 const questions = {{ questions_json | tojson }};
+const savedAnswers = {{ saved_answers | tojson }};
 const letters = ['a', 'b', 'c', 'd'];
 const answers = {};
 let submitted = false;
+
+for (const [qid, val] of Object.entries(savedAnswers || {})) {
+  if (val && val.chosen_index !== null && val.chosen_index !== undefined) {
+    answers[parseInt(qid)] = val.chosen_index;
+  }
+}
+
+async function saveAnswer(qid, chosenIdx) {
+  try {
+    await fetch(`/api/submissions/${ASSIGNMENT_ID}/answer`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question_id: qid, chosen_index: chosenIdx }),
+    });
+    showSaveIndicator();
+  } catch (e) {}
+}
+
+function showSaveIndicator() {
+  let el = document.getElementById('saveIndicator');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'saveIndicator';
+    el.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2A6B3D;color:#fff;padding:.55em 1.1em;border-radius:50px;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 4px 18px rgba(0,0,0,.18);opacity:0;transition:opacity .25s;z-index:9999;';
+    el.textContent = '✓ Saved';
+    document.body.appendChild(el);
+  }
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 1200);
+}
 
 // Build questions
 const list = document.getElementById('questionsList');
@@ -220,13 +251,21 @@ questions.forEach((q, idx) => {
     </div>
     <div class="q-feedback" id="fb-${idx}"></div>`;
 
-  // Click = select only, no reveal
+  // Pre-select previously saved answer
+  const pre = answers[q.id];
+  if (pre !== undefined) {
+    const btn = card.querySelector(`.opt-btn[data-idx="${pre}"]`);
+    if (btn) btn.classList.add('selected');
+  }
+
   card.querySelectorAll('.opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       if (submitted) return;
       card.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      answers[q.id] = parseInt(btn.dataset.idx);
+      const idx = parseInt(btn.dataset.idx);
+      answers[q.id] = idx;
+      saveAnswer(q.id, idx);
     });
   });
   list.appendChild(card);

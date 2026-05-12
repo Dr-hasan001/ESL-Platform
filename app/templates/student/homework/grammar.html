@@ -148,8 +148,44 @@
 <script>
 const ASSIGNMENT_ID = {{ hw.id }};
 const questions = {{ questions_json | tojson }};
+const savedAnswers = {{ saved_answers | tojson }};
 const letters = ['a', 'b', 'c', 'd'];
 const answers = {};
+
+// Restore previously saved answers
+for (const [qid, val] of Object.entries(savedAnswers || {})) {
+  if (!val) continue;
+  if (val.chosen_index !== null && val.chosen_index !== undefined) {
+    answers[parseInt(qid)] = val.chosen_index;
+  } else if (val.answer_text) {
+    answers[parseInt(qid)] = { text: val.answer_text };
+  }
+}
+
+async function saveAnswer(qid, payload) {
+  try {
+    await fetch(`/api/submissions/${ASSIGNMENT_ID}/answer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question_id: qid, ...payload }),
+    });
+    showSaveIndicator();
+  } catch (e) { /* keep in memory; submit will re-send */ }
+}
+
+function showSaveIndicator() {
+  let el = document.getElementById('saveIndicator');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'saveIndicator';
+    el.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2A6B3D;color:#fff;padding:.55em 1.1em;border-radius:50px;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 4px 18px rgba(0,0,0,.18);opacity:0;transition:opacity .25s;z-index:9999;';
+    el.textContent = '✓ Saved';
+    document.body.appendChild(el);
+  }
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 1200);
+}
 
 const list = document.getElementById('questionsList');
 questions.forEach((q, idx) => {
@@ -158,15 +194,26 @@ questions.forEach((q, idx) => {
   const fb = `<div class="q-feedback" id="fb-${idx}"></div>`;
 
   if (q.question_type === 'fill_blank') {
+    const prev = answers[q.id];
+    const prevText = prev && typeof prev === 'object' ? prev.text : '';
     card.innerHTML = `
       <div class="q-num">Question ${idx + 1} of ${questions.length}</div>
       <div class="q-text">${q.question_text}</div>
-      <input class="fill-input" id="fi-${idx}" type="text" placeholder="Type your answer…" autocomplete="off">
+      <input class="fill-input" id="fi-${idx}" type="text" placeholder="Type your answer…" autocomplete="off" value="${prevText.replace(/"/g, '&quot;')}">
       <br>
       <button class="fill-check" id="fc-${idx}">Check</button>
       ${fb}`;
     const input = card.querySelector(`#fi-${idx}`);
     const checkBtn = card.querySelector(`#fc-${idx}`);
+    let saveTimer;
+    input.addEventListener('input', () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        const v = input.value.trim();
+        answers[q.id] = { text: v };
+        saveAnswer(q.id, { answer_text: v });
+      }, 500);
+    });
     checkBtn.addEventListener('click', () => {
       const val = input.value.trim().toLowerCase();
       const correct = (q.correct_text || '').toLowerCase();
@@ -176,12 +223,12 @@ questions.forEach((q, idx) => {
       if (val === correct) {
         input.classList.add('correct'); card.classList.add('correct-card');
         fbEl.textContent = '✓ Correct!'; fbEl.className = 'q-feedback show ok';
-        answers[q.id] = { text: val };
       } else {
         input.classList.add('wrong'); card.classList.add('wrong-card');
         fbEl.textContent = `✗ The answer is: "${q.correct_text}"`; fbEl.className = 'q-feedback show bad';
-        answers[q.id] = { text: val };
       }
+      answers[q.id] = { text: val };
+      saveAnswer(q.id, { answer_text: val });
     });
   } else {
     card.innerHTML = `
@@ -191,19 +238,20 @@ questions.forEach((q, idx) => {
         ${(q.options || []).map((opt, i) => `<button class="opt-btn" data-idx="${i}"><strong>${letters[i]}.</strong> ${opt}</button>`).join('')}
       </div>
       ${fb}`;
+    // Pre-select saved answer (but don't reveal correctness)
+    const prev = answers[q.id];
+    if (typeof prev === 'number') {
+      const btn = card.querySelector(`.opt-btn[data-idx="${prev}"]`);
+      if (btn) btn.classList.add('selected');
+    }
     card.querySelectorAll('.opt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const chosen = parseInt(btn.dataset.idx);
-        card.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+        // De-select all, select this one (allows changing answer until final submit)
+        card.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
         answers[q.id] = chosen;
-        const fbEl = document.getElementById(`fb-${idx}`);
-        if (chosen === q.correct_index) {
-          btn.classList.add('correct'); card.classList.add('correct-card');
-          fbEl.textContent = '✓ Correct!'; fbEl.className = 'q-feedback show ok';
-        } else {
-          btn.classList.add('wrong'); card.querySelectorAll('.opt-btn')[q.correct_index]?.classList.add('correct');
-          card.classList.add('wrong-card'); fbEl.textContent = '✗ Incorrect.'; fbEl.className = 'q-feedback show bad';
-        }
+        saveAnswer(q.id, { chosen_index: chosen });
       });
     });
   }
