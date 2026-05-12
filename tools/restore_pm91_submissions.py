@@ -29,31 +29,32 @@ from app.models.submission import Submission, SubmissionAnswer
 
 Base.metadata.create_all(bind=engine)
 
-TARGET_NAMES = [
-    "Baneen Raad",
-    "Murtadha Khaled",        # case-insensitive — handles "Murtadha khaled"
-    "Hussein Ali Abdulameer", # the user wrote "Hussein Ali Abdul" — this is the full DB name
+# Recalled scores, per student
+TARGET_STUDENTS = [
+    {"name": "Baneen Raad",            "score": 80},
+    {"name": "Murtadha Khaled",        "score": 100},
+    {"name": "Hussein Ali Abdulameer", "score": 75},
 ]
 TARGET_CLASS = "PM 91"
 
 
 def find_students(db):
+    """Return list of (User, target_score) tuples."""
     found = []
-    for name in TARGET_NAMES:
-        # 1. exact case-insensitive
+    for entry in TARGET_STUDENTS:
+        name = entry["name"]
+        score = entry["score"]
         u = (
             db.query(User)
             .filter(User.role == "student", User.display_name.ilike(name))
             .first()
         )
-        # 2. prefix match — handles "Hussein Ali Abdul" -> "Hussein Ali Abdulameer"
         if u is None:
             u = (
                 db.query(User)
                 .filter(User.role == "student", User.display_name.ilike(name + "%"))
                 .first()
             )
-        # 3. username fallback
         if u is None:
             u = (
                 db.query(User)
@@ -61,8 +62,8 @@ def find_students(db):
                 .first()
             )
         if u:
-            found.append(u)
-            print(f"  Found: {u.display_name} (id={u.id}, class={u.class_name})")
+            found.append((u, score))
+            print(f"  Found: {u.display_name} (id={u.id}, class={u.class_name}) -> target {score}%")
         else:
             print(f"  NOT FOUND: {name}")
     return found
@@ -78,18 +79,19 @@ def class_assignments(db):
     return by_class
 
 
-def restore_for(db, student: User, assignment: HomeworkAssignment) -> bool:
-    """Create a Submission with all answers correct if one doesn't already exist.
-    Returns True if a new submission was created."""
-    existing = (
-        db.query(Submission)
-        .filter(Submission.assignment_id == assignment.id, Submission.student_id == student.id)
-        .first()
-    )
-    if existing:
-        print(f"    skip — submission already exists for {student.display_name} on '{assignment.title}'")
-        return False
+def _wrong_index(correct_index: int | None, options: list | None) -> int | None:
+    """Pick any option index that isn't the correct one. Falls back to 0."""
+    if not options:
+        return None
+    for i in range(len(options)):
+        if i != correct_index:
+            return i
+    return 0
 
+
+def restore_for(db, student: User, assignment: HomeworkAssignment, target_score: int) -> bool:
+    """Create or replace a Submission with the target score (% correct).
+    Returns True if a row was created or replaced."""
     questions = (
         db.query(HomeworkQuestion)
         .filter(HomeworkQuestion.assignment_id == assignment.id)
@@ -97,6 +99,35 @@ def restore_for(db, student: User, assignment: HomeworkAssignment) -> bool:
         .all()
     )
     total = len(questions)
+    if total == 0:
+        print(f"    skip — '{assignment.title}' has no questions")
+        return False
+
+    correct_target = round(total * target_score / 100)
+
+    # Check existing submission state.
+    existing_list = (
+        db.query(Submission)
+        .filter(Submission.assignment_id == assignment.id, Submission.student_id == student.id)
+        .all()
+    )
+    if len(existing_list) == 1:
+        ex = existing_list[0]
+        already_matches = (
+            ex.score is not None
+            and float(ex.score) == float(target_score)
+            and ex.correct_count == correct_target
+            and ex.total_questions == total
+        )
+        if already_matches:
+            print(f"    skip — {student.display_name} already at {target_score}% on '{assignment.title}'")
+            return False
+    # Replace existing rows so the score matches the target.
+    for old in existing_list:
+        db.query(SubmissionAnswer).filter(SubmissionAnswer.submission_id == old.id).delete(synchronize_session=False)
+        db.delete(old)
+    if existing_list:
+        db.commit()
 
     sub = Submission(
         assignment_id=assignment.id,
@@ -104,24 +135,34 @@ def restore_for(db, student: User, assignment: HomeworkAssignment) -> bool:
         submitted_at=datetime.now(timezone.utc),
         is_complete=True,
         total_questions=total,
-        correct_count=total,
-        score=100.00 if total else None,
+        correct_count=correct_target,
+        score=float(target_score),
     )
     db.add(sub)
     db.flush()
 
-    for q in questions:
-        ans = SubmissionAnswer(
-            submission_id=sub.id,
-            question_id=q.id,
-            chosen_index=q.correct_index,
-            answer_text=q.correct_text,
-            is_correct=True,
-        )
+    # First correct_target questions get correct answers; rest get a deliberately wrong index.
+    for idx, q in enumerate(questions):
+        if idx < correct_target:
+            ans = SubmissionAnswer(
+                submission_id=sub.id,
+                question_id=q.id,
+                chosen_index=q.correct_index,
+                answer_text=q.correct_text,
+                is_correct=True,
+            )
+        else:
+            ans = SubmissionAnswer(
+                submission_id=sub.id,
+                question_id=q.id,
+                chosen_index=_wrong_index(q.correct_index, q.options),
+                answer_text=None,
+                is_correct=False,
+            )
         db.add(ans)
 
     db.commit()
-    print(f"    restored — {student.display_name} -> '{assignment.title}' ({total} answers, 100%)")
+    print(f"    restored — {student.display_name} -> '{assignment.title}' ({correct_target}/{total} = {target_score}%)")
     return True
 
 
@@ -158,10 +199,10 @@ def main():
 
         print(f"\nRestoring submissions ({len(students)} students × {len(assignments)} assignments):")
         created = 0
-        for s in students:
+        for s, target_score in students:
             for a in assignments:
                 ensure_class_membership(db, s, a)
-                if restore_for(db, s, a):
+                if restore_for(db, s, a, target_score):
                     created += 1
 
         print(f"\nDone. {created} submission(s) restored.")
