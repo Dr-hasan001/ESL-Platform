@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block title %}Create Quiz Mode{% endblock %}
+
+{% block extra_css %}
+<style>
+  .qc-wrap { max-width: 1000px; margin: 0 auto; }
+
+  .qc-actions {
+    position: sticky; top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff; border: 1.5px solid rgba(26,18,9,.1);
+    border-radius: 14px; padding: .9rem 1.25rem;
+    margin: 1.2rem 0 1.5rem;
+    box-shadow: 0 4px 14px var(--shadow);
+    z-index: 50;
+  }
+  .qc-summary { font-size: .8rem; color: var(--muted); font-weight: 700; }
+  .qc-summary strong { color: var(--text); font-size: 1rem; }
+  .qc-btn {
+    display: inline-flex; align-items: center; gap: .45rem;
+    background: var(--ca); color: #fff; border: none;
+    font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .8em 1.6em; border-radius: 50px; cursor: pointer;
+    transition: all .2s;
+  }
+  .qc-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(200,72,48,.3); }
+  .qc-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  .qc-controls {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+  .qc-control {
+    background: #fff; border: 1.5px solid rgba(26,18,9,.12);
+    color: var(--text); border-radius: 50px;
+    padding: .55em 1.1em; cursor: pointer; transition: all .15s;
+  }
+  .qc-control:hover { background: var(--text); color: #fff; border-color: var(--text); }
+
+  .book-section { margin-bottom: 2.5rem; animation: cardIn .4s ease both; }
+  .book-header {
+    display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1rem;
+    padding-bottom: .55rem; border-bottom: 1.5px solid rgba(26,18,9,.08);
+  }
+  .book-level-tag {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+  }
+  .book-title-text { font-size: .85rem; color: var(--muted); font-weight: 700; }
+
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: .75rem;
+  }
+  .unit-tile {
+    position: relative;
+    border: 2px solid rgba(26,18,9,.12);
+    border-radius: 14px;
+    padding: .9rem 1rem;
+    cursor: pointer;
+    transition: all .18s;
+    background: #fff;
+    display: flex; flex-direction: column; gap: .25rem;
+  }
+  .unit-tile:hover { border-color: var(--ca); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.07); }
+  .unit-tile.selected {
+    border-color: var(--ca); background: #fff5f3;
+    box-shadow: 0 6px 20px rgba(200,72,48,.18);
+  }
+  .unit-tile input { position: absolute; opacity: 0; pointer-events: none; }
+  .unit-tile-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--text); line-height: 1; }
+  .unit-tile-title { font-size: .72rem; color: var(--muted); font-weight: 600; }
+  .unit-tile-count { font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--ca); margin-top: .25rem; }
+  .unit-tile.selected .unit-tile-count { color: var(--ca); }
+  .unit-tile::after {
+    content: '✓'; position: absolute; top: 8px; right: 10px;
+    font-size: .9rem; font-weight: 900; color: var(--ca);
+    opacity: 0; transition: opacity .15s;
+  }
+  .unit-tile.selected::after { opacity: 1; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="qc-wrap">
+  <nav class="page-nav">
+    <a href="/dashboard" class="nav-link">← Home</a>
+    <a href="/quiz/create" class="nav-link active">Create Quiz Mode</a>
+  </nav>
+
+  <header class="header">
+    <p class="header-eyebrow">Custom Quiz Builder</p>
+    <h1>Create <em>Quiz Mode</em></h1>
+    <p class="header-sub">Pick any units &mdash; their words will be shuffled into one big quiz</p>
+    <span class="header-rule"></span>
+  </header>
+
+  <div class="qc-controls">
+    <button class="qc-control" type="button" onclick="selectAll(true)">Select all</button>
+    <button class="qc-control" type="button" onclick="selectAll(false)">Clear</button>
+  </div>
+
+  <div class="qc-actions">
+    <div class="qc-summary">
+      <strong id="unitCount">0</strong> units &middot; <strong id="wordCount">0</strong> words selected
+    </div>
+    <button id="startBtn" class="qc-btn" type="button" disabled onclick="startQuiz()">
+      Start Quiz →
+    </button>
+  </div>
+
+  {% set color_map = {'A1':'#C84830','A2':'#1E5C72','B1':'#4A3580','B2':'#2A6B3D','C1':'#8B4513','C2':'#1A1209'} %}
+
+  {% for entry in books_with_units %}
+  <section class="book-section">
+    <div class="book-header">
+      <span class="book-level-tag" style="color: {{ color_map.get(entry.book.cefr_level, '#1E5C72') }};">
+        {{ entry.book.cefr_level }}
+      </span>
+      <span class="book-title-text">{{ entry.book.title }}</span>
+    </div>
+    <div class="unit-grid">
+      {% for u in entry.units %}
+      <label class="unit-tile" data-words="{{ u.word_count }}">
+        <input type="checkbox" name="unit" value="{{ u.id }}">
+        <span class="unit-tile-num">{{ '%02d' | format(u.number) }}</span>
+        {% if u.title %}<span class="unit-tile-title">{{ u.title }}</span>{% endif %}
+        <span class="unit-tile-count">{{ u.word_count }} words</span>
+      </label>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <p style="color: var(--muted); text-align: center; padding: 3rem 0;">
+    No units available yet. Seed some words first.
+  </p>
+  {% endfor %}
+</div>
+
+<script>
+const tiles = document.querySelectorAll('.unit-tile');
+const startBtn = document.getElementById('startBtn');
+const unitCountEl = document.getElementById('unitCount');
+const wordCountEl = document.getElementById('wordCount');
+
+function updateState() {
+  let units = 0, words = 0;
+  const checkedIds = [];
+  tiles.forEach(t => {
+    const input = t.querySelector('input');
+    if (input.checked) {
+      t.classList.add('selected');
+      units++;
+      words += parseInt(t.dataset.words || '0', 10);
+      checkedIds.push(input.value);
+    } else {
+      t.classList.remove('selected');
+    }
+  });
+  unitCountEl.textContent = units;
+  wordCountEl.textContent = words;
+  startBtn.disabled = units === 0;
+  startBtn.dataset.unitIds = checkedIds.join(',');
+}
+
+tiles.forEach(t => t.addEventListener('change', updateState));
+
+function selectAll(state) {
+  tiles.forEach(t => { t.querySelector('input').checked = state; });
+  updateState();
+}
+
+function startQuiz() {
+  const ids = startBtn.dataset.unitIds;
+  if (!ids) return;
+  window.location.href = '/quiz/custom?units=' + encodeURIComponent(ids);
+}
+
+updateState();
+</script>
+{% endblock %}

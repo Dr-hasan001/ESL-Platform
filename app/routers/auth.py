@@ -44,7 +44,7 @@ async def api_login(form: LoginForm, response: Response, db: Session = Depends(g
         value=token,
         httponly=True,
         samesite="lax",
-        # No max_age → session cookie; clears on browser close
+        max_age=30 * 24 * 60 * 60,  # 30 days
     )
     return {"role": user.role, "display_name": user.display_name or user.username}
 

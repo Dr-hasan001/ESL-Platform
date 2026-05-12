@@ -1,4 +1,6 @@
-from sqlalchemy import ForeignKey, Integer, JSON, SmallInteger, String, Text
+from datetime import datetime
+
+from sqlalchemy import DateTime, ForeignKey, Integer, JSON, LargeBinary, SmallInteger, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -75,3 +77,14 @@ class UnitProgress(Base):
 
     user = relationship("User", back_populates="unit_progress")
     unit = relationship("Unit", back_populates="progress")
+
+
+class UnitPDFCache(Base):
+    __tablename__ = "unit_pdf_cache"
+    __table_args__ = (UniqueConstraint("unit_id", "pdf_type", name="uq_unit_pdf_type"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    unit_id: Mapped[int] = mapped_column(Integer, ForeignKey("units.id", ondelete="CASCADE"), nullable=False, index=True)
+    pdf_type: Mapped[str] = mapped_column(String(40), nullable=False)
+    pdf_data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)

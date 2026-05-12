@@ -2,9 +2,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.database import Base, engine
-from app.routers import auth, books, homework, media, submissions, admin
+from app.routers import auth, books, homework, media, submissions, admin, pdfs
 
 # Create all tables (dev convenience — in prod use Alembic)
 Base.metadata.create_all(bind=engine)
@@ -21,8 +22,19 @@ app.include_router(homework.router)
 app.include_router(media.router)
 app.include_router(submissions.router)
 app.include_router(admin.router)
+app.include_router(pdfs.router)
 
 templates = Jinja2Templates(directory="app/templates")
+
+
+@app.exception_handler(StarletteHTTPException)
+async def auth_redirect_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 401:
+        # HTML routes redirect to login; API routes return JSON
+        if not request.url.path.startswith("/api/"):
+            return RedirectResponse(url="/login", status_code=302)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
 
 @app.get("/")

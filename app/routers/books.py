@@ -85,6 +85,71 @@ async def study_page(unit_id: int, request: Request, db: Session = Depends(get_d
     })
 
 
+@router.get("/quiz/create")
+async def quiz_create_page(request: Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
+    books_q = db.query(Book).order_by(Book.book_number)
+    if user.cefr_level:
+        books_q = books_q.filter(Book.cefr_level == user.cefr_level)
+    books = books_q.all()
+    books_with_units = []
+    for b in books:
+        units = (
+            db.query(Unit)
+            .filter(Unit.book_id == b.id)
+            .order_by(Unit.unit_number)
+            .all()
+        )
+        units_with_counts = []
+        for u in units:
+            wc = db.query(Word).filter(Word.unit_id == u.id).count()
+            if wc > 0:
+                units_with_counts.append({"id": u.id, "number": u.unit_number, "title": u.title, "word_count": wc})
+        if units_with_counts:
+            books_with_units.append({"book": b, "units": units_with_counts})
+    return templates.TemplateResponse("student/quiz_create.html", {
+        "request": request, "books_with_units": books_with_units, "user": user,
+    })
+
+
+@router.get("/quiz/custom")
+async def quiz_custom_page(
+    request: Request,
+    units: str = "",
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+):
+    try:
+        unit_ids = [int(x) for x in units.split(",") if x.strip()]
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid units parameter.")
+    if not unit_ids:
+        raise HTTPException(status_code=400, detail="No units selected.")
+
+    selected_units = (
+        db.query(Unit)
+        .filter(Unit.id.in_(unit_ids))
+        .order_by(Unit.unit_number)
+        .all()
+    )
+    # Enforce CEFR level
+    for u in selected_units:
+        book = db.query(Book).filter(Book.id == u.book_id).first()
+        _assert_level(book, user)
+
+    words = (
+        db.query(Word)
+        .filter(Word.unit_id.in_(unit_ids))
+        .all()
+    )
+    return templates.TemplateResponse("student/quiz_custom.html", {
+        "request": request,
+        "selected_units": selected_units,
+        "words": words,
+        "words_json": _serialize_words(words),
+        "user": user,
+    })
+
+
 @router.get("/units/{unit_id}/quiz")
 async def quiz_page(unit_id: int, request: Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
     unit = db.query(Unit).filter(Unit.id == unit_id).first()

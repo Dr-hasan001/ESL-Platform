@@ -19,10 +19,11 @@ from app.models.homework import HomeworkAssignment, HomeworkQuestion, Assignment
 answers_deleted = db.query(SubmissionAnswer).delete()
 subs_deleted    = db.query(Submission).delete()
 
-# Remove the Unit 2 / formerly Unit 7 reading assignment
+# Assignments to delete on every deploy
 REMOVE_TITLES = [
     "Unit 2 Reading - Tell Us About Your Free Time",
     "Unit 7 Reading - Free Time",
+    "Grammar_Comparatives",
 ]
 removed = 0
 for title in REMOVE_TITLES:

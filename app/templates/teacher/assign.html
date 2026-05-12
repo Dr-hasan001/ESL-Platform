@@ -538,6 +538,10 @@ async function submitAssignment() {
   const title = document.getElementById('hwTitle').value.trim();
   if (!title) { alert('Please enter a title.'); return; }
   if (!currentLevel) { alert('Please select a level to assign this homework to.'); return; }
+  if (currentType !== 'writing') {
+    const qs = buildQuestions();
+    if (qs.length === 0) { alert('Please add at least one question before submitting.'); return; }
+  }
 
   const body = {
     type: currentType,

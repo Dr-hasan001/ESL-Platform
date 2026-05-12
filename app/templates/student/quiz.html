@@ -124,8 +124,8 @@ function buildCard(w, position) {
         </div>
         <div class="q-text-half">
           <span class="q-num-back">${num}</span>
-          <div class="q-word${revealed.has(w.id) ? ' revealed' : ''}">${w.word}</div>
-          <button class="q-reveal${revealed.has(w.id) ? ' hidden' : ''}">Reveal Answer</button>
+          <div class="q-word">${w.word}</div>
+          <button class="q-reveal">Reveal Answer</button>
         </div>
       </div>
     </div>`;
@@ -134,8 +134,7 @@ function buildCard(w, position) {
   const wordEl    = wrap.querySelector('.q-word');
   const revealBtn = wrap.querySelector('.q-reveal');
 
-  let state = revealed.has(w.id) ? 'revealed' : 'front';
-  if (state === 'revealed') card.classList.add('flipped');
+  let state = 'front';
 
   wrap.addEventListener('click', () => {
     if (state === 'front') {

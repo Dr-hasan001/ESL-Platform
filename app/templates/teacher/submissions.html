@@ -52,6 +52,36 @@
   .feedback-save:hover { opacity: .85; }
   .feedback-saved { color: var(--cd); font-size: .75rem; font-weight: 800; display: none; }
 
+  /* ── Manage questions ── */
+  .manage-q-banner {
+    background: rgba(200,72,48,.08); border: 2px dashed rgba(200,72,48,.3);
+    border-radius: 14px; padding: 1.25rem 1.75rem; margin-bottom: 1.75rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .manage-q-banner p { flex:1; font-weight: 700; color: var(--ca); margin: 0; }
+  .manage-q-btn {
+    font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .55em 1.4em; border-radius: 50px; border: none;
+    background: var(--ca); color: #fff; cursor: pointer; transition: opacity .2s; white-space: nowrap;
+  }
+  .manage-q-btn:hover { opacity: .85; }
+  .manage-q-panel {
+    background: var(--back-bg); border-radius: 16px; padding: 1.75rem 2rem;
+    box-shadow: 0 3px 14px var(--shadow); margin-bottom: 2rem; display: none;
+  }
+  .manage-q-panel.open { display: block; }
+  .mq-item { background: rgba(26,18,9,.03); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: .75rem; border: 1.5px solid rgba(26,18,9,.08); position: relative; }
+  .mq-remove { position: absolute; top: .7rem; right: .75rem; background: none; border: none; color: var(--ca); cursor: pointer; font-size: 1rem; }
+  .mq-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .5rem; }
+  @media (max-width: 560px) { .mq-options-grid { grid-template-columns: 1fr; } }
+  .mq-label { font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
+  .mq-input { width: 100%; padding: .55rem .85rem; border-radius: 8px; border: 1.5px solid rgba(26,18,9,.1); background: var(--bg); font-family: 'Nunito', sans-serif; font-size: .88rem; color: var(--text); }
+  .mq-input:focus { outline: none; border-color: var(--cb); }
+  .mq-add-btn { font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: .55em 1.4em; border-radius: 50px; border: 2px dashed rgba(26,18,9,.2); background: transparent; color: var(--muted); cursor: pointer; width: 100%; margin-top: .5rem; transition: all .2s; }
+  .mq-add-btn:hover { border-color: var(--cb); color: var(--cb); }
+  .mq-save-btn { font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: .7em 2rem; border-radius: 50px; border: none; background: var(--cd); color: #fff; cursor: pointer; margin-top: 1rem; transition: opacity .2s; }
+  .mq-save-btn:hover { opacity: .85; }
+
   /* ── Responsive table ── */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
   @media (max-width: 640px) {
@@ -77,6 +107,24 @@
     {% set done = submissions | selectattr('is_complete') | list | length %}
     {% set total = student_rows | length if student_rows is defined else submissions | length %}
     <span class="badge badge-cb">{{ done }}/{{ total }} submitted</span>
+  </div>
+
+  {% set question_count = hw.questions | length if hw.questions is defined else 0 %}
+  {% if question_count == 0 and hw.type != 'writing' %}
+  <div class="manage-q-banner">
+    <p>⚠️ This assignment has no questions — students cannot see anything yet.</p>
+    <button class="manage-q-btn" onclick="toggleQPanel()">+ Add Questions</button>
+  </div>
+  {% endif %}
+
+  <!-- Manage questions panel -->
+  <div class="manage-q-panel" id="manageQPanel">
+    <div style="font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; margin-bottom:1.25rem;">Add Questions to this Assignment</div>
+    <div id="mqContainer"></div>
+    <button class="mq-add-btn" onclick="mqAddQuestion()">+ Add Question</button>
+    <br>
+    <button class="mq-save-btn" onclick="mqSave()">Save Questions</button>
+    <span id="mqSaved" style="display:none; margin-left:1rem; color:var(--cd); font-size:.8rem; font-weight:800;">✓ Saved!</span>
   </div>
 
   {% set rows = student_rows if student_rows is defined else [] %}
@@ -196,6 +244,86 @@ async function saveFeedback(subId) {
     const el = document.getElementById(`saved-${subId}`);
     el.style.display = 'inline';
     setTimeout(() => { el.style.display = 'none'; }, 2000);
+  }
+}
+
+// ── Manage questions ──────────────────────────────────────────────────────────
+const HW_ID = {{ hw.id }};
+let mqCount = 0;
+
+function toggleQPanel() {
+  const panel = document.getElementById('manageQPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open') && mqCount === 0) mqAddQuestion();
+}
+
+function mqAddQuestion() {
+  const container = document.getElementById('mqContainer');
+  const idx = mqCount++;
+  const div = document.createElement('div');
+  div.className = 'mq-item';
+  div.id = `mq-${idx}`;
+  div.innerHTML = `
+    <button class="mq-remove" onclick="document.getElementById('mq-${idx}').remove()">✕</button>
+    <div class="mq-label">Question ${idx + 1}</div>
+    <input class="mq-input" id="mqt-${idx}" type="text" placeholder="Type your question…" style="margin-bottom:.6rem;">
+    <div class="mq-label" style="margin-top:.25rem;">Type</div>
+    <select class="mq-input" id="mqtype-${idx}" onchange="mqTypeChange(${idx})" style="margin-bottom:.6rem; width:auto;">
+      <option value="multiple_choice">Multiple Choice</option>
+      <option value="fill_blank">Fill in the Blank</option>
+    </select>
+    <div id="mq-mc-${idx}">
+      <div class="mq-options-grid">
+        ${['A','B','C','D'].map((l,i) => `<div><div class="mq-label">Option ${l}</div><input class="mq-input mq-opt" id="mqo-${idx}-${i}" type="text" placeholder="Option ${l}"></div>`).join('')}
+      </div>
+      <div style="margin-top:.6rem;"><div class="mq-label">Correct Answer</div>
+        <select class="mq-input" id="mqc-${idx}" style="width:auto;">
+          <option value="0">Option A</option><option value="1">Option B</option>
+          <option value="2">Option C</option><option value="3">Option D</option>
+        </select>
+      </div>
+    </div>
+    <div id="mq-fb-${idx}" style="display:none; margin-top:.5rem;">
+      <div class="mq-label">Correct Answer (exact text)</div>
+      <input class="mq-input" id="mqfb-${idx}" type="text" placeholder="Exact correct answer…">
+    </div>`;
+  container.appendChild(div);
+}
+
+function mqTypeChange(idx) {
+  const type = document.getElementById(`mqtype-${idx}`).value;
+  document.getElementById(`mq-mc-${idx}`).style.display = type === 'fill_blank' ? 'none' : 'block';
+  document.getElementById(`mq-fb-${idx}`).style.display = type === 'fill_blank' ? 'block' : 'none';
+}
+
+async function mqSave() {
+  const items = document.querySelectorAll('#mqContainer .mq-item');
+  const questions = [];
+  items.forEach((item, i) => {
+    const idx = item.id.replace('mq-', '');
+    const type = document.getElementById(`mqtype-${idx}`)?.value;
+    const text = document.getElementById(`mqt-${idx}`)?.value?.trim();
+    if (!text) return;
+    if (type === 'fill_blank') {
+      questions.push({ question_text: text, question_type: 'fill_blank', correct_text: document.getElementById(`mqfb-${idx}`)?.value || '' });
+    } else {
+      const opts = [0,1,2,3].map(n => document.getElementById(`mqo-${idx}-${n}`)?.value?.trim() || '');
+      const correct = parseInt(document.getElementById(`mqc-${idx}`)?.value || 0);
+      questions.push({ question_text: text, question_type: 'multiple_choice', options: opts, correct_index: correct });
+    }
+  });
+  if (!questions.length) { alert('Please add at least one question.'); return; }
+  const res = await fetch(`/api/admin/assignments/${HW_ID}/questions`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ questions }),
+  });
+  if (res.ok) {
+    const el = document.getElementById('mqSaved');
+    el.style.display = 'inline';
+    document.querySelector('.manage-q-banner')?.remove();
+    setTimeout(() => location.reload(), 1200);
+  } else {
+    alert('Error saving questions.');
   }
 }
 </script>

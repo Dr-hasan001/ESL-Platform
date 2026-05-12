@@ -254,6 +254,27 @@ async def create_assignment(body: CreateAssignmentBody, db: Session = Depends(ge
     return {"id": hw.id, "title": hw.title}
 
 
+@router.post("/api/admin/assignments/{assignment_id}/questions")
+async def add_questions_to_assignment(assignment_id: int, data: dict, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    hw = db.query(HomeworkAssignment).filter(HomeworkAssignment.id == assignment_id, HomeworkAssignment.teacher_id == user.id).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+    questions = data.get("questions", [])
+    db.query(HomeworkQuestion).filter(HomeworkQuestion.assignment_id == assignment_id).delete()
+    for i, q in enumerate(questions):
+        db.add(HomeworkQuestion(
+            assignment_id=assignment_id,
+            position=i + 1,
+            question_text=q.get("question_text", ""),
+            question_type=q.get("question_type", "multiple_choice"),
+            options=q.get("options"),
+            correct_index=q.get("correct_index"),
+            correct_text=q.get("correct_text"),
+        ))
+    db.commit()
+    return {"ok": True, "count": len(questions)}
+
+
 @router.post("/api/admin/assignments/{assignment_id}/assign")
 async def assign_students(assignment_id: int, data: dict, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
     student_ids = data.get("student_ids", [])
@@ -331,6 +352,41 @@ async def create_student(body: CreateStudentBody, db: Session = Depends(get_db),
     db.add(student)
     db.commit()
     db.refresh(student)
+
+    # Auto-assign all active homework that already targets this class.
+    # Detection: any assignment where at least one active student in the same
+    # class is already assigned is considered a "class assignment".
+    auto_count = 0
+    if student.class_name:
+        classmate_ids = [
+            s.id for s in db.query(User).filter(
+                User.role == "student",
+                User.class_name == student.class_name,
+                User.is_active == True,
+                User.id != student.id,
+            ).all()
+        ]
+        if classmate_ids:
+            class_assignment_ids = {
+                row.assignment_id for row in db.query(AssignmentStudent).filter(
+                    AssignmentStudent.student_id.in_(classmate_ids)
+                ).all()
+            }
+            active_class_assignments = db.query(HomeworkAssignment).filter(
+                HomeworkAssignment.id.in_(class_assignment_ids),
+                HomeworkAssignment.is_active == True,
+            ).all()
+            for hw in active_class_assignments:
+                exists = db.query(AssignmentStudent).filter(
+                    AssignmentStudent.assignment_id == hw.id,
+                    AssignmentStudent.student_id == student.id,
+                ).first()
+                if not exists:
+                    db.add(AssignmentStudent(assignment_id=hw.id, student_id=student.id))
+                    auto_count += 1
+            if auto_count:
+                db.commit()
+
     return {
         "id": student.id,
         "username": student.username,
@@ -339,6 +395,7 @@ async def create_student(body: CreateStudentBody, db: Session = Depends(get_db),
         "class_name": student.class_name,
         "password": plain,
         "is_active": student.is_active,
+        "auto_assigned_count": auto_count,
     }
 
 

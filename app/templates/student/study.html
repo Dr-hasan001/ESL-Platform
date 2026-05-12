@@ -61,6 +61,49 @@
 
   .footer { text-align: center; margin-top: 4rem; font-size: .72rem; color: var(--muted); opacity: .55; }
 
+  /* Download bar */
+  .dl-bar { display: flex; flex-wrap: wrap; gap: .65rem; justify-content: center; margin: 1.4rem 0 .6rem; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: .45rem;
+    background: #fff; border: 1.5px solid rgba(26,18,9,.12);
+    color: var(--text);
+    font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .65em 1.3em; border-radius: 50px; cursor: pointer;
+    text-decoration: none; transition: all .2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+  .dl-btn:hover { background: var(--text); color: #fff; border-color: var(--text); transform: translateY(-1px); }
+  .dl-btn .dl-ico { font-size: .9rem; }
+
+  /* Modal */
+  .dl-modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 9000;
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .dl-modal-overlay.show { display: flex; }
+  .dl-modal {
+    background: #fff; border-radius: 18px; max-width: 480px; width: 100%;
+    padding: 2rem 1.75rem; box-shadow: 0 12px 60px rgba(0,0,0,.3);
+    animation: cardIn .25s ease both;
+  }
+  .dl-modal h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 0 0 .35rem; color: var(--text); }
+  .dl-modal p { font-size: .82rem; color: var(--muted); margin: 0 0 1.25rem; }
+  .dl-opt {
+    display: flex; align-items: flex-start; gap: .9rem; padding: 1rem 1.1rem;
+    border: 1.5px solid rgba(26,18,9,.14); border-radius: 14px; margin-bottom: .65rem;
+    text-decoration: none; color: var(--text); transition: all .15s;
+  }
+  .dl-opt:hover { border-color: var(--text); background: #faf7f4; }
+  .dl-opt-ico { font-size: 1.4rem; line-height: 1; padding-top: 2px; }
+  .dl-opt-title { font-weight: 800; font-size: .95rem; margin-bottom: .15rem; }
+  .dl-opt-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+  .dl-modal-close {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    margin-top: .8rem;
+  }
+  .dl-modal-close:hover { color: var(--text); }
+
   @media (max-width: 900px) { .card-wrap { height: 420px; } .trans-wrap { height: 80px; } }
   @media (max-width: 560px) { .card-wrap { height: 380px; } .trans-wrap { height: 75px; } .stat-sep { display: none; } }
   @media (max-width: 380px) {
@@ -100,6 +143,40 @@
 <div class="progress-wrap">
   <div class="progress-meta"><span>Progress</span><span id="progressLabel">0 / {{ words | length }}</span></div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="dl-bar">
+  <a class="dl-btn" href="/units/{{ unit.id }}/download/flashcards.pdf">
+    <span class="dl-ico">⬇</span> Download Flash Cards
+  </a>
+  <button class="dl-btn" type="button" onclick="document.getElementById('dlDefModal').classList.add('show')">
+    <span class="dl-ico">⬇</span> Download Definitions
+  </button>
+  <a class="dl-btn" href="/units/{{ unit.id }}/download/images.pdf">
+    <span class="dl-ico">⬇</span> Download Image Cards
+  </a>
+</div>
+
+<div class="dl-modal-overlay" id="dlDefModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="dl-modal">
+    <h3>Download Definitions</h3>
+    <p>Choose how you want the definition cards laid out.</p>
+    <a class="dl-opt" href="/units/{{ unit.id }}/download/definitions/game.pdf">
+      <div class="dl-opt-ico">🎯</div>
+      <div>
+        <div class="dl-opt-title">Guess the Word Game</div>
+        <div class="dl-opt-desc">Definition shown — the answer word is printed upside-down in the corner so students can self-check after guessing.</div>
+      </div>
+    </a>
+    <a class="dl-opt" href="/units/{{ unit.id }}/download/definitions/study.pdf">
+      <div class="dl-opt-ico">📖</div>
+      <div>
+        <div class="dl-opt-title">Study Definitions</div>
+        <div class="dl-opt-desc">Definition only — clean reference cards for matching, sorting, or written practice.</div>
+      </div>
+    </a>
+    <button class="dl-modal-close" type="button" onclick="document.getElementById('dlDefModal').classList.remove('show')">Cancel</button>
+  </div>
 </div>
 
 <main class="grid" id="grid"></main>

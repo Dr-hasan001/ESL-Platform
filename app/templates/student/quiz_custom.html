@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}Custom Quiz Mode{% endblock %}
+
+{% block extra_css %}
+<style>
+  .grid { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; } }
+
+  .card-wrap { perspective: 1000px; height: 310px; cursor: pointer; border-radius: 18px; animation: cardIn .5s ease both; }
+  .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+  .card.flipped { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; box-shadow: 0 4px 20px var(--shadow); padding: 1.5rem 1rem; }
+  .q-front { background: var(--back-bg); }
+  .ca .q-front { background: linear-gradient(145deg, #fff5f3, var(--back-bg)); }
+  .cb .q-front { background: linear-gradient(145deg, #f0f7fa, var(--back-bg)); }
+  .cc .q-front { background: linear-gradient(145deg, #f4f1fb, var(--back-bg)); }
+  .cd .q-front { background: linear-gradient(145deg, #f1f8f3, var(--back-bg)); }
+  .f-num { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .7; }
+  .q-mark { font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900; line-height: 1; color: rgba(26,18,9,.08); }
+  .ca .q-mark { color: rgba(200,72,48,.13); }
+  .cb .q-mark { color: rgba(30,92,114,.13); }
+  .cc .q-mark { color: rgba(74,53,128,.13); }
+  .cd .q-mark { color: rgba(42,107,61,.13); }
+  .f-hint { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .55; }
+
+  .q-back { transform: rotateY(180deg); padding: 0; justify-content: flex-start; gap: 0; }
+  .ca .q-back { background: var(--ca); }
+  .cb .q-back { background: var(--cb); }
+  .cc .q-back { background: var(--cc); }
+  .cd .q-back { background: var(--cd); }
+  .q-img-half { width: 100%; height: 55%; overflow: hidden; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
+  .q-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .q-img-half:hover .q-card-img { transform: scale(1.05); }
+  .q-emoji-big { font-size: 4rem; line-height: 1; pointer-events: none; }
+  .q-text-half { width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .45rem; padding: .6rem 1rem; }
+  .q-num-back { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .q-word { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: #fff; pointer-events: none; display: none; }
+  .q-word.revealed { display: block; }
+  .q-reveal {
+    font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .5em 1.4em; border-radius: 50px; border: 2px solid rgba(255,255,255,.5);
+    background: transparent; color: #fff; cursor: pointer; transition: all .2s;
+  }
+  .q-reveal:hover { background: rgba(255,255,255,.2); border-color: #fff; }
+  .q-reveal.hidden { display: none; }
+
+  .footer { text-align: center; margin-top: 4rem; font-size: .72rem; color: var(--muted); opacity: .55; }
+  @media (max-width: 700px) { .q-mark { font-size: 6rem; } .q-emoji-big { font-size: 3.2rem; } .q-word { font-size: 1.6rem; } .stat-sep { display: none; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="page-nav">
+  <a href="/quiz/create" class="nav-link">← Edit Selection</a>
+  <a href="/dashboard" class="nav-link">Home</a>
+</nav>
+
+<header class="header">
+  <p class="header-eyebrow">
+    Custom Quiz &middot;
+    {% for u in selected_units %}Unit {{ u.unit_number }}{% if not loop.last %} · {% endif %}{% endfor %}
+  </p>
+  <h1>Guess the <em>Word</em></h1>
+  <p class="header-sub">Mixed cards from {{ selected_units | length }} unit{{ 's' if selected_units|length != 1 else '' }} &mdash; shuffled randomly</p>
+  <span class="header-rule"></span>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">{{ words | length }}</div><div class="stat-label">Words</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="hintedNum">0</div><div class="stat-label">Hinted</div></div>
+  <div class="stat-sep">/</div>
+  <div class="stat"><div class="stat-num" id="revealedNum">0</div><div class="stat-label">Revealed</div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-meta"><span>Answers revealed</span><span id="progressLabel">0 / {{ words | length }}</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<main class="grid" id="grid"></main>
+<footer class="footer">Tap a card to see the picture hint &bull; Then press Reveal Answer to check</footer>
+
+<script>
+const words = {{ words_json | tojson }};
+const colors = ['ca','cb','cc','cd'];
+const hinted   = new Set();
+const revealed = new Set();
+
+function updateStats() {
+  const r = revealed.size;
+  const pct = words.length ? Math.round((r / words.length) * 100) : 0;
+  document.getElementById('hintedNum').textContent   = hinted.size;
+  document.getElementById('revealedNum').textContent = r;
+  document.getElementById('progressLabel').textContent = r + ' / ' + words.length;
+  document.getElementById('progressFill').style.width  = pct + '%';
+}
+
+function buildCard(w, position) {
+  const col = colors[(position - 1) % 4];
+  const num = String(position).padStart(2, '0');
+
+  const wrap = document.createElement('div');
+  wrap.className = `card-wrap ${col}`;
+  wrap.style.animationDelay = ((position - 1) * 0.02) + 's';
+
+  wrap.innerHTML = `
+    <div class="card">
+      <div class="face q-front">
+        <span class="f-num">${num}</span>
+        <div class="q-mark">?</div>
+        <span class="f-hint">Tap for hint</span>
+      </div>
+      <div class="face q-back">
+        <div class="q-img-half">
+          ${w.image_url
+            ? `<img src="${w.image_url}" alt="${w.word}" class="q-card-img">`
+            : `<div class="q-emoji-big">${w.emoji || ''}</div>`}
+        </div>
+        <div class="q-text-half">
+          <span class="q-num-back">${num}</span>
+          <div class="q-word">${w.word}</div>
+          <button class="q-reveal">Reveal Answer</button>
+        </div>
+      </div>
+    </div>`;
+
+  const card      = wrap.querySelector('.card');
+  const wordEl    = wrap.querySelector('.q-word');
+  const revealBtn = wrap.querySelector('.q-reveal');
+
+  let state = 'front';
+
+  wrap.addEventListener('click', () => {
+    if (state === 'front') {
+      card.classList.add('flipped');
+      hinted.add(w.id);
+      state = 'hint';
+      updateStats();
+    } else if (state === 'revealed') {
+      card.classList.remove('flipped');
+      wordEl.classList.remove('revealed');
+      revealBtn.classList.remove('hidden');
+      state = 'front';
+    }
+  });
+
+  revealBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    wordEl.classList.add('revealed');
+    revealBtn.classList.add('hidden');
+    revealed.add(w.id);
+    state = 'revealed';
+    updateStats();
+  });
+
+  return wrap;
+}
+
+// Fisher-Yates shuffle
+for (let i = words.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [words[i], words[j]] = [words[j], words[i]];
+}
+
+const grid = document.getElementById('grid');
+words.forEach((w, i) => grid.appendChild(buildCard(w, i + 1)));
+updateStats();
+
+const overlay = document.getElementById('zoom-overlay');
+const zoomImg = document.getElementById('zoom-img');
+overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('q-card-img')) {
+    e.stopPropagation();
+    zoomImg.src = e.target.src;
+    overlay.style.display = 'flex';
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.style.display = 'none'; });
+</script>
+
+<div id="zoom-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;">
+  <img id="zoom-img" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 8px 60px rgba(0,0,0,.7);">
+</div>
+{% endblock %}
