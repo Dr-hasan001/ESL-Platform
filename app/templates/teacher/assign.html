@@ -502,10 +502,37 @@ async function uploadCSV(input) {
 // ── Media upload ──────────────────────────────────────────────────────────────
 async function uploadMedia(input, targetId) {
   if (!input.files.length) return;
+  const target = document.getElementById(targetId);
+  const file = input.files[0];
+
+  // Visual feedback while the upload is in flight
+  const prevPlaceholder = target.placeholder;
+  target.placeholder = `Uploading ${file.name}…`;
+  target.disabled = true;
+
   const form = new FormData();
-  form.append('file', input.files[0]);
-  const res = await fetch('/api/admin/upload-audio', { method: 'POST', body: form });
-  if (res.ok) { const data = await res.json(); document.getElementById(targetId).value = data.url; }
+  form.append('file', file);
+
+  try {
+    const res = await fetch('/api/admin/upload-audio', { method: 'POST', body: form });
+    if (res.ok) {
+      const data = await res.json();
+      target.value = data.url;
+      console.log(`Upload OK (${data.storage}):`, data.url);
+    } else {
+      let detail = `Upload failed (HTTP ${res.status})`;
+      try {
+        const err = await res.json();
+        if (err && err.detail) detail = err.detail;
+      } catch (e) { /* not JSON */ }
+      alert(`Audio upload failed:\n\n${detail}`);
+    }
+  } catch (e) {
+    alert(`Audio upload failed: ${e.message || e}`);
+  } finally {
+    target.disabled = false;
+    target.placeholder = prevPlaceholder;
+  }
 }
 
 // ── Build questions payload for submission ────────────────────────────────────

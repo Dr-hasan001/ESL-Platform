@@ -516,20 +516,69 @@ async def parse_questions_csv(file: UploadFile = File(...), user: User = Depends
 
 # ── Media upload ──────────────────────────────────────────────────────────────
 
+def _save_audio_locally(file: UploadFile) -> str:
+    """Stream the uploaded file to app/static/audio/. Returns the URL path.
+
+    Used as a fallback when R2 isn't configured, and as the default in dev.
+    Note: on Render's free tier the filesystem is ephemeral, so this will not
+    persist across deploys — R2 is still recommended for production.
+    """
+    import os, re, uuid
+
+    safe_name = re.sub(r"[^A-Za-z0-9._-]", "_", file.filename or "audio")
+    # Add a short uuid prefix to avoid name collisions
+    final_name = f"{uuid.uuid4().hex[:8]}_{safe_name}"
+    out_dir = os.path.join("app", "static", "audio")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, final_name)
+
+    with open(out_path, "wb") as out_f:
+        while True:
+            chunk = file.file.read(1024 * 1024)  # 1 MB chunks
+            if not chunk:
+                break
+            out_f.write(chunk)
+
+    return f"/static/audio/{final_name}"
+
+
 @router.post("/api/admin/upload-audio")
 async def upload_audio(file: UploadFile = File(...), user: User = Depends(current_teacher)):
-    """Upload an audio/video file to Cloudflare R2 and return the public URL."""
-    if not settings.r2_access_key:
-        raise HTTPException(status_code=501, detail="R2 storage not configured. Set R2_* env vars.")
-    s3 = boto3.client(
-        "s3",
-        endpoint_url=f"https://{settings.r2_account_id}.r2.cloudflarestorage.com",
-        aws_access_key_id=settings.r2_access_key,
-        aws_secret_access_key=settings.r2_secret_key,
-        config=Config(signature_version="s3v4"),
-        region_name="auto",
-    )
-    key = f"media/{file.filename}"
-    s3.upload_fileobj(file.file, settings.r2_bucket_name, key, ExtraArgs={"ContentType": file.content_type})
-    url = f"{settings.r2_public_url}/{key}"
-    return {"url": url, "filename": file.filename}
+    """Upload an audio/video file. Uses Cloudflare R2 if configured, otherwise
+    falls back to local static storage."""
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No file received.")
+
+    # Try R2 if configured
+    if settings.r2_access_key and settings.r2_bucket_name and settings.r2_public_url:
+        try:
+            s3 = boto3.client(
+                "s3",
+                endpoint_url=f"https://{settings.r2_account_id}.r2.cloudflarestorage.com",
+                aws_access_key_id=settings.r2_access_key,
+                aws_secret_access_key=settings.r2_secret_key,
+                config=Config(signature_version="s3v4"),
+                region_name="auto",
+            )
+            key = f"media/{file.filename}"
+            s3.upload_fileobj(
+                file.file, settings.r2_bucket_name, key,
+                ExtraArgs={"ContentType": file.content_type or "application/octet-stream"},
+            )
+            url = f"{settings.r2_public_url}/{key}"
+            return {"url": url, "filename": file.filename, "storage": "r2"}
+        except Exception as e:
+            # R2 was configured but failed (bad creds, missing bucket, network, etc.).
+            # Fall back to local storage so the teacher isn't blocked.
+            print(f"[upload-audio] R2 upload failed, falling back to local: {e}")
+            try:
+                file.file.seek(0)
+            except Exception:
+                pass
+
+    # Local fallback (dev or R2 misconfigured)
+    try:
+        url = _save_audio_locally(file)
+        return {"url": url, "filename": file.filename, "storage": "local"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Audio upload failed: {e}")
