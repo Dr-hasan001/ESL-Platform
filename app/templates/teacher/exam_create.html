@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block title %}Create Weekly Exam{% endblock %}
+
+{% block extra_css %}
+<style>
+  .ec-wrap { max-width: 1000px; margin: 0 auto; }
+
+  .ec-actions {
+    position: sticky; top: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    background: #fff; border: 1.5px solid rgba(26,18,9,.1);
+    border-radius: 14px; padding: .9rem 1.25rem;
+    margin: 1.2rem 0 1.5rem;
+    box-shadow: 0 4px 14px var(--shadow);
+    z-index: 50;
+  }
+  .ec-summary { font-size: .8rem; color: var(--muted); font-weight: 700; }
+  .ec-summary strong { color: var(--text); font-size: 1rem; }
+  .ec-btn {
+    display: inline-flex; align-items: center; gap: .45rem;
+    background: var(--ca); color: #fff; border: none;
+    font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .8em 1.6em; border-radius: 50px; cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .ec-btn:hover:not(.disabled) { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(200,72,48,.3); }
+  .ec-btn.disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+
+  .ec-config {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    background: #fff; border: 1.5px solid rgba(26,18,9,.1);
+    border-radius: 14px; padding: 1.25rem 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .ec-field { display: flex; flex-direction: column; gap: .35rem; }
+  .ec-field label {
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .ec-field input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    border: 1.5px solid rgba(26,18,9,.15);
+    border-radius: 10px;
+    padding: .55em .85em;
+    color: var(--text);
+    background: #fff;
+  }
+  .ec-field input:focus { outline: none; border-color: var(--ca); }
+  .ec-field-hint { font-size: .68rem; color: var(--muted); font-style: italic; }
+
+  .ec-controls {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+  .ec-control {
+    background: #fff; border: 1.5px solid rgba(26,18,9,.12);
+    color: var(--text); border-radius: 50px;
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .55em 1.1em; cursor: pointer; transition: all .15s;
+  }
+  .ec-control:hover { background: var(--text); color: #fff; border-color: var(--text); }
+
+  .book-section { margin-bottom: 2.5rem; animation: cardIn .4s ease both; }
+  .book-header {
+    display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1rem;
+    padding-bottom: .55rem; border-bottom: 1.5px solid rgba(26,18,9,.08);
+  }
+  .book-level-tag {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+  }
+  .book-title-text { font-size: .85rem; color: var(--muted); font-weight: 700; }
+
+  .unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: .8rem; }
+  .unit-tile {
+    position: relative;
+    border: 2px solid rgba(26,18,9,.1);
+    border-radius: 14px;
+    padding: .9rem 1rem;
+    cursor: pointer;
+    transition: all .18s;
+    background: #fff;
+    display: flex; flex-direction: column; gap: .25rem;
+  }
+  .unit-tile:hover { border-color: var(--ca); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.07); }
+  .unit-tile.selected {
+    border-color: var(--ca); background: #fff5f3;
+    box-shadow: 0 6px 20px rgba(200,72,48,.18);
+  }
+  .unit-tile input { position: absolute; opacity: 0; pointer-events: none; }
+  .unit-tile-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--text); line-height: 1; }
+  .unit-tile-title { font-size: .72rem; color: var(--muted); font-weight: 600; }
+  .unit-tile-count { font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--ca); margin-top: .25rem; }
+  .unit-tile-imgcount { font-size: .58rem; font-weight: 700; color: var(--muted); }
+  .unit-tile::after {
+    content: '✓'; position: absolute; top: 8px; right: 10px;
+    font-size: .9rem; font-weight: 900; color: var(--ca);
+    opacity: 0; transition: opacity .15s;
+  }
+  .unit-tile.selected::after { opacity: 1; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ec-wrap">
+  <nav class="page-nav">
+    <a href="/teacher" class="nav-link">← Teacher Dashboard</a>
+    <a href="/teacher/exam/create" class="nav-link active">Create Exam</a>
+  </nav>
+
+  <header class="header">
+    <p class="header-eyebrow">Printable Exam Builder</p>
+    <h1>Create Weekly <em>Exam</em></h1>
+    <p class="header-sub">Pick units &mdash; download a printable PDF with image MCQs and fill-in-the-blank questions, plus a teacher answer key.</p>
+    <span class="header-rule"></span>
+  </header>
+
+  <div class="ec-config">
+    <div class="ec-field">
+      <label for="examTitle">Exam title</label>
+      <input id="examTitle" type="text" value="Weekly Vocabulary Exam" maxlength="80">
+      <span class="ec-field-hint">Shows at the top of the printed page.</span>
+    </div>
+    <div class="ec-field">
+      <label for="numImage">Image → Word questions</label>
+      <input id="numImage" type="number" min="0" max="50" value="8">
+      <span class="ec-field-hint">Picks random words that have an image (4 lettered options each).</span>
+    </div>
+    <div class="ec-field">
+      <label for="numBlank">Fill-in-the-blank questions</label>
+      <input id="numBlank" type="number" min="0" max="50" value="12">
+      <span class="ec-field-hint">Uses each word's example sentence with the target word removed.</span>
+    </div>
+  </div>
+
+  <div class="ec-controls">
+    <button class="ec-control" type="button" onclick="selectAll(true)">Select all</button>
+    <button class="ec-control" type="button" onclick="selectAll(false)">Clear</button>
+  </div>
+
+  <div class="ec-actions">
+    <div class="ec-summary">
+      <strong id="unitCount">0</strong> units &middot;
+      <strong id="wordCount">0</strong> total words &middot;
+      <strong id="imgCount">0</strong> with images
+    </div>
+    <a id="downloadBtn" class="ec-btn disabled" href="#" download>
+      ⬇ Download Exam PDF
+    </a>
+  </div>
+
+  {% set color_map = {'A1':'#C84830','A2':'#1E5C72','B1':'#4A3580','B2':'#2A6B3D','C1':'#8B4513','C2':'#1A1209'} %}
+
+  {% for entry in books_with_units %}
+  <section class="book-section">
+    <div class="book-header">
+      <span class="book-level-tag" style="color: {{ color_map.get(entry.book.cefr_level, '#1E5C72') }};">
+        {{ entry.book.cefr_level }}
+      </span>
+      <span class="book-title-text">{{ entry.book.title }}</span>
+    </div>
+    <div class="unit-grid">
+      {% for u in entry.units %}
+      <label class="unit-tile" data-words="{{ u.word_count }}" data-imgs="{{ u.image_count }}">
+        <input type="checkbox" name="unit" value="{{ u.id }}">
+        <span class="unit-tile-num">{{ '%02d' | format(u.number) }}</span>
+        {% if u.title %}<span class="unit-tile-title">{{ u.title }}</span>{% endif %}
+        <span class="unit-tile-count">{{ u.word_count }} words</span>
+        <span class="unit-tile-imgcount">{{ u.image_count }} have images</span>
+      </label>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <p style="color: var(--muted); text-align: center; padding: 3rem 0;">
+    No units available yet. Seed some words first.
+  </p>
+  {% endfor %}
+</div>
+
+<script>
+const tiles = document.querySelectorAll('.unit-tile');
+const downloadBtn = document.getElementById('downloadBtn');
+const unitCountEl = document.getElementById('unitCount');
+const wordCountEl = document.getElementById('wordCount');
+const imgCountEl  = document.getElementById('imgCount');
+const titleEl     = document.getElementById('examTitle');
+const numImageEl  = document.getElementById('numImage');
+const numBlankEl  = document.getElementById('numBlank');
+
+function updateState() {
+  let units = 0, words = 0, imgs = 0;
+  const ids = [];
+  tiles.forEach(t => {
+    const input = t.querySelector('input');
+    if (input.checked) {
+      t.classList.add('selected');
+      units++;
+      words += parseInt(t.dataset.words || '0', 10);
+      imgs  += parseInt(t.dataset.imgs  || '0', 10);
+      ids.push(input.value);
+    } else {
+      t.classList.remove('selected');
+    }
+  });
+  unitCountEl.textContent = units;
+  wordCountEl.textContent = words;
+  imgCountEl.textContent  = imgs;
+
+  const ni = parseInt(numImageEl.value || '0', 10);
+  const nb = parseInt(numBlankEl.value || '0', 10);
+  const total = ni + nb;
+  const valid = units > 0 && total > 0;
+
+  if (valid) {
+    const params = new URLSearchParams({
+      unit_ids: ids.join(','),
+      num_image: String(ni),
+      num_blank: String(nb),
+      title: titleEl.value.trim() || 'Weekly Vocabulary Exam',
+    });
+    downloadBtn.href = `/teacher/exam/download.pdf?${params.toString()}`;
+    downloadBtn.classList.remove('disabled');
+  } else {
+    downloadBtn.href = '#';
+    downloadBtn.classList.add('disabled');
+  }
+}
+
+function selectAll(state) {
+  tiles.forEach(t => { t.querySelector('input').checked = state; });
+  updateState();
+}
+
+tiles.forEach(t => t.addEventListener('change', updateState));
+[titleEl, numImageEl, numBlankEl].forEach(el => el.addEventListener('input', updateState));
+updateState();
+</script>
+{% endblock %}

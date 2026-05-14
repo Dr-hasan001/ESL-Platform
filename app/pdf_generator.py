@@ -317,3 +317,360 @@ PDF_GENERATORS = {
     "definitions_study":  generate_definitions_study_pdf,
     "definitions_game":   generate_definitions_game_pdf,
 }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Weekly Exam generator
+# ─────────────────────────────────────────────────────────────────────────────
+
+import random
+from reportlab.lib.enums import TA_LEFT
+
+
+def _blank_word_in_sentence(word: str, sentence: str) -> str:
+    """Replace the target word (and inflections) with a blank line."""
+    if not sentence or not word:
+        return sentence or ""
+    base = word.strip()
+    forms = {base, base + "s", base + "es", base + "ed", base + "ing", base + "d"}
+    if base.endswith("e"):
+        forms.add(base[:-1] + "ing")
+        forms.add(base[:-1] + "ed")
+    if base.endswith("y") and len(base) > 1 and base[-2].lower() not in "aeiou":
+        forms.add(base[:-1] + "ies")
+        forms.add(base[:-1] + "ied")
+    # CVC rule — short verbs ending consonant-vowel-consonant double the final consonant
+    # before -ed / -ing (skip→skipped/skipping, rob→robbed, plan→planned, etc.).
+    if (
+        len(base) >= 3
+        and base[-1].lower() not in "aeiouwxy"
+        and base[-2].lower() in "aeiou"
+        and base[-3].lower() not in "aeiou"
+    ):
+        forms.add(base + base[-1] + "ed")
+        forms.add(base + base[-1] + "ing")
+    forms_alt = "(?:" + "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True)) + ")"
+    pattern = r"\b" + forms_alt + r"\b"
+    blanked = re.sub(pattern, "______________", sentence, flags=re.IGNORECASE)
+    return blanked
+
+
+def _draw_exam_header(c: canvas.Canvas, title: str, unit_label: str):
+    """Title block + name/date lines at the top of page 1."""
+    c.setFont("Helvetica-Bold", 18)
+    c.setFillColor(black)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 18 * mm, title)
+
+    c.setFont("Helvetica", 11)
+    c.setFillColor(HexColor("#444444"))
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 25 * mm, unit_label)
+
+    c.setStrokeColor(black)
+    c.setLineWidth(0.6)
+    c.setFillColor(black)
+    c.setFont("Helvetica", 10)
+    y = PAGE_H - 35 * mm
+    c.drawString(15 * mm, y, "Name:")
+    c.line(28 * mm, y - 1, 100 * mm, y - 1)
+    c.drawString(110 * mm, y, "Date:")
+    c.line(123 * mm, y - 1, 180 * mm, y - 1)
+
+    c.setLineWidth(1.2)
+    c.line(15 * mm, y - 7 * mm, PAGE_W - 15 * mm, y - 7 * mm)
+
+
+def _draw_section_title(c: canvas.Canvas, y: float, label: str, hint: str = ""):
+    c.setFont("Helvetica-Bold", 13)
+    c.setFillColor(black)
+    c.drawString(15 * mm, y, label)
+    if hint:
+        c.setFont("Helvetica-Oblique", 9.5)
+        c.setFillColor(HexColor("#666666"))
+        c.drawString(15 * mm, y - 5.5 * mm, hint)
+
+
+# Layout for Image MCQs: 2 columns x N rows, each cell ~ (95 x 70) mm
+IMG_Q_COLS = 2
+IMG_Q_ROWS = 3
+IMG_Q_W = (PAGE_W - 2 * 15 * mm) / IMG_Q_COLS
+IMG_Q_H = 73 * mm
+IMG_Q_PER_PAGE = IMG_Q_COLS * IMG_Q_ROWS
+
+
+def _draw_image_question(c: canvas.Canvas, x: float, y: float, num: int, word_obj, options: list, letters="abcd"):
+    """Draws one image-MCQ cell. y is the BOTTOM-left of the cell."""
+    img_h = 38 * mm
+    img_w = IMG_Q_W - 12 * mm
+
+    # Question number
+    c.setFont("Helvetica-Bold", 11)
+    c.setFillColor(black)
+    c.drawString(x + 4 * mm, y + IMG_Q_H - 6 * mm, f"{num}.")
+
+    # Image
+    img_path = _resolve_image_path(getattr(word_obj, "image_url", None))
+    img_x = x + 6 * mm
+    img_y = y + IMG_Q_H - 6 * mm - img_h
+    if img_path:
+        _draw_image_fitted(c, img_path, img_x, img_y, img_w, img_h, padding=0)
+    else:
+        # placeholder rectangle
+        c.setStrokeColor(HexColor("#999999"))
+        c.setLineWidth(0.4)
+        c.rect(img_x, img_y, img_w, img_h, stroke=1, fill=0)
+        c.setFont("Helvetica-Oblique", 9)
+        c.setFillColor(HexColor("#999999"))
+        c.drawCentredString(img_x + img_w / 2, img_y + img_h / 2 - 3, "(no image)")
+
+    # Options — 2 rows of 2
+    c.setFont("Helvetica", 10.5)
+    c.setFillColor(black)
+    opt_y = img_y - 6 * mm
+    for i, opt in enumerate(options[:4]):
+        row = i // 2
+        col = i % 2
+        ox = x + 6 * mm + col * (img_w / 2)
+        oy = opt_y - row * 5.5 * mm
+        c.drawString(ox, oy, f"  {letters[i]}) {opt}")
+
+
+def _generate_image_questions(c: canvas.Canvas, word_pool: list, count: int, distractor_pool: list, start_num: int = 1) -> int:
+    """Draws `count` image questions. Returns the question number used for the
+    next section. Inserts page breaks as needed."""
+    # Filter to words that actually have images
+    candidates = [w for w in word_pool if getattr(w, "image_url", None)]
+    if not candidates:
+        return start_num
+
+    chosen = random.sample(candidates, min(count, len(candidates)))
+
+    on_page = 0
+    num = start_num
+    # State: are we on the first page? If so, content starts BELOW the header.
+    # Otherwise, start near top of page.
+    first_page_start_y = PAGE_H - 50 * mm  # below header rules
+    later_page_start_y = PAGE_H - 18 * mm
+    started_first_page_content = True
+
+    # Section title above the first row
+    _draw_section_title(c, first_page_start_y + 2 * mm, "Part 1 — Look at the picture and circle the correct word.",
+                       hint="Circle one letter (a, b, c, or d) per question.")
+    start_y = first_page_start_y - 10 * mm
+
+    for w in chosen:
+        if on_page >= IMG_Q_PER_PAGE:
+            c.showPage()
+            on_page = 0
+            started_first_page_content = False
+            start_y = later_page_start_y
+            _draw_section_title(c, start_y + 2 * mm, "Part 1 (continued)", "")
+            start_y -= 10 * mm
+
+        row = on_page // IMG_Q_COLS
+        col = on_page % IMG_Q_COLS
+        x = 15 * mm + col * IMG_Q_W
+        y = start_y - (row + 1) * IMG_Q_H
+
+        # Build options: correct answer + 3 random distractors from full pool
+        distractors_avail = [d.word for d in distractor_pool if d.id != w.id]
+        random.shuffle(distractors_avail)
+        opts = [w.word] + distractors_avail[:3]
+        random.shuffle(opts)
+
+        _draw_image_question(c, x, y, num, w, opts)
+        on_page += 1
+        num += 1
+
+    # Flush page after image section
+    c.showPage()
+    return num
+
+
+def _generate_blank_questions(c: canvas.Canvas, word_pool: list, count: int, start_num: int = 1) -> list:
+    """Draws fill-in-the-blank questions across pages. Returns list of (num, correct_word) for the answer key."""
+    candidates = [w for w in word_pool if (getattr(w, "example", None) and getattr(w, "word", None))]
+    if not candidates:
+        return []
+
+    chosen = random.sample(candidates, min(count, len(candidates)))
+
+    _draw_section_title(c, PAGE_W and (PAGE_H - 18 * mm),
+                       "Part 2 — Fill in the blank with the correct word.",
+                       hint="Write your answer on the line.")
+
+    style = ParagraphStyle(
+        name="exam_blank",
+        fontName="Helvetica",
+        fontSize=11.5,
+        leading=15,
+        textColor=black,
+        alignment=TA_LEFT,
+    )
+
+    y = PAGE_H - 30 * mm
+    bottom = 18 * mm
+    answer_key = []
+    num = start_num
+    for w in chosen:
+        text = _blank_word_in_sentence(w.word, w.example or "")
+        # Render as a Paragraph for wrapping
+        p = Paragraph(f"<b>{num}.</b> &nbsp;&nbsp; {text}", style)
+        avail_w = PAGE_W - 30 * mm
+        _, p_h = p.wrap(avail_w, 999)
+        # Add space for an answer line below
+        row_h = p_h + 8 * mm
+        if y - row_h < bottom:
+            c.showPage()
+            _draw_section_title(c, PAGE_H - 18 * mm, "Part 2 (continued)", "")
+            y = PAGE_H - 30 * mm
+        # Draw paragraph
+        p.drawOn(c, 15 * mm, y - p_h)
+        # No extra line — the blank in the sentence IS the answer line
+        y -= row_h
+        answer_key.append((num, w.word))
+        num += 1
+
+    c.showPage()
+    return answer_key
+
+
+def _draw_answer_key(c: canvas.Canvas, image_answers: list, blank_answers: list):
+    """Final page with answer key — teacher detaches before handing out."""
+    c.setFont("Helvetica-Bold", 16)
+    c.setFillColor(black)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 20 * mm, "TEACHER ANSWER KEY (detach before handing out)")
+    c.setStrokeColor(HexColor("#C84830"))
+    c.setLineWidth(0.8)
+    c.line(15 * mm, PAGE_H - 24 * mm, PAGE_W - 15 * mm, PAGE_H - 24 * mm)
+
+    y = PAGE_H - 35 * mm
+
+    if image_answers:
+        c.setFont("Helvetica-Bold", 12)
+        c.setFillColor(black)
+        c.drawString(15 * mm, y, "Part 1 — Picture → word")
+        y -= 7 * mm
+        c.setFont("Helvetica", 11)
+        for num, word in image_answers:
+            if y < 18 * mm:
+                c.showPage()
+                y = PAGE_H - 20 * mm
+            c.drawString(20 * mm, y, f"{num}.  {word}")
+            y -= 5.5 * mm
+        y -= 4 * mm
+
+    if blank_answers:
+        if y < 30 * mm:
+            c.showPage()
+            y = PAGE_H - 20 * mm
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(15 * mm, y, "Part 2 — Fill in the blank")
+        y -= 7 * mm
+        c.setFont("Helvetica", 11)
+        for num, word in blank_answers:
+            if y < 18 * mm:
+                c.showPage()
+                y = PAGE_H - 20 * mm
+            c.drawString(20 * mm, y, f"{num}.  {word}")
+            y -= 5.5 * mm
+
+
+def generate_exam_pdf(
+    unit_label: str,
+    word_pool: list,
+    num_image_q: int,
+    num_blank_q: int,
+    exam_title: str = "Weekly Vocabulary Exam",
+) -> bytes:
+    """Build a printable exam PDF mixing Image→Word MCQs and fill-in-the-blank
+    questions drawn from `word_pool` (words across teacher-chosen units).
+    Last page is an answer key for the teacher."""
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    c.setTitle(exam_title)
+
+    # Page 1 header
+    _draw_exam_header(c, exam_title, unit_label)
+
+    # Track answer key
+    img_words_chosen = []
+
+    # ── Image MCQ section ────────────────────────────────────────────────────
+    candidates_img = [w for w in word_pool if getattr(w, "image_url", None)]
+    chosen_img = random.sample(candidates_img, min(num_image_q, len(candidates_img))) if candidates_img else []
+
+    if chosen_img:
+        _draw_section_title(c, PAGE_H - 48 * mm,
+                           "Part 1 — Look at the picture and circle the correct word.",
+                           hint="Circle one letter per question.")
+        start_y = PAGE_H - 60 * mm
+        on_page = 0
+        num = 1
+        for w in chosen_img:
+            if on_page >= IMG_Q_PER_PAGE:
+                c.showPage()
+                on_page = 0
+                _draw_section_title(c, PAGE_H - 18 * mm, "Part 1 (continued)", "")
+                start_y = PAGE_H - 28 * mm
+            row = on_page // IMG_Q_COLS
+            col = on_page % IMG_Q_COLS
+            x = 15 * mm + col * IMG_Q_W
+            y = start_y - (row + 1) * IMG_Q_H
+
+            distractors = [d.word for d in word_pool if d.id != w.id]
+            random.shuffle(distractors)
+            opts = [w.word] + distractors[:3]
+            random.shuffle(opts)
+            _draw_image_question(c, x, y, num, w, opts)
+
+            img_words_chosen.append((num, w.word))
+            num += 1
+            on_page += 1
+        c.showPage()
+        next_num = num
+    else:
+        next_num = 1
+
+    # ── Fill in the blank section ────────────────────────────────────────────
+    blank_candidates = [w for w in word_pool if (getattr(w, "example", None) and getattr(w, "word", None))]
+    chosen_blanks = random.sample(blank_candidates, min(num_blank_q, len(blank_candidates))) if blank_candidates else []
+
+    blank_words_chosen = []
+    if chosen_blanks:
+        # If we're on the first page already (no image section ran), draw header
+        if not chosen_img:
+            _draw_exam_header(c, exam_title, unit_label)
+            y = PAGE_H - 50 * mm
+        else:
+            y = PAGE_H - 20 * mm
+
+        _draw_section_title(c, y, "Part 2 — Fill in the blank with the correct word.",
+                           hint="Write the missing word on the blank line in each sentence.")
+        y -= 12 * mm
+
+        style = ParagraphStyle(
+            name="exam_blank", fontName="Helvetica", fontSize=11.5,
+            leading=15, textColor=black, alignment=TA_LEFT,
+        )
+        avail_w = PAGE_W - 30 * mm
+        bottom = 18 * mm
+        for w in chosen_blanks:
+            text = _blank_word_in_sentence(w.word, w.example or "")
+            p = Paragraph(f"<b>{next_num}.</b> &nbsp;&nbsp; {text}", style)
+            _, p_h = p.wrap(avail_w, 999)
+            row_h = p_h + 6 * mm
+            if y - row_h < bottom:
+                c.showPage()
+                _draw_section_title(c, PAGE_H - 18 * mm, "Part 2 (continued)", "")
+                y = PAGE_H - 30 * mm
+            p.drawOn(c, 15 * mm, y - p_h)
+            y -= row_h
+            blank_words_chosen.append((next_num, w.word))
+            next_num += 1
+        c.showPage()
+
+    # ── Answer key ───────────────────────────────────────────────────────────
+    _draw_answer_key(c, img_words_chosen, blank_words_chosen)
+
+    c.save()
+    return buf.getvalue()
