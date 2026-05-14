@@ -326,6 +326,25 @@ PDF_GENERATORS = {
 import random
 from reportlab.lib.enums import TA_LEFT
 
+# Elegant palette
+EXAM_INK = HexColor("#1A1209")          # dark, near-black body text
+EXAM_ACCENT = HexColor("#8B1F12")        # deep crimson — used sparingly
+EXAM_MUTED = HexColor("#7A6E63")         # soft gray for hints
+EXAM_RULE = HexColor("#C9BFB4")          # divider rule
+EXAM_BANK_BG = HexColor("#FAF5EC")       # cream — word bank background
+EXAM_BANK_BORDER = HexColor("#D8C9A6")   # warm gold border
+
+# Words whose images are too abstract / ambiguous to make good MCQ stimuli.
+# Stripped from the image-question pool but still eligible for fill-in-the-blank.
+ABSTRACT_FOR_IMAGE = {
+    "soul", "despair", "gloom", "regret", "ugly", "maybe", "somewhat",
+    "value", "exist", "form", "process", "status", "spectrum", "scale",
+    "experience", "qualify", "sufficient", "tough", "smooth", "stable",
+    "fantastic", "obvious", "apparent", "hidden", "original", "double",
+    "best", "easy", "short", "ancient", "classic", "formal", "junior",
+    "prime", "sincere", "solitary", "blind",
+}
+
 
 def _blank_word_in_sentence(word: str, sentence: str) -> str:
     """Replace the target word (and inflections) with a blank line."""
@@ -356,82 +375,132 @@ def _blank_word_in_sentence(word: str, sentence: str) -> str:
 
 
 def _draw_exam_header(c: canvas.Canvas, title: str, unit_label: str):
-    """Title block + name/date lines at the top of page 1."""
-    c.setFont("Helvetica-Bold", 18)
-    c.setFillColor(black)
-    c.drawCentredString(PAGE_W / 2, PAGE_H - 18 * mm, title)
-
-    c.setFont("Helvetica", 11)
-    c.setFillColor(HexColor("#444444"))
-    c.drawCentredString(PAGE_W / 2, PAGE_H - 25 * mm, unit_label)
-
-    c.setStrokeColor(black)
+    """Elegant title block with double-rule frame, Name/Date lines."""
+    # Top decorative rule
+    c.setStrokeColor(EXAM_INK)
     c.setLineWidth(0.6)
-    c.setFillColor(black)
-    c.setFont("Helvetica", 10)
-    y = PAGE_H - 35 * mm
-    c.drawString(15 * mm, y, "Name:")
-    c.line(28 * mm, y - 1, 100 * mm, y - 1)
-    c.drawString(110 * mm, y, "Date:")
-    c.line(123 * mm, y - 1, 180 * mm, y - 1)
+    c.line(15 * mm, PAGE_H - 12 * mm, PAGE_W - 15 * mm, PAGE_H - 12 * mm)
 
-    c.setLineWidth(1.2)
-    c.line(15 * mm, y - 7 * mm, PAGE_W - 15 * mm, y - 7 * mm)
+    # Title (elegant serif, generous tracking via uppercase)
+    c.setFillColor(EXAM_INK)
+    c.setFont("Times-Bold", 22)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 22 * mm, title.upper())
+
+    # Subtitle — italic, smaller
+    c.setFont("Times-Italic", 11.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 28 * mm, unit_label)
+
+    # Thin decorative rule under title
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.line(70 * mm, PAGE_H - 32 * mm, PAGE_W - 70 * mm, PAGE_H - 32 * mm)
+
+    # Name / Date row — minimal labels with hairline lines
+    y = PAGE_H - 42 * mm
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.5)
+    c.setFillColor(EXAM_INK)
+    c.setFont("Helvetica", 9.5)
+    c.drawString(15 * mm, y, "NAME")
+    c.line(28 * mm, y - 0.5, 105 * mm, y - 0.5)
+    c.drawString(115 * mm, y, "DATE")
+    c.line(127 * mm, y - 0.5, PAGE_W - 15 * mm, y - 0.5)
+
+    # Bottom rule of header block — heavier
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.9)
+    c.line(15 * mm, y - 6 * mm, PAGE_W - 15 * mm, y - 6 * mm)
 
 
-def _draw_section_title(c: canvas.Canvas, y: float, label: str, hint: str = ""):
-    c.setFont("Helvetica-Bold", 13)
-    c.setFillColor(black)
-    c.drawString(15 * mm, y, label)
+def _draw_section_title(c: canvas.Canvas, y: float, roman: str, label: str, hint: str = ""):
+    """Part header styled as PART I — Label with rule and italic hint."""
+    c.setFillColor(EXAM_ACCENT)
+    c.setFont("Times-Bold", 12)
+    c.drawString(15 * mm, y, roman.upper())
+    c.setFillColor(EXAM_INK)
+    c.setFont("Times-Bold", 13.5)
+    c.drawString(15 * mm + 22 * mm, y, label)
+    # Decorative hairline under the title
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.5)
+    c.line(15 * mm, y - 2.5 * mm, PAGE_W - 15 * mm, y - 2.5 * mm)
     if hint:
-        c.setFont("Helvetica-Oblique", 9.5)
-        c.setFillColor(HexColor("#666666"))
-        c.drawString(15 * mm, y - 5.5 * mm, hint)
+        c.setFont("Times-Italic", 9.5)
+        c.setFillColor(EXAM_MUTED)
+        c.drawString(15 * mm, y - 7 * mm, hint)
 
 
-# Layout for Image MCQs: 2 columns x N rows, each cell ~ (95 x 70) mm
+def _draw_page_footer(c: canvas.Canvas, page_num: int, total_pages: int | None = None):
+    """Small footer with page number — centered."""
+    c.setFont("Times-Italic", 8.5)
+    c.setFillColor(EXAM_MUTED)
+    txt = f"— {page_num} —" if total_pages is None else f"— {page_num} of {total_pages} —"
+    c.drawCentredString(PAGE_W / 2, 10 * mm, txt)
+
+
+# Layout for Image MCQs — fewer per page so each can breathe
 IMG_Q_COLS = 2
-IMG_Q_ROWS = 3
+IMG_Q_ROWS = 2  # 4 questions per page now (was 6, too cramped)
 IMG_Q_W = (PAGE_W - 2 * 15 * mm) / IMG_Q_COLS
-IMG_Q_H = 73 * mm
+IMG_Q_H = 115 * mm
 IMG_Q_PER_PAGE = IMG_Q_COLS * IMG_Q_ROWS
 
 
 def _draw_image_question(c: canvas.Canvas, x: float, y: float, num: int, word_obj, options: list, letters="abcd"):
-    """Draws one image-MCQ cell. y is the BOTTOM-left of the cell."""
-    img_h = 38 * mm
-    img_w = IMG_Q_W - 12 * mm
+    """One elegant image-MCQ cell with generous spacing between image and choices.
+    y is the BOTTOM-left of the cell."""
+    cell_inner_x = x + 8 * mm
+    inner_w = IMG_Q_W - 16 * mm
 
-    # Question number
-    c.setFont("Helvetica-Bold", 11)
-    c.setFillColor(black)
-    c.drawString(x + 4 * mm, y + IMG_Q_H - 6 * mm, f"{num}.")
+    # Question number — elegant serif
+    c.setFillColor(EXAM_INK)
+    c.setFont("Times-Bold", 13)
+    c.drawString(cell_inner_x, y + IMG_Q_H - 8 * mm, f"{num}.")
 
-    # Image
+    # Image — large, framed with subtle border
+    img_h = 60 * mm
+    img_w = inner_w - 4 * mm
+    img_x = cell_inner_x + 2 * mm
+    img_y = y + IMG_Q_H - 12 * mm - img_h
     img_path = _resolve_image_path(getattr(word_obj, "image_url", None))
-    img_x = x + 6 * mm
-    img_y = y + IMG_Q_H - 6 * mm - img_h
     if img_path:
         _draw_image_fitted(c, img_path, img_x, img_y, img_w, img_h, padding=0)
     else:
-        # placeholder rectangle
-        c.setStrokeColor(HexColor("#999999"))
+        c.setStrokeColor(EXAM_RULE)
         c.setLineWidth(0.4)
         c.rect(img_x, img_y, img_w, img_h, stroke=1, fill=0)
-        c.setFont("Helvetica-Oblique", 9)
-        c.setFillColor(HexColor("#999999"))
+        c.setFont("Times-Italic", 9)
+        c.setFillColor(EXAM_MUTED)
         c.drawCentredString(img_x + img_w / 2, img_y + img_h / 2 - 3, "(no image)")
 
-    # Options — 2 rows of 2
-    c.setFont("Helvetica", 10.5)
-    c.setFillColor(black)
-    opt_y = img_y - 6 * mm
+    # Thin frame around the image
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.rect(img_x, img_y, img_w, img_h, stroke=1, fill=0)
+
+    # Generous gap between image and options — 10mm
+    options_y = img_y - 12 * mm
+
+    # Options — 2 rows × 2 cols with circle bullets to mark answers
+    c.setFont("Helvetica", 11)
+    c.setFillColor(EXAM_INK)
+    col_w = inner_w / 2
+    row_gap = 7 * mm
     for i, opt in enumerate(options[:4]):
         row = i // 2
         col = i % 2
-        ox = x + 6 * mm + col * (img_w / 2)
-        oy = opt_y - row * 5.5 * mm
-        c.drawString(ox, oy, f"  {letters[i]}) {opt}")
+        ox = cell_inner_x + col * col_w
+        oy = options_y - row * row_gap
+        # circle for letter
+        c.setStrokeColor(EXAM_INK)
+        c.setLineWidth(0.6)
+        c.circle(ox + 2.5 * mm, oy + 1.2 * mm, 2.5 * mm, stroke=1, fill=0)
+        c.setFont("Times-Bold", 9.5)
+        c.setFillColor(EXAM_INK)
+        c.drawCentredString(ox + 2.5 * mm, oy - 0.5 * mm, letters[i])
+        c.setFont("Helvetica", 11)
+        c.drawString(ox + 7 * mm, oy, opt)
 
 
 def _generate_image_questions(c: canvas.Canvas, word_pool: list, count: int, distractor_pool: list, start_num: int = 1) -> int:
@@ -535,44 +604,132 @@ def _generate_blank_questions(c: canvas.Canvas, word_pool: list, count: int, sta
 
 
 def _draw_answer_key(c: canvas.Canvas, image_answers: list, blank_answers: list):
-    """Final page with answer key — teacher detaches before handing out."""
-    c.setFont("Helvetica-Bold", 16)
-    c.setFillColor(black)
-    c.drawCentredString(PAGE_W / 2, PAGE_H - 20 * mm, "TEACHER ANSWER KEY (detach before handing out)")
-    c.setStrokeColor(HexColor("#C84830"))
-    c.setLineWidth(0.8)
-    c.line(15 * mm, PAGE_H - 24 * mm, PAGE_W - 15 * mm, PAGE_H - 24 * mm)
+    """Final page with elegant answer key — teacher detaches before handing out."""
+    # Top decorative rule
+    c.setStrokeColor(EXAM_ACCENT)
+    c.setLineWidth(0.9)
+    c.line(15 * mm, PAGE_H - 14 * mm, PAGE_W - 15 * mm, PAGE_H - 14 * mm)
 
-    y = PAGE_H - 35 * mm
+    c.setFont("Times-Bold", 16)
+    c.setFillColor(EXAM_ACCENT)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 22 * mm, "TEACHER ANSWER KEY")
+    c.setFont("Times-Italic", 10.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 28 * mm, "Detach this page before handing the exam to students.")
+
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.line(15 * mm, PAGE_H - 32 * mm, PAGE_W - 15 * mm, PAGE_H - 32 * mm)
+
+    # Two-column layout for answers
+    col_w = (PAGE_W - 30 * mm - 8 * mm) / 2
+    y = PAGE_H - 42 * mm
+
+    def draw_section(label, items, y_start):
+        c.setFillColor(EXAM_INK)
+        c.setFont("Times-Bold", 12.5)
+        c.drawString(15 * mm, y_start, label)
+        c.setStrokeColor(EXAM_RULE)
+        c.setLineWidth(0.3)
+        c.line(15 * mm, y_start - 2 * mm, PAGE_W - 15 * mm, y_start - 2 * mm)
+        yy = y_start - 8 * mm
+
+        per_col = (len(items) + 1) // 2
+        for idx, (num, word) in enumerate(items):
+            col = idx // per_col
+            row = idx % per_col
+            cx = 15 * mm + col * (col_w + 8 * mm)
+            cy = yy - row * 6 * mm
+            if cy < 18 * mm:
+                c.showPage()
+                cy = PAGE_H - 20 * mm
+            c.setFont("Helvetica", 11)
+            c.setFillColor(EXAM_INK)
+            c.drawString(cx, cy, f"{num}.")
+            c.setFont("Times-Bold", 11)
+            c.drawString(cx + 8 * mm, cy, word)
+        return yy - per_col * 6 * mm - 6 * mm
 
     if image_answers:
-        c.setFont("Helvetica-Bold", 12)
-        c.setFillColor(black)
-        c.drawString(15 * mm, y, "Part 1 — Picture → word")
-        y -= 7 * mm
-        c.setFont("Helvetica", 11)
-        for num, word in image_answers:
-            if y < 18 * mm:
-                c.showPage()
-                y = PAGE_H - 20 * mm
-            c.drawString(20 * mm, y, f"{num}.  {word}")
-            y -= 5.5 * mm
-        y -= 4 * mm
+        y = draw_section("Part I — Picture → Word", image_answers, y)
 
     if blank_answers:
         if y < 30 * mm:
             c.showPage()
             y = PAGE_H - 20 * mm
-        c.setFont("Helvetica-Bold", 12)
-        c.drawString(15 * mm, y, "Part 2 — Fill in the blank")
-        y -= 7 * mm
-        c.setFont("Helvetica", 11)
-        for num, word in blank_answers:
-            if y < 18 * mm:
-                c.showPage()
-                y = PAGE_H - 20 * mm
-            c.drawString(20 * mm, y, f"{num}.  {word}")
-            y -= 5.5 * mm
+        y = draw_section("Part II — Fill in the Blank", blank_answers, y)
+
+
+def _draw_word_bank(c: canvas.Canvas, y_top: float, words: list) -> float:
+    """Draws a cream box at the top of the fill-in-blank section containing the
+    answer words (shuffled). Returns the y-position below the box."""
+    if not words:
+        return y_top
+
+    shuffled = list(words)
+    random.shuffle(shuffled)
+
+    box_x = 15 * mm
+    box_w = PAGE_W - 30 * mm
+    pad = 6 * mm
+
+    # Label above the box
+    c.setFont("Times-Bold", 10)
+    c.setFillColor(EXAM_ACCENT)
+    c.drawString(box_x, y_top, "WORD BANK")
+    label_h = 4 * mm
+
+    # Build chip layout — wrap chips across lines
+    chip_font = "Helvetica"
+    chip_size = 11
+    c.setFont(chip_font, chip_size)
+    chip_gap_x = 4 * mm
+    chip_gap_y = 5 * mm
+    chip_pad_x = 3 * mm
+    chip_pad_y = 1.6 * mm
+
+    # First pass — measure rows
+    rows = [[]]   # list of rows, each is list of (word, width)
+    cur_w = 0
+    inner_w = box_w - 2 * pad
+    for w in shuffled:
+        tw = c.stringWidth(w, chip_font, chip_size) + 2 * chip_pad_x
+        if cur_w + tw + chip_gap_x > inner_w and rows[-1]:
+            rows.append([])
+            cur_w = 0
+        rows[-1].append((w, tw))
+        cur_w += tw + chip_gap_x
+
+    chip_h = chip_size + 2 * chip_pad_y
+    box_h = pad * 2 + len(rows) * chip_h + (len(rows) - 1) * chip_gap_y
+    box_top = y_top - label_h
+    box_bot = box_top - box_h
+
+    # Box
+    c.setFillColor(EXAM_BANK_BG)
+    c.setStrokeColor(EXAM_BANK_BORDER)
+    c.setLineWidth(0.8)
+    c.roundRect(box_x, box_bot, box_w, box_h, 4 * mm, stroke=1, fill=1)
+
+    # Chips
+    cy = box_top - pad - chip_h
+    for row in rows:
+        # center the row horizontally inside the box
+        row_w = sum(w for _, w in row) + chip_gap_x * (len(row) - 1)
+        cx = box_x + (box_w - row_w) / 2
+        for word, tw in row:
+            # subtle chip outline
+            c.setStrokeColor(EXAM_BANK_BORDER)
+            c.setFillColor(white)
+            c.setLineWidth(0.4)
+            c.roundRect(cx, cy, tw, chip_h, 2 * mm, stroke=1, fill=1)
+            c.setFillColor(EXAM_INK)
+            c.setFont(chip_font, chip_size)
+            c.drawCentredString(cx + tw / 2, cy + chip_pad_y, word)
+            cx += tw + chip_gap_x
+        cy -= chip_h + chip_gap_y
+
+    return box_bot - 6 * mm
 
 
 def generate_exam_pdf(
@@ -589,6 +746,14 @@ def generate_exam_pdf(
     c = canvas.Canvas(buf, pagesize=A4)
     c.setTitle(exam_title)
 
+    # Track page numbers for the footer
+    page_num = [1]
+
+    def page_break():
+        _draw_page_footer(c, page_num[0])
+        c.showPage()
+        page_num[0] += 1
+
     # Page 1 header
     _draw_exam_header(c, exam_title, unit_label)
 
@@ -596,22 +761,30 @@ def generate_exam_pdf(
     img_words_chosen = []
 
     # ── Image MCQ section ────────────────────────────────────────────────────
-    candidates_img = [w for w in word_pool if getattr(w, "image_url", None)]
+    # Concrete-word pool only: image must exist AND word not in the abstract list
+    candidates_img = [
+        w for w in word_pool
+        if getattr(w, "image_url", None)
+        and (w.word or "").strip().lower() not in ABSTRACT_FOR_IMAGE
+    ]
+    # Fallback — if filter wipes everything, use any image we have
+    if not candidates_img:
+        candidates_img = [w for w in word_pool if getattr(w, "image_url", None)]
     chosen_img = random.sample(candidates_img, min(num_image_q, len(candidates_img))) if candidates_img else []
 
     if chosen_img:
-        _draw_section_title(c, PAGE_H - 48 * mm,
-                           "Part 1 — Look at the picture and circle the correct word.",
-                           hint="Circle one letter per question.")
-        start_y = PAGE_H - 60 * mm
+        _draw_section_title(c, PAGE_H - 56 * mm,
+                           "Part I", "Look at the picture and circle the correct word.",
+                           hint="Circle one letter (a, b, c, or d) for each question.")
+        start_y = PAGE_H - 66 * mm
         on_page = 0
         num = 1
         for w in chosen_img:
             if on_page >= IMG_Q_PER_PAGE:
-                c.showPage()
+                page_break()
                 on_page = 0
-                _draw_section_title(c, PAGE_H - 18 * mm, "Part 1 (continued)", "")
-                start_y = PAGE_H - 28 * mm
+                _draw_section_title(c, PAGE_H - 20 * mm, "Part I", "(continued)")
+                start_y = PAGE_H - 30 * mm
             row = on_page // IMG_Q_COLS
             col = on_page % IMG_Q_COLS
             x = 15 * mm + col * IMG_Q_W
@@ -626,7 +799,7 @@ def generate_exam_pdf(
             img_words_chosen.append((num, w.word))
             num += 1
             on_page += 1
-        c.showPage()
+        page_break()
         next_num = num
     else:
         next_num = 1
@@ -637,40 +810,47 @@ def generate_exam_pdf(
 
     blank_words_chosen = []
     if chosen_blanks:
-        # If we're on the first page already (no image section ran), draw header
+        # Header if no image section ran
         if not chosen_img:
             _draw_exam_header(c, exam_title, unit_label)
-            y = PAGE_H - 50 * mm
+            y = PAGE_H - 56 * mm
         else:
             y = PAGE_H - 20 * mm
 
-        _draw_section_title(c, y, "Part 2 — Fill in the blank with the correct word.",
-                           hint="Write the missing word on the blank line in each sentence.")
+        _draw_section_title(c, y, "Part II", "Fill in the blank with the correct word.",
+                           hint="Choose a word from the Word Bank and write it on the blank line.")
         y -= 12 * mm
 
+        # Word bank box — at the top of part 2
+        bank_words = [w.word for w in chosen_blanks]
+        y = _draw_word_bank(c, y, bank_words)
+        y -= 4 * mm
+
         style = ParagraphStyle(
-            name="exam_blank", fontName="Helvetica", fontSize=11.5,
-            leading=15, textColor=black, alignment=TA_LEFT,
+            name="exam_blank", fontName="Times-Roman", fontSize=12,
+            leading=17, textColor=EXAM_INK, alignment=TA_LEFT,
         )
         avail_w = PAGE_W - 30 * mm
         bottom = 18 * mm
         for w in chosen_blanks:
             text = _blank_word_in_sentence(w.word, w.example or "")
-            p = Paragraph(f"<b>{next_num}.</b> &nbsp;&nbsp; {text}", style)
+            p = Paragraph(f'<font name="Times-Bold">{next_num}.</font> &nbsp; {text}', style)
             _, p_h = p.wrap(avail_w, 999)
-            row_h = p_h + 6 * mm
+            row_h = p_h + 5 * mm
             if y - row_h < bottom:
-                c.showPage()
-                _draw_section_title(c, PAGE_H - 18 * mm, "Part 2 (continued)", "")
-                y = PAGE_H - 30 * mm
+                page_break()
+                _draw_section_title(c, PAGE_H - 20 * mm, "Part II", "(continued)")
+                y = PAGE_H - 32 * mm
             p.drawOn(c, 15 * mm, y - p_h)
             y -= row_h
             blank_words_chosen.append((next_num, w.word))
             next_num += 1
-        c.showPage()
+        page_break()
 
-    # ── Answer key ───────────────────────────────────────────────────────────
+    # ── Answer key — teacher's last page ─────────────────────────────────────
     _draw_answer_key(c, img_words_chosen, blank_words_chosen)
+    # final footer
+    _draw_page_footer(c, page_num[0])
 
     c.save()
     return buf.getvalue()
