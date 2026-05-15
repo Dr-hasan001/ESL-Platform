@@ -9,7 +9,7 @@ services:
     # phantom submissions on every new homework. The script is now env-var
     # guarded — if you ever need to re-run it for a one-off restore, set
     # ALLOW_PM91_RESTORE=1 in the Render dashboard and trigger a deploy.
-    buildCommand: pip install -r requirements.txt && python tools/seed_db.py && python tools/migrate_class_homework.py && python tools/reset_submissions.py && python tools/seed_students.py && python tools/seed_reading_hw.py && python tools/seed_b1_reading_work.py
+    buildCommand: pip install -r requirements.txt && python tools/seed_db.py && python tools/seed_book1_words.py && python tools/seed_book2_words.py && python tools/seed_book2_units6_8.py && python tools/seed_book2_units10_15.py && python tools/seed_book2_units16_17_19_20.py && python tools/seed_book2_unit9_real.py && python tools/seed_book2_unit18.py && python tools/seed_book2_unit21.py && python tools/seed_book2_unit22.py && python tools/seed_book2_unit23.py && python tools/seed_book2_unit24.py && python tools/seed_book2_unit25.py && python tools/seed_book2_unit26.py && python tools/migrate_class_homework.py && python tools/reset_submissions.py && python tools/seed_students.py && python tools/seed_reading_hw.py && python tools/seed_b1_reading_work.py && python tools/link_existing_images.py
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
