@@ -82,6 +82,36 @@
   .mq-save-btn { font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: .7em 2rem; border-radius: 50px; border: none; background: var(--cd); color: #fff; cursor: pointer; margin-top: 1rem; transition: opacity .2s; }
   .mq-save-btn:hover { opacity: .85; }
 
+  /* ── Download / answer-key button row ── */
+  .dl-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2rem; }
+  .dl-btn {
+    font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .65em 1.3em; border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: .4em;
+    transition: background .15s, color .15s, transform .15s;
+  }
+  .dl-btn:hover { transform: translateY(-1px); }
+  .dl-btn.key  { background: rgba(74,53,128,.12); color: #4A3580; }
+  .dl-btn.key:hover  { background: rgba(74,53,128,.22); }
+  .dl-btn.csv  { background: rgba(42,107,61,.12); color: #2A6B3D; }
+  .dl-btn.csv:hover  { background: rgba(42,107,61,.22); }
+  .dl-btn.pdf  { background: rgba(200,150,0,.14); color: #a07800; }
+  .dl-btn.pdf:hover  { background: rgba(200,150,0,.26); }
+
+  /* Preview-answers link in the table */
+  .preview-link {
+    font-size: .65rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .42em 1em; border-radius: 50px;
+    background: rgba(30,92,114,.12); color: var(--cb);
+    text-decoration: none; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: .3em;
+  }
+  .preview-link:hover { background: rgba(30,92,114,.22); }
+  .preview-link.disabled {
+    background: rgba(26,18,9,.05); color: var(--muted); pointer-events: none;
+  }
+
   /* ── Responsive table ── */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
   @media (max-width: 640px) {
@@ -107,6 +137,15 @@
     {% set done = submissions | selectattr('is_complete') | list | length %}
     {% set total = student_rows | length if student_rows is defined else submissions | length %}
     <span class="badge badge-cb">{{ done }}/{{ total }} submitted</span>
+    {% if not hw.is_active %}
+    <span class="badge" style="background:rgba(26,18,9,.08); color:var(--muted);">Inactive</span>
+    {% endif %}
+  </div>
+
+  <div class="dl-row">
+    <a class="dl-btn key" href="/api/admin/assignments/{{ hw.id }}/answer-key.pdf">🔑 Answer Key PDF</a>
+    <a class="dl-btn csv" href="/api/admin/assignments/{{ hw.id }}/results.csv">⬇ Download Results (CSV)</a>
+    <a class="dl-btn pdf" href="/api/admin/assignments/{{ hw.id }}/results.pdf">⬇ Download Results (PDF)</a>
   </div>
 
   {% set question_count = hw.questions | length if hw.questions is defined else 0 %}
@@ -137,6 +176,7 @@
         <th>Status</th>
         <th>Score</th>
         <th>Submitted</th>
+        <th>Answers</th>
         {% if hw.type == 'writing' %}<th>Response & Feedback</th>{% endif %}
       </tr>
     </thead>
@@ -179,6 +219,13 @@
         </td>
         <td style="font-size:.78rem; color:var(--muted);">
           {{ sub.submitted_at.strftime('%b %d, %H:%M') if sub and sub.submitted_at else '—' }}
+        </td>
+        <td>
+          {% if sub %}
+            <a class="preview-link" href="/teacher/submissions/{{ hw.id }}/student/{{ row.student.id }}">👁 View</a>
+          {% else %}
+            <span class="preview-link disabled">— None —</span>
+          {% endif %}
         </td>
         {% if hw.type == 'writing' %}
         <td>

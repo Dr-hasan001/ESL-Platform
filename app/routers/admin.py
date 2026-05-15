@@ -4,6 +4,7 @@ import secrets
 import string
 
 from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File
+from fastapi.responses import Response
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from sqlalchemy import func
@@ -17,8 +18,9 @@ from app.models.homework import (
     HomeworkAssignment, AssignmentStudent,
     HWListening, HWReading, HWGrammar, HWWriting, HWGeneralTopic, HomeworkQuestion,
 )
-from app.models.submission import Submission
+from app.models.submission import Submission, SubmissionAnswer
 from app.models.user import User
+from app.pdf_generator import generate_answer_key_pdf, generate_results_pdf
 from app.routers.deps import current_teacher
 from app.services.auth_service import hash_password
 
@@ -36,13 +38,21 @@ def _random_password(length: int = 8) -> str:
 @router.get("/teacher")
 async def teacher_dashboard(request: Request, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
     students = db.query(User).filter(User.role == "student", User.is_active == True).order_by(User.display_name).all()
-    assignments = (
+    active_assignments = (
         db.query(HomeworkAssignment)
-        .filter(HomeworkAssignment.teacher_id == user.id)
+        .filter(HomeworkAssignment.teacher_id == user.id, HomeworkAssignment.is_active == True)
         .order_by(HomeworkAssignment.created_at.desc())
         .limit(20)
         .all()
     )
+    inactive_assignments = (
+        db.query(HomeworkAssignment)
+        .filter(HomeworkAssignment.teacher_id == user.id, HomeworkAssignment.is_active == False)
+        .order_by(HomeworkAssignment.created_at.desc())
+        .limit(20)
+        .all()
+    )
+    assignments = active_assignments + inactive_assignments
 
     # Compute submission status per assignment in two bulk queries
     hw_ids = [a.id for a in assignments]
@@ -97,14 +107,16 @@ async def teacher_dashboard(request: Request, db: Session = Depends(get_db), use
                 status = "not_started"
             assigned_by_hw[row.assignment_id].append({"student": student, "status": status})
 
-        for hw in assignments:
+        # Schedule grid is only useful for active assignments
+        for hw in active_assignments:
             schedule.append({"hw": hw, "rows": assigned_by_hw.get(hw.id, [])})
 
     return templates.TemplateResponse("teacher/dashboard.html", {
         "request": request,
         "user": user,
         "students": students,
-        "assignments": assignments,
+        "active_assignments": active_assignments,
+        "inactive_assignments": inactive_assignments,
         "hw_status": hw_status,
         "schedule": schedule,
     })
@@ -582,3 +594,210 @@ async def upload_audio(file: UploadFile = File(...), user: User = Depends(curren
         return {"url": url, "filename": file.filename, "storage": "local"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Audio upload failed: {e}")
+
+
+# ── Assignment lifecycle: deactivate / reactivate ─────────────────────────────
+
+def _safe_filename(name: str) -> str:
+    cleaned = "".join(c if c.isalnum() or c in " -_" else "_" for c in (name or ""))
+    return cleaned.strip().replace(" ", "_") or "assignment"
+
+
+@router.patch("/api/admin/assignments/{assignment_id}/toggle-active")
+async def toggle_assignment_active(
+    assignment_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_teacher),
+):
+    """Flip is_active. When False the assignment vanishes from every student's
+    dashboard (filtered out in /homework routes) but stays visible to the
+    teacher in an 'Inactive' section. All existing submissions and answers
+    remain intact."""
+    hw = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.id == assignment_id,
+        HomeworkAssignment.teacher_id == user.id,
+    ).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+    hw.is_active = not hw.is_active
+    db.commit()
+    return {"id": hw.id, "is_active": hw.is_active}
+
+
+# ── Results: CSV + PDF download ───────────────────────────────────────────────
+
+def _student_rows_for_assignment(db: Session, assignment_id: int):
+    """All assigned students paired with their submission (or None)."""
+    students = (
+        db.query(User)
+        .join(AssignmentStudent, AssignmentStudent.student_id == User.id)
+        .filter(AssignmentStudent.assignment_id == assignment_id)
+        .order_by(User.display_name)
+        .all()
+    )
+    subs = (
+        db.query(Submission)
+        .filter(Submission.assignment_id == assignment_id)
+        .all()
+    )
+    sub_map = {s.student_id: s for s in subs}
+    return [{"student": s, "submission": sub_map.get(s.id)} for s in students]
+
+
+@router.get("/api/admin/assignments/{assignment_id}/results.csv")
+async def download_results_csv(
+    assignment_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_teacher),
+):
+    hw = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.id == assignment_id,
+        HomeworkAssignment.teacher_id == user.id,
+    ).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+
+    rows = _student_rows_for_assignment(db, assignment_id)
+
+    out = io.StringIO()
+    # BOM so Excel opens UTF-8 correctly
+    out.write("﻿")
+    writer = csv.writer(out)
+    writer.writerow([
+        "Student Name", "Username", "Status", "Score", "Correct",
+        "Total Questions", "Submitted At", "Teacher Feedback",
+    ])
+    for r in rows:
+        s = r["student"]
+        sub = r["submission"]
+        if sub and sub.is_complete:
+            status = "Submitted"
+        elif sub:
+            status = "In progress"
+        else:
+            status = "Not started"
+
+        if sub:
+            if hw.type == "writing":
+                score = f"{float(sub.teacher_score):.0f}/100" if sub.teacher_score is not None else ""
+            else:
+                score = f"{float(sub.score):.0f}%" if sub.score is not None else ""
+            correct = sub.correct_count if sub.correct_count is not None else ""
+            total = sub.total_questions if sub.total_questions is not None else ""
+            submitted_at = sub.submitted_at.strftime("%Y-%m-%d %H:%M") if sub.submitted_at else ""
+            feedback = sub.teacher_feedback or ""
+        else:
+            score = correct = total = submitted_at = feedback = ""
+
+        writer.writerow([
+            s.display_name or s.username, s.username, status,
+            score, correct, total, submitted_at, feedback,
+        ])
+
+    csv_bytes = out.getvalue().encode("utf-8")
+    filename = f"{_safe_filename(hw.title)}_results.csv"
+    return Response(
+        content=csv_bytes,
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@router.get("/api/admin/assignments/{assignment_id}/results.pdf")
+async def download_results_pdf(
+    assignment_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_teacher),
+):
+    hw = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.id == assignment_id,
+        HomeworkAssignment.teacher_id == user.id,
+    ).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+
+    rows = _student_rows_for_assignment(db, assignment_id)
+    pdf_bytes = generate_results_pdf(hw, rows)
+    filename = f"{_safe_filename(hw.title)}_results.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+# ── Answer-key PDF (teacher only) ─────────────────────────────────────────────
+
+@router.get("/api/admin/assignments/{assignment_id}/answer-key.pdf")
+async def download_answer_key(
+    assignment_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_teacher),
+):
+    hw = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.id == assignment_id,
+        HomeworkAssignment.teacher_id == user.id,
+    ).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+
+    questions = (
+        db.query(HomeworkQuestion)
+        .filter(HomeworkQuestion.assignment_id == assignment_id)
+        .order_by(HomeworkQuestion.position)
+        .all()
+    )
+    pdf_bytes = generate_answer_key_pdf(hw, questions)
+    filename = f"{_safe_filename(hw.title)}_answer_key.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+# ── Preview a single student's answers ────────────────────────────────────────
+
+@router.get("/teacher/submissions/{assignment_id}/student/{student_id}")
+async def view_student_answers(
+    assignment_id: int,
+    student_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_teacher),
+):
+    hw = db.query(HomeworkAssignment).filter(
+        HomeworkAssignment.id == assignment_id,
+        HomeworkAssignment.teacher_id == user.id,
+    ).first()
+    if not hw:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+    student = db.query(User).filter(User.id == student_id, User.role == "student").first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    submission = db.query(Submission).filter(
+        Submission.assignment_id == assignment_id,
+        Submission.student_id == student_id,
+    ).first()
+
+    questions = (
+        db.query(HomeworkQuestion)
+        .filter(HomeworkQuestion.assignment_id == assignment_id)
+        .order_by(HomeworkQuestion.position)
+        .all()
+    )
+
+    answer_map = {}
+    if submission:
+        for a in db.query(SubmissionAnswer).filter(
+            SubmissionAnswer.submission_id == submission.id
+        ).all():
+            answer_map[a.question_id] = a
+
+    rows = [{"question": q, "answer": answer_map.get(q.id)} for q in questions]
+
+    return templates.TemplateResponse("teacher/student_answers.html", {
+        "request": request, "user": user, "hw": hw,
+        "student": student, "submission": submission, "rows": rows,
+    })

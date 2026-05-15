@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% block title %}{{ student.display_name or student.username }} — {{ hw.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .ans-wrap { max-width: 880px; margin: 0 auto; }
+
+  .ans-header {
+    background: var(--back-bg);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 3px 14px var(--shadow);
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--cb);
+  }
+  .ans-eyebrow { font-size: .62rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--cb); margin-bottom: .35rem; }
+  .ans-student { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: .35rem; }
+  .ans-title-meta { font-size: .82rem; color: var(--muted); font-weight: 600; }
+  .ans-summary-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1rem; }
+  .ans-chip {
+    font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .35em 1em; border-radius: 50px; background: rgba(26,18,9,.06); color: var(--text);
+  }
+  .ans-chip.score { background: rgba(30,92,114,.12); color: var(--cb); }
+  .ans-chip.done  { background: rgba(42,107,61,.12);  color: #2A6B3D; }
+  .ans-chip.progress { background: rgba(200,150,0,.12); color: #a07800; }
+  .ans-chip.none  { background: rgba(200,72,48,.12);  color: #C84830; }
+
+  .q-card {
+    background: var(--back-bg);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 10px var(--shadow);
+    margin-bottom: 1rem;
+    border-left: 4px solid rgba(26,18,9,.08);
+  }
+  .q-card.correct   { border-left-color: #2A6B3D; }
+  .q-card.incorrect { border-left-color: #C84830; }
+  .q-card.unanswered { border-left-color: rgba(26,18,9,.15); }
+
+  .q-num { font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .q-text { font-weight: 700; font-size: .98rem; margin-bottom: .9rem; line-height: 1.45; }
+
+  .q-options { display: flex; flex-direction: column; gap: .35rem; margin-top: .25rem; }
+  .q-opt {
+    display: flex; align-items: center; gap: .65rem;
+    padding: .55rem .85rem;
+    border-radius: 9px;
+    background: rgba(26,18,9,.03);
+    font-size: .9rem;
+    border: 1.5px solid transparent;
+  }
+  .q-opt .letter {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(26,18,9,.08); color: var(--text);
+    font-family: 'Playfair Display', serif; font-weight: 800; font-size: .82rem;
+    flex-shrink: 0;
+  }
+  .q-opt.correct {
+    background: rgba(42,107,61,.08);
+    border-color: rgba(42,107,61,.3);
+  }
+  .q-opt.correct .letter { background: #2A6B3D; color: #fff; }
+  .q-opt.chosen-wrong {
+    background: rgba(200,72,48,.08);
+    border-color: rgba(200,72,48,.3);
+  }
+  .q-opt.chosen-wrong .letter { background: #C84830; color: #fff; }
+  .opt-tag {
+    margin-left: auto; font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: .25em .7em; border-radius: 50px;
+  }
+  .opt-tag.correct { background: #2A6B3D; color: #fff; }
+  .opt-tag.chosen  { background: #C84830; color: #fff; }
+  .opt-tag.both    { background: #2A6B3D; color: #fff; }
+
+  .q-text-answer {
+    margin-top: .4rem;
+    background: rgba(26,18,9,.03);
+    border-radius: 9px;
+    padding: .7rem 1rem;
+    font-size: .92rem;
+  }
+  .q-text-answer .label {
+    font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .25rem;
+  }
+  .q-text-answer.correct { background: rgba(42,107,61,.08); }
+  .q-text-answer.incorrect { background: rgba(200,72,48,.08); }
+  .q-text-answer .student-text { font-weight: 700; color: var(--text); }
+  .q-correct-note { margin-top: .5rem; font-size: .82rem; }
+  .q-correct-note .label {
+    font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: #2A6B3D; margin-right: .35rem;
+  }
+
+  .q-unanswered-note { font-size: .85rem; color: var(--muted); font-style: italic; }
+
+  .writing-block {
+    background: rgba(26,18,9,.03);
+    border-radius: 9px;
+    padding: .9rem 1.1rem;
+    margin-top: .35rem;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    font-size: .92rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/teacher/submissions/{{ hw.id }}" class="nav-link" style="display:inline-block; margin-bottom:1.5rem;">← Back to submissions</a>
+
+<div class="ans-wrap">
+  <div class="ans-header">
+    <div class="ans-eyebrow">Student Answers</div>
+    <div class="ans-student">{{ student.display_name or student.username }}</div>
+    <div class="ans-title-meta">
+      {{ hw.title }} · {{ hw.type | replace('_',' ') | title }}
+      {% if hw.due_date %}· Due {{ hw.due_date }}{% endif %}
+    </div>
+
+    <div class="ans-summary-row">
+      {% if submission and submission.is_complete %}
+        <span class="ans-chip done">✅ Submitted</span>
+      {% elif submission %}
+        <span class="ans-chip progress">⏳ In Progress</span>
+      {% else %}
+        <span class="ans-chip none">❌ Not Started</span>
+      {% endif %}
+
+      {% if submission %}
+        {% if hw.type == 'writing' %}
+          {% if submission.teacher_score is not none %}
+            <span class="ans-chip score">{{ "%.0f" | format(submission.teacher_score) }} / 100</span>
+          {% endif %}
+        {% else %}
+          {% if submission.score is not none %}
+            <span class="ans-chip score">{{ "%.0f" | format(submission.score) }}% · {{ submission.correct_count }}/{{ submission.total_questions }}</span>
+          {% endif %}
+        {% endif %}
+        {% if submission.submitted_at %}
+          <span class="ans-chip">Submitted {{ submission.submitted_at.strftime('%b %d, %H:%M') }}</span>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  {% if hw.type == 'writing' %}
+    <div class="q-card">
+      <div class="q-num">Written Response</div>
+      {% if submission and submission.written_response %}
+        <div class="writing-block">{{ submission.written_response }}</div>
+        {% if submission.word_count %}
+          <div style="font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.6rem;">
+            {{ submission.word_count }} words
+          </div>
+        {% endif %}
+        {% if submission.teacher_feedback %}
+          <div class="q-correct-note" style="margin-top:.9rem;">
+            <span class="label">Teacher feedback</span>
+            <span>{{ submission.teacher_feedback }}</span>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="q-unanswered-note">No response submitted yet.</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if rows %}
+    {% for r in rows %}
+      {% set q = r.question %}
+      {% set a = r.answer %}
+      {% if a is none %}
+        {% set status_cls = 'unanswered' %}
+      {% elif a.is_correct %}
+        {% set status_cls = 'correct' %}
+      {% else %}
+        {% set status_cls = 'incorrect' %}
+      {% endif %}
+
+      <div class="q-card {{ status_cls }}">
+        <div class="q-num">Question {{ q.position }} · {{ q.question_type | replace('_',' ') | title }}</div>
+        <div class="q-text">{{ q.question_text }}</div>
+
+        {% if q.question_type == 'multiple_choice' and q.options %}
+          <div class="q-options">
+            {% for opt in q.options %}
+              {% set letters = ['A','B','C','D','E','F'] %}
+              {% set is_correct = (q.correct_index is not none and loop.index0 == q.correct_index) %}
+              {% set is_chosen  = (a is not none and a.chosen_index is not none and loop.index0 == a.chosen_index) %}
+              {% if is_correct and is_chosen %}
+                {% set cls = 'correct' %}
+                {% set tag = 'both' %}
+                {% set tag_text = 'Correct ✓' %}
+              {% elif is_correct %}
+                {% set cls = 'correct' %}
+                {% set tag = 'correct' %}
+                {% set tag_text = 'Correct answer' %}
+              {% elif is_chosen %}
+                {% set cls = 'chosen-wrong' %}
+                {% set tag = 'chosen' %}
+                {% set tag_text = 'Student chose ✗' %}
+              {% else %}
+                {% set cls = '' %}
+                {% set tag = '' %}
+                {% set tag_text = '' %}
+              {% endif %}
+              <div class="q-opt {{ cls }}">
+                <span class="letter">{{ letters[loop.index0] }}</span>
+                <span>{{ opt }}</span>
+                {% if tag %}<span class="opt-tag {{ tag }}">{{ tag_text }}</span>{% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if a is none %}
+            <div class="q-unanswered-note" style="margin-top:.6rem;">Student did not answer this question.</div>
+          {% endif %}
+        {% else %}
+          {# fill_blank / short_answer #}
+          {% if a is not none and a.answer_text %}
+            <div class="q-text-answer {{ 'correct' if a.is_correct else 'incorrect' }}">
+              <div class="label">Student answer</div>
+              <div class="student-text">{{ a.answer_text }}</div>
+            </div>
+            {% if not a.is_correct and q.correct_text %}
+              <div class="q-correct-note">
+                <span class="label">Correct</span>
+                <span>{{ q.correct_text }}</span>
+              </div>
+            {% endif %}
+          {% else %}
+            <div class="q-unanswered-note">No answer provided.</div>
+            {% if q.correct_text %}
+              <div class="q-correct-note" style="margin-top:.4rem;">
+                <span class="label">Correct</span>
+                <span>{{ q.correct_text }}</span>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% elif hw.type != 'writing' %}
+    <div style="text-align:center; padding:3rem; color:var(--muted);">
+      <p style="font-size:2rem; margin-bottom:.75rem;">📭</p>
+      <p style="font-weight:700;">This assignment has no questions.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

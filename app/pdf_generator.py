@@ -854,3 +854,316 @@ def generate_exam_pdf(
 
     c.save()
     return buf.getvalue()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Homework: Answer-Key PDF (teacher only) and Results Report PDF
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _letter(i: int) -> str:
+    return "ABCD"[i] if 0 <= i < 4 else "?"
+
+
+def generate_answer_key_pdf(hw, questions) -> bytes:
+    """Render a printable answer key for a homework assignment.
+
+    `hw` is a HomeworkAssignment, `questions` an iterable of HomeworkQuestion
+    ordered by position. Reuses the elegant exam typography palette.
+    """
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    c.setTitle(f"{hw.title} — Answer Key")
+
+    # Header
+    c.setStrokeColor(EXAM_ACCENT)
+    c.setLineWidth(0.9)
+    c.line(15 * mm, PAGE_H - 14 * mm, PAGE_W - 15 * mm, PAGE_H - 14 * mm)
+
+    c.setFont("Times-Bold", 20)
+    c.setFillColor(EXAM_ACCENT)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 24 * mm, "TEACHER ANSWER KEY")
+
+    c.setFont("Times-Italic", 11.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 30 * mm, hw.title)
+
+    if hw.type:
+        c.setFont("Helvetica", 9.5)
+        c.setFillColor(EXAM_MUTED)
+        c.drawCentredString(PAGE_W / 2, PAGE_H - 35 * mm,
+                            hw.type.replace("_", " ").upper())
+
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.line(15 * mm, PAGE_H - 39 * mm, PAGE_W - 15 * mm, PAGE_H - 39 * mm)
+
+    # Body — one question per block
+    from reportlab.lib.utils import simpleSplit
+    y = PAGE_H - 48 * mm
+    bottom = 20 * mm
+    page_num = 1
+
+    def page_break(new_y):
+        nonlocal page_num
+        _draw_page_footer(c, page_num)
+        c.showPage()
+        page_num += 1
+        c.setFont("Times-Italic", 9.5)
+        c.setFillColor(EXAM_MUTED)
+        c.drawCentredString(PAGE_W / 2, PAGE_H - 12 * mm,
+                            f"{hw.title} — Answer Key (continued)")
+        c.setStrokeColor(EXAM_RULE)
+        c.setLineWidth(0.3)
+        c.line(15 * mm, PAGE_H - 14 * mm, PAGE_W - 15 * mm, PAGE_H - 14 * mm)
+        return PAGE_H - 22 * mm
+
+    if not list(questions):
+        # No questions at all — print a friendly note
+        c.setFont("Times-Italic", 12)
+        c.setFillColor(EXAM_MUTED)
+        c.drawCentredString(PAGE_W / 2, PAGE_H / 2,
+                            "This assignment has no questions yet.")
+        _draw_page_footer(c, page_num)
+        c.save()
+        return buf.getvalue()
+
+    avail_w = PAGE_W - 30 * mm
+    for q in questions:
+        # Question text
+        c.setFont("Times-Bold", 11.5)
+        c.setFillColor(EXAM_INK)
+        num_w = c.stringWidth(f"{q.position}.", "Times-Bold", 11.5)
+
+        q_lines = simpleSplit(q.question_text or "", "Times-Roman", 11.5,
+                              avail_w - num_w - 4 * mm)
+        block_h = 6 * mm + len(q_lines) * 5.5 * mm + 2 * mm
+
+        # Options/answer block
+        if q.question_type == "multiple_choice" and q.options:
+            block_h += len(q.options) * 5.5 * mm + 2 * mm
+        else:
+            block_h += 7 * mm
+
+        if y - block_h < bottom:
+            y = page_break(y)
+
+        # Draw the number + question text
+        c.setFont("Times-Bold", 11.5)
+        c.setFillColor(EXAM_INK)
+        c.drawString(15 * mm, y, f"{q.position}.")
+        c.setFont("Times-Roman", 11.5)
+        for i, line in enumerate(q_lines):
+            c.drawString(15 * mm + num_w + 2 * mm, y - i * 5.5 * mm, line)
+        y -= max(1, len(q_lines)) * 5.5 * mm + 3 * mm
+
+        # Options or text answer
+        if q.question_type == "multiple_choice" and q.options:
+            for i, opt in enumerate(q.options):
+                is_correct = (q.correct_index is not None and i == q.correct_index)
+                # Filled bullet for correct, hollow for distractor
+                if is_correct:
+                    c.setFillColor(EXAM_ACCENT)
+                    c.setStrokeColor(EXAM_ACCENT)
+                    c.circle(20 * mm, y + 1.2 * mm, 1.6 * mm, stroke=1, fill=1)
+                    c.setFont("Helvetica-Bold", 10.5)
+                    c.setFillColor(EXAM_ACCENT)
+                else:
+                    c.setStrokeColor(EXAM_RULE)
+                    c.setFillColor(white)
+                    c.circle(20 * mm, y + 1.2 * mm, 1.6 * mm, stroke=1, fill=1)
+                    c.setFont("Helvetica", 10.5)
+                    c.setFillColor(EXAM_INK)
+                c.drawString(25 * mm, y, f"{_letter(i)}.  {opt}")
+                y -= 5.5 * mm
+            y -= 2 * mm
+        else:
+            # Fill-blank / short-answer: show the expected text
+            c.setFont("Helvetica-Bold", 10.5)
+            c.setFillColor(EXAM_ACCENT)
+            c.drawString(20 * mm, y, "Answer:")
+            c.setFont("Times-Roman", 11)
+            c.setFillColor(EXAM_INK)
+            c.drawString(38 * mm, y, q.correct_text or "—")
+            y -= 7 * mm
+
+        # Hairline between questions
+        c.setStrokeColor(EXAM_RULE)
+        c.setLineWidth(0.3)
+        c.line(15 * mm, y + 1 * mm, PAGE_W - 15 * mm, y + 1 * mm)
+        y -= 3 * mm
+
+    _draw_page_footer(c, page_num)
+    c.save()
+    return buf.getvalue()
+
+
+def generate_results_pdf(hw, student_rows) -> bytes:
+    """Render a printable grade report.
+
+    `student_rows` is a list of dicts:
+        {"student": User, "submission": Submission|None}
+    """
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    c.setTitle(f"{hw.title} — Results")
+
+    # Header
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.6)
+    c.line(15 * mm, PAGE_H - 12 * mm, PAGE_W - 15 * mm, PAGE_H - 12 * mm)
+
+    c.setFont("Times-Bold", 20)
+    c.setFillColor(EXAM_INK)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 22 * mm, "RESULTS REPORT")
+
+    c.setFont("Times-Italic", 11.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 28 * mm, hw.title)
+
+    c.setFont("Helvetica", 9.5)
+    type_label = (hw.type or "").replace("_", " ").upper()
+    due = f"  •  DUE {hw.due_date.isoformat()}" if getattr(hw, "due_date", None) else ""
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 33 * mm, f"{type_label}{due}")
+
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.line(15 * mm, PAGE_H - 37 * mm, PAGE_W - 15 * mm, PAGE_H - 37 * mm)
+
+    # Column layout
+    x_name = 18 * mm
+    x_status = 95 * mm
+    x_score = 135 * mm
+    x_date = 165 * mm
+
+    y = PAGE_H - 47 * mm
+    c.setFont("Helvetica-Bold", 9)
+    c.setFillColor(EXAM_MUTED)
+    c.drawString(x_name, y, "STUDENT")
+    c.drawString(x_status, y, "STATUS")
+    c.drawString(x_score, y, "SCORE")
+    c.drawString(x_date, y, "SUBMITTED")
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.5)
+    c.line(15 * mm, y - 2 * mm, PAGE_W - 15 * mm, y - 2 * mm)
+    y -= 8 * mm
+
+    page_num = 1
+    bottom = 22 * mm
+
+    def page_break():
+        nonlocal page_num
+        _draw_page_footer(c, page_num)
+        c.showPage()
+        page_num += 1
+        c.setFont("Times-Italic", 9.5)
+        c.setFillColor(EXAM_MUTED)
+        c.drawCentredString(PAGE_W / 2, PAGE_H - 12 * mm,
+                            f"{hw.title} — Results (continued)")
+        new_y = PAGE_H - 22 * mm
+        c.setFont("Helvetica-Bold", 9)
+        c.setFillColor(EXAM_MUTED)
+        c.drawString(x_name, new_y, "STUDENT")
+        c.drawString(x_status, new_y, "STATUS")
+        c.drawString(x_score, new_y, "SCORE")
+        c.drawString(x_date, new_y, "SUBMITTED")
+        c.setStrokeColor(EXAM_INK)
+        c.setLineWidth(0.5)
+        c.line(15 * mm, new_y - 2 * mm, PAGE_W - 15 * mm, new_y - 2 * mm)
+        return new_y - 8 * mm
+
+    submitted = 0
+    score_sum = 0.0
+    score_n = 0
+
+    for row in student_rows:
+        if y < bottom:
+            y = page_break()
+        s = row["student"]
+        sub = row.get("submission")
+
+        # Name (bold) and username (light)
+        c.setFont("Times-Bold", 10.5)
+        c.setFillColor(EXAM_INK)
+        c.drawString(x_name, y, (s.display_name or s.username)[:38])
+        c.setFont("Helvetica", 8.5)
+        c.setFillColor(EXAM_MUTED)
+        c.drawString(x_name, y - 4 * mm, s.username[:38])
+
+        # Status
+        c.setFont("Helvetica-Bold", 9.5)
+        if sub and sub.is_complete:
+            c.setFillColor(HexColor("#2A6B3D"))
+            status = "Submitted"
+            submitted += 1
+        elif sub:
+            c.setFillColor(HexColor("#a07800"))
+            status = "In progress"
+        else:
+            c.setFillColor(HexColor("#C84830"))
+            status = "Not started"
+        c.drawString(x_status, y, status)
+
+        # Score
+        score_val = None
+        if sub:
+            if hw.type == "writing" and sub.teacher_score is not None:
+                score_val = float(sub.teacher_score)
+                c.setFont("Times-Bold", 11)
+                c.setFillColor(EXAM_INK)
+                c.drawString(x_score, y, f"{score_val:.0f}/100")
+            elif sub.score is not None:
+                score_val = float(sub.score)
+                c.setFont("Times-Bold", 11)
+                c.setFillColor(EXAM_INK)
+                c.drawString(x_score, y, f"{score_val:.0f}%")
+                if sub.correct_count is not None and sub.total_questions:
+                    c.setFont("Helvetica", 8)
+                    c.setFillColor(EXAM_MUTED)
+                    c.drawString(x_score, y - 4 * mm,
+                                 f"{sub.correct_count}/{sub.total_questions}")
+            else:
+                c.setFont("Helvetica", 10)
+                c.setFillColor(EXAM_MUTED)
+                c.drawString(x_score, y, "—")
+        else:
+            c.setFont("Helvetica", 10)
+            c.setFillColor(EXAM_MUTED)
+            c.drawString(x_score, y, "—")
+
+        if score_val is not None:
+            score_sum += score_val
+            score_n += 1
+
+        # Submitted date
+        c.setFont("Helvetica", 9)
+        c.setFillColor(EXAM_INK if sub else EXAM_MUTED)
+        if sub and sub.submitted_at:
+            c.drawString(x_date, y, sub.submitted_at.strftime("%b %d, %H:%M"))
+        else:
+            c.drawString(x_date, y, "—")
+
+        # Row divider
+        c.setStrokeColor(EXAM_RULE)
+        c.setLineWidth(0.3)
+        c.line(15 * mm, y - 6 * mm, PAGE_W - 15 * mm, y - 6 * mm)
+        y -= 11 * mm
+
+    # Summary footer
+    if y < bottom + 20 * mm:
+        y = page_break()
+    y -= 4 * mm
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.7)
+    c.line(15 * mm, y, PAGE_W - 15 * mm, y)
+    y -= 6 * mm
+    c.setFont("Times-Bold", 11)
+    c.setFillColor(EXAM_INK)
+    total = len(student_rows)
+    c.drawString(15 * mm, y, f"Submitted: {submitted} / {total}")
+    if score_n:
+        avg = score_sum / score_n
+        c.drawString(85 * mm, y, f"Average: {avg:.1f}")
+
+    _draw_page_footer(c, page_num)
+    c.save()
+    return buf.getvalue()

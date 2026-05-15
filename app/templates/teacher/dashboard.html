@@ -38,19 +38,64 @@
     border-radius: 14px;
     padding: 1rem 1.25rem;
     box-shadow: 0 2px 10px var(--shadow);
+    transition: box-shadow .15s;
+    animation: cardIn .45s ease both;
+    color: var(--text);
+  }
+  .assign-card:hover { box-shadow: 0 4px 18px var(--shadow); }
+  .assign-card.inactive { opacity: .7; }
+  .assign-card.inactive .assign-title { text-decoration: line-through; text-decoration-color: rgba(26,18,9,.2); }
+  .assign-card-top {
     display: flex;
     align-items: center;
     gap: 1rem;
     text-decoration: none;
-    color: var(--text);
-    transition: transform .15s, box-shadow .15s;
-    animation: cardIn .45s ease both;
+    color: inherit;
   }
-  .assign-card:hover { transform: translateX(4px); box-shadow: 0 4px 18px var(--shadow); }
   .assign-type-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
   .assign-info { flex: 1; min-width: 0; }
   .assign-title { font-weight: 800; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .assign-meta { font-size: .62rem; color: var(--muted); font-weight: 700; margin-top: .15rem; }
+
+  /* Per-card action row */
+  .assign-actions {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    margin-top: .75rem;
+    padding-top: .65rem;
+    border-top: 1px dashed rgba(26,18,9,.1);
+  }
+  .assign-action-btn {
+    font-size: .58rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: .42em .9em; border-radius: 50px;
+    background: rgba(26,18,9,.06); color: var(--text);
+    border: none; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: .35em;
+    transition: background .15s, color .15s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .assign-action-btn:hover { background: rgba(26,18,9,.12); }
+  .assign-action-btn.view  { background: rgba(30,92,114,.12); color: var(--cb); }
+  .assign-action-btn.view:hover  { background: rgba(30,92,114,.22); }
+  .assign-action-btn.key   { background: rgba(74,53,128,.12); color: #4A3580; }
+  .assign-action-btn.key:hover   { background: rgba(74,53,128,.22); }
+  .assign-action-btn.csv   { background: rgba(42,107,61,.12); color: #2A6B3D; }
+  .assign-action-btn.csv:hover   { background: rgba(42,107,61,.22); }
+  .assign-action-btn.pdf   { background: rgba(200,150,0,.12); color: #a07800; }
+  .assign-action-btn.pdf:hover   { background: rgba(200,150,0,.22); }
+  .assign-action-btn.danger { background: rgba(200,72,48,.1); color: #C84830; }
+  .assign-action-btn.danger:hover { background: rgba(200,72,48,.2); }
+  .assign-action-btn.reactivate { background: rgba(42,107,61,.12); color: #2A6B3D; }
+  .assign-action-btn.reactivate:hover { background: rgba(42,107,61,.22); }
+
+  .inactive-divider {
+    display: flex; align-items: center; gap: .75rem;
+    margin: 2.5rem 0 1rem;
+    color: var(--muted);
+    font-size: .62rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase;
+  }
+  .inactive-divider::before, .inactive-divider::after {
+    content: ''; flex: 1; height: 1px; background: rgba(26,18,9,.1);
+  }
 
   /* Status badge */
   .hw-status {
@@ -155,7 +200,7 @@
         'general_topic': ('🎬', 'rgba(139,69,19,.12)', '#8B4513'),
       } %}
       <div class="assign-list">
-        {% for hw in assignments %}
+        {% for hw in active_assignments %}
         {% set ic = type_icons.get(hw.type, ('📌', 'rgba(26,18,9,.08)', '#6B5E4A')) %}
         {% set st = hw_status.get(hw.id, {'assigned': 0, 'submitted': 0}) %}
         {% if st.submitted == 0 %}
@@ -168,22 +213,65 @@
           {% set badge_cls = 'partial' %}
           {% set badge_txt = st.submitted ~ '/' ~ st.assigned ~ ' submitted' %}
         {% endif %}
-        <a class="assign-card" href="/teacher/submissions/{{ hw.id }}" style="animation-delay:{{ loop.index0 * 0.04 }}s">
-          <div class="assign-type-icon" style="background:{{ ic[1] }}; color:{{ ic[2] }}">{{ ic[0] }}</div>
-          <div class="assign-info">
-            <div class="assign-title">{{ hw.title }}</div>
-            <div class="assign-meta">
-              {{ hw.type | replace('_',' ') | title }}
-              {% if hw.due_date %}· Due {{ hw.due_date }}{% endif %}
-              · {{ hw.created_at.strftime('%b %d') if hw.created_at else '' }}
+        <div class="assign-card" style="animation-delay:{{ loop.index0 * 0.04 }}s">
+          <a class="assign-card-top" href="/teacher/submissions/{{ hw.id }}">
+            <div class="assign-type-icon" style="background:{{ ic[1] }}; color:{{ ic[2] }}">{{ ic[0] }}</div>
+            <div class="assign-info">
+              <div class="assign-title">{{ hw.title }}</div>
+              <div class="assign-meta">
+                {{ hw.type | replace('_',' ') | title }}
+                {% if hw.due_date %}· Due {{ hw.due_date }}{% endif %}
+                · {{ hw.created_at.strftime('%b %d') if hw.created_at else '' }}
+              </div>
             </div>
+            <span class="hw-status {{ badge_cls }}">{{ badge_txt }}</span>
+          </a>
+          <div class="assign-actions">
+            <a class="assign-action-btn view" href="/teacher/submissions/{{ hw.id }}">👁 View</a>
+            <a class="assign-action-btn key" href="/api/admin/assignments/{{ hw.id }}/answer-key.pdf">🔑 Answer Key PDF</a>
+            <a class="assign-action-btn csv" href="/api/admin/assignments/{{ hw.id }}/results.csv">⬇ Results CSV</a>
+            <a class="assign-action-btn pdf" href="/api/admin/assignments/{{ hw.id }}/results.pdf">⬇ Results PDF</a>
+            <button type="button" class="assign-action-btn danger" onclick="toggleAssignmentActive({{ hw.id }}, true)">
+              🚫 Deactivate
+            </button>
           </div>
-          <span class="hw-status {{ badge_cls }}">{{ badge_txt }}</span>
-        </a>
+        </div>
         {% else %}
-        <p class="text-muted" style="font-size:.9rem;">No assignments yet. Create one above.</p>
+        <p class="text-muted" style="font-size:.9rem;">No active assignments. Create one above.</p>
         {% endfor %}
       </div>
+
+      {% if inactive_assignments %}
+      <div class="inactive-divider">Inactive · Hidden from students</div>
+      <div class="assign-list">
+        {% for hw in inactive_assignments %}
+        {% set ic = type_icons.get(hw.type, ('📌', 'rgba(26,18,9,.08)', '#6B5E4A')) %}
+        <div class="assign-card inactive">
+          <a class="assign-card-top" href="/teacher/submissions/{{ hw.id }}">
+            <div class="assign-type-icon" style="background:{{ ic[1] }}; color:{{ ic[2] }}">{{ ic[0] }}</div>
+            <div class="assign-info">
+              <div class="assign-title">{{ hw.title }}</div>
+              <div class="assign-meta">
+                {{ hw.type | replace('_',' ') | title }}
+                {% if hw.due_date %}· Due {{ hw.due_date }}{% endif %}
+                · Deactivated
+              </div>
+            </div>
+            <span class="hw-status" style="background:rgba(26,18,9,.06); color:var(--muted);">Inactive</span>
+          </a>
+          <div class="assign-actions">
+            <a class="assign-action-btn view" href="/teacher/submissions/{{ hw.id }}">👁 View</a>
+            <a class="assign-action-btn key" href="/api/admin/assignments/{{ hw.id }}/answer-key.pdf">🔑 Answer Key PDF</a>
+            <a class="assign-action-btn csv" href="/api/admin/assignments/{{ hw.id }}/results.csv">⬇ Results CSV</a>
+            <a class="assign-action-btn pdf" href="/api/admin/assignments/{{ hw.id }}/results.pdf">⬇ Results PDF</a>
+            <button type="button" class="assign-action-btn reactivate" onclick="toggleAssignmentActive({{ hw.id }}, false)">
+              ↻ Reactivate
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
 
   </div>
@@ -226,4 +314,23 @@
   {% endif %}
 
 </div>
+
+<script>
+async function toggleAssignmentActive(hwId, isCurrentlyActive) {
+  const msg = isCurrentlyActive
+    ? "Deactivate this assignment? Students will no longer see it on their dashboards. All submissions and answers stay saved, and you can reactivate it any time."
+    : "Reactivate this assignment? Students will see it on their dashboards again.";
+  if (!confirm(msg)) return;
+
+  const res = await fetch(`/api/admin/assignments/${hwId}/toggle-active`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (res.ok) {
+    location.reload();
+  } else {
+    alert("Could not change assignment status. Please try again.");
+  }
+}
+</script>
 {% endblock %}
