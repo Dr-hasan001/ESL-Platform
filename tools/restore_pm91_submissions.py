@@ -189,6 +189,36 @@ def ensure_class_membership(db, student: User, assignment: HomeworkAssignment):
 
 
 def main():
+    # ── Safety guards ────────────────────────────────────────────────────────
+    # This script fabricates Submission rows with hardcoded scores for 3 named
+    # students against EVERY active PM 91 assignment. It was a one-time recovery
+    # tool after a wipe — but leaving it in the deploy chain created phantom
+    # submissions on every new homework the teacher uploaded. Two guards now:
+    #
+    #   1. ALLOW_PM91_RESTORE=1   — must be explicitly set, or the script exits.
+    #   2. PM91_RESTORE_ASSIGNMENT_IDS=12,34,56  — comma-separated whitelist of
+    #      assignment IDs this run is allowed to touch. If unset, the script
+    #      will refuse to operate on ALL PM 91 assignments (the bug that
+    #      created the phantom listening submissions).
+    if os.environ.get("ALLOW_PM91_RESTORE") != "1":
+        print("Refusing to run: ALLOW_PM91_RESTORE is not set to 1.")
+        print("This script is a one-time recovery tool, not for routine deploys.")
+        return
+
+    raw_ids = os.environ.get("PM91_RESTORE_ASSIGNMENT_IDS", "").strip()
+    if not raw_ids:
+        print("Refusing to run: PM91_RESTORE_ASSIGNMENT_IDS is empty.")
+        print("Set it to a comma-separated list of assignment IDs to restore, e.g. '12,34,56'.")
+        return
+    try:
+        whitelist = {int(s.strip()) for s in raw_ids.split(",") if s.strip()}
+    except ValueError:
+        print(f"Invalid PM91_RESTORE_ASSIGNMENT_IDS: {raw_ids!r}")
+        return
+    if not whitelist:
+        print("Refusing to run: PM91_RESTORE_ASSIGNMENT_IDS parsed to an empty set.")
+        return
+
     db = SessionLocal()
     try:
         print("Finding target students...")
@@ -197,13 +227,19 @@ def main():
             print("No target students found. Nothing to do.")
             return
 
-        print(f"\nFinding PM 91 assignments...")
-        assignments = class_assignments(db)
+        print(f"\nFinding PM 91 assignments in whitelist {sorted(whitelist)}...")
+        all_assignments = class_assignments(db)
+        assignments = [a for a in all_assignments if a.id in whitelist]
+        skipped = [a for a in all_assignments if a.id not in whitelist]
         if not assignments:
-            print("No PM 91 assignments found.")
+            print("No whitelisted PM 91 assignments found. Nothing to do.")
             return
         for a in assignments:
             print(f"  Assignment {a.id}: {a.title}")
+        if skipped:
+            print(f"\nSkipping {len(skipped)} PM 91 assignment(s) not in the whitelist:")
+            for a in skipped:
+                print(f"  - {a.id}: {a.title}")
 
         print(f"\nRestoring submissions ({len(students)} students × {len(assignments)} assignments):")
         created = 0

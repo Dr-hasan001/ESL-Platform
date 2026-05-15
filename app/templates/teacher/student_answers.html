@@ -106,6 +106,25 @@
     line-height: 1.6;
     font-size: .92rem;
   }
+
+  .delete-row {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(200,72,48,.25);
+    display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+  }
+  .delete-sub-btn {
+    font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    padding: .55em 1.2em; border-radius: 50px;
+    background: rgba(200,72,48,.1); color: #C84830;
+    border: none; cursor: pointer;
+    transition: background .15s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .delete-sub-btn:hover { background: rgba(200,72,48,.22); }
+  .delete-sub-note {
+    font-size: .72rem; color: var(--muted); flex: 1; min-width: 200px;
+  }
 </style>
 {% endblock %}
 
@@ -145,6 +164,20 @@
         {% endif %}
       {% endif %}
     </div>
+
+    {% if submission %}
+    <div class="delete-row">
+      <button class="delete-sub-btn"
+              data-sub-id="{{ submission.id }}"
+              data-student-name="{{ student.display_name or student.username }}"
+              onclick="deleteSubmissionClick(this)">
+        🗑 Remove this submission
+      </button>
+      <span class="delete-sub-note">
+        Deletes only this student's submission for this homework. The assignment itself stays. Use this to clear a phantom submission and let the student re-attempt.
+      </span>
+    </div>
+    {% endif %}
   </div>
 
   {% if hw.type == 'writing' %}
@@ -250,4 +283,27 @@
     </div>
   {% endif %}
 </div>
+
+<script>
+const HW_TITLE = {{ hw.title | tojson }};
+const BACK_URL = `/teacher/submissions/{{ hw.id }}`;
+
+async function deleteSubmissionClick(btn) {
+  const subId = btn.dataset.subId;
+  const studentName = btn.dataset.studentName;
+  const ok = confirm(
+    `Remove ${studentName}'s submission for "${HW_TITLE}"?\n\n` +
+    `This deletes only this one submission — the assignment stays, other students are not affected, ` +
+    `and the student will see the homework as "Not Started" so they can attempt it.`
+  );
+  if (!ok) return;
+
+  const res = await fetch(`/api/admin/submissions/${subId}`, { method: 'DELETE' });
+  if (res.ok) {
+    window.location.href = BACK_URL;
+  } else {
+    alert('Could not delete the submission. Please try again.');
+  }
+}
+</script>
 {% endblock %}

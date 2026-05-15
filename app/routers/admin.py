@@ -313,6 +313,19 @@ async def add_feedback(submission_id: int, data: dict, db: Session = Depends(get
     return {"ok": True}
 
 
+@router.delete("/api/admin/submissions/{submission_id}")
+async def delete_submission(submission_id: int, db: Session = Depends(get_db), user: User = Depends(current_teacher)):
+    """Delete a single submission and all its answers. Used to wipe phantom
+    rows or let a student re-attempt. The assignment itself is untouched."""
+    sub = db.query(Submission).filter(Submission.id == submission_id).first()
+    if not sub:
+        raise HTTPException(status_code=404, detail="Submission not found")
+    db.query(SubmissionAnswer).filter(SubmissionAnswer.submission_id == sub.id).delete(synchronize_session=False)
+    db.delete(sub)
+    db.commit()
+    return {"ok": True, "id": submission_id}
+
+
 # ── Class-based homework sync ─────────────────────────────────────────────────
 
 def _assign_class_homework_to_student(db: Session, student: User) -> int:
