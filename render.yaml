@@ -3,7 +3,13 @@ services:
     name: esl-platform
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python tools/seed_db.py && python tools/migrate_class_homework.py && python tools/reset_submissions.py && python tools/seed_students.py && python tools/seed_reading_hw.py && python tools/seed_b1_reading_work.py && python tools/restore_pm91_submissions.py
+    # NOTE: tools/restore_pm91_submissions.py is INTENTIONALLY removed from the
+    # build chain. It hardcodes scores (80/75/100) for 3 PM 91 students and
+    # re-creates them on every active PM 91 assignment, which fabricated
+    # phantom submissions on every new homework. The script is now env-var
+    # guarded — if you ever need to re-run it for a one-off restore, set
+    # ALLOW_PM91_RESTORE=1 in the Render dashboard and trigger a deploy.
+    buildCommand: pip install -r requirements.txt && python tools/seed_db.py && python tools/migrate_class_homework.py && python tools/reset_submissions.py && python tools/seed_students.py && python tools/seed_reading_hw.py && python tools/seed_b1_reading_work.py
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL

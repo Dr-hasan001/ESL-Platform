@@ -1,23 +1,31 @@
 """
 restore_pm91_submissions.py
 
-One-time restore for three PM 91 students whose submissions were wiped by an
-earlier reset_submissions.py deploy:
+ONE-TIME restore tool for three PM 91 students whose submissions were wiped
+by an earlier reset_submissions.py deploy:
     Baneen Raad
     Murtadha khaled (a.k.a. Murtadha Khaled / Murtadha khaled)
     Hussein Ali Abdul
 
-For every active assignment whose class_name is 'PM 91' (or that these
-students are currently assigned to), create one Submission per student with
-every answer marked as correct (chosen_index = question.correct_index,
-answer_text = question.correct_text). Score = 100%.
+⚠️  THIS SCRIPT IS DANGEROUS IF LEFT IN THE DEPLOY CHAIN.
+   It iterates over EVERY active PM 91 assignment, so every time a teacher
+   uploads a new homework for class PM 91, this script will fabricate a fake
+   submission for the three named students with a hardcoded score (80/75/100).
+   It ALSO deletes any real submission whose score doesn't match the hardcode
+   and replaces it with a fake one — silent data loss.
 
-Idempotent: skips students that already have a submission for that assignment.
-Safe to leave in the deploy chain — it never duplicates and never overwrites.
+   It is REMOVED from render.yaml. To re-run for a genuine one-off restore,
+   set the environment variable ALLOW_PM91_RESTORE=1 before invoking, e.g.:
+       ALLOW_PM91_RESTORE=1 python tools/restore_pm91_submissions.py
 """
 
 import sys, os
 from datetime import datetime, timezone
+
+if not os.environ.get("ALLOW_PM91_RESTORE"):
+    print("restore_pm91_submissions.py: ALLOW_PM91_RESTORE is not set — skipping.")
+    print("This script is intentionally gated to prevent fabricating submissions.")
+    sys.exit(0)
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
