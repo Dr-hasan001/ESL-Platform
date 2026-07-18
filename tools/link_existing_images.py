@@ -23,6 +23,7 @@ Safe to run on every deploy:
 
 import os
 import re
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -32,6 +33,34 @@ from app.models import *  # noqa: F401 — register all model classes
 from app.models.book import Book, Unit, Word
 
 Base.metadata.create_all(bind=engine)
+
+# ── deploy-chain shim ────────────────────────────────────────────────────────
+# The Render service runs a buildCommand stored in its dashboard settings (the
+# repo's render.yaml is not applied), and that stored chain predates the
+# Book 1 / Book 2 u27-30 / Book 3 / stories seeders. This script IS the last
+# step of that stored chain, so newer idempotent seeders are run from here to
+# guarantee they execute on every deploy. Remove once the dashboard
+# buildCommand is updated to match render.yaml.
+_PENDING_SEEDERS = [
+    ["tools/seed_book1.py"],
+    ["tools/seed_book2_unit27.py"],
+    ["tools/seed_book2_unit28.py"],
+    ["tools/seed_book2_unit29.py"],
+    ["tools/seed_book2_unit30.py"],
+    ["tools/seed_book3.py"],
+    ["tools/seed_stories.py", "3"],
+]
+
+
+def run_pending_seeders():
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for script in _PENDING_SEEDERS:
+        path = os.path.join(root, script[0])
+        if not os.path.exists(path):
+            print(f"[seed-shim] missing {script[0]} — skipped")
+            continue
+        print(f"[seed-shim] running {' '.join(script)}")
+        subprocess.run([sys.executable, path, *script[1:]], check=True, cwd=root)
 
 IMAGES_ROOT = os.path.join("app", "static", "images")
 PATH_RE = re.compile(r"book(\d+)[\\/]unit(\d+)[\\/]([^\\/]+)\.(png|webp)$", re.IGNORECASE)
@@ -64,6 +93,7 @@ def discover_pngs():
 
 
 def main():
+    run_pending_seeders()
     db = SessionLocal()
     try:
         linked = 0
