@@ -1,0 +1,57 @@
+{
+  "unit": 9,
+  "title": "Dalton vs. the Bully",
+  "story_html": "<p>Dalton was a nice boy, but sometimes the other boys made fun of him because he was so tall and skinny. Dalton’s biggest problem was Mitch. He was a <span class=\"vocab\">bully</span> who <span class=\"vocab\">boasted</span> about his strength. He <span class=\"vocab\">quarreled</span> with the other boys. Sometimes, if boys gave Mitch their lunch money, he would have <span class=\"vocab\">mercy</span> and leave them alone.</p><p>One day, the boys learned about a special Middle School Olympics. Their gym class was going to be in it. Many kids were excited. But Dalton thought it sounded like <span class=\"vocab\">torture</span>.</p><p>That morning, Dalton ate plenty of <span class=\"vocab\">carbohydrates</span> for breakfast. He entered the gym and looked at the <span class=\"vocab\">dial</span> on the clock. It was time to begin. The teacher asked if they were ready. Everyone <span class=\"vocab\">nodded</span>, except Dalton.</p><p>“I got <span class=\"vocab\">stung</span> by a bee. I need to see the nurse,” said Dalton. He made this story up so he wouldn’t have to play.</p><p>“I don’t believe you. Get ready to play,” responded the coach.</p><p>First, they <span class=\"vocab\">wrestled</span>. Then, they jumped, <span class=\"vocab\">crawled</span>, and played other games. But Mitch was <span class=\"vocab\">dominant</span> in every event.</p><p>They <span class=\"vocab\">strained</span> all morning to <span class=\"vocab\">defeat</span> him. By lunch, the <span class=\"vocab\">entire</span> team were <span class=\"vocab\">sore</span>, but they thought they knew how to win. They knew the last game of the day was volleyball. Kids who used to be Dalton’s <span class=\"vocab\">rivals</span> became his <span class=\"vocab\">allies</span>. They wanted him to help them beat Mitch. Dalton was going to be Mitch’s <span class=\"vocab\">opponent</span>.</p><p>The game started. Every time Mitch tried to hit the ball over the net, Dalton stopped it. Finally, Mitch used all of his strength. But the ball <span class=\"vocab\">bounced</span> off Dalton’s hands and back into Mitch’s face! Finally, Mitch was <span class=\"vocab\">defeated</span>.</p>",
+  "questions": [
+    {
+      "q": "Why did the other boys sometimes make fun of Dalton?",
+      "opts": ["He was bad at volleyball", "He was afraid of bees", "He was so tall and skinny", "He always lost his lunch money"],
+      "ans": 2
+    },
+    {
+      "q": "What did Mitch do if boys gave him their lunch money?",
+      "opts": ["He had mercy and left them alone", "He boasted about it to the coach", "He bought food for everyone", "He asked for more money"],
+      "ans": 0
+    },
+    {
+      "q": "How did Dalton feel about the Middle School Olympics?",
+      "opts": ["He was excited like the other kids", "He hoped to defeat Mitch there", "He wanted to play only volleyball", "He thought it sounded like torture"],
+      "ans": 3
+    },
+    {
+      "q": "What did Dalton eat plenty of for breakfast that morning?",
+      "opts": ["Eggs and milk", "Carbohydrates", "Fruit and honey", "Nothing at all"],
+      "ans": 1
+    },
+    {
+      "q": "What story did Dalton make up so he wouldn't have to play?",
+      "opts": ["He said his leg was sore", "He said he had to help the nurse", "He said he got stung by a bee", "He said he was sick from breakfast"],
+      "ans": 2
+    },
+    {
+      "q": "Mitch was 'dominant in every event.' What does 'dominant' mean here?",
+      "opts": ["The strongest and most successful", "The most polite", "The least popular", "The most tired"],
+      "ans": 0
+    },
+    {
+      "q": "Kids who used to be Dalton's rivals became his 'allies.' What are allies?",
+      "opts": ["People who fight against you", "People who join your side to help you", "People who watch a game", "People who boast about strength"],
+      "ans": 1
+    },
+    {
+      "q": "What was the last game of the day?",
+      "opts": ["Wrestling", "Jumping", "Crawling races", "Volleyball"],
+      "ans": 3
+    },
+    {
+      "q": "How was Mitch finally defeated?",
+      "opts": ["The ball bounced off Dalton's hands and hit Mitch's face", "The coach told Mitch to stop playing", "Mitch got stung by a bee", "Mitch's team refused to play with him"],
+      "ans": 0
+    },
+    {
+      "q": "What can we learn from the ending of the story?",
+      "opts": ["Bullies always win in sports", "Eating carbohydrates makes you strong", "The thing others tease you about can become your strength", "You should always avoid gym class"],
+      "ans": 2
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "unit": 14,
+  "title": "The Helpful Apprentice",
+  "story_html": "<p>There was once a small restaurant. People said that the best <span class=\"vocab\">chef</span> in the world worked there. But the <span class=\"vocab\">chef</span> was a <span class=\"vocab\">horrible</span> person to work for. He was <span class=\"vocab\">impolite</span> and <span class=\"vocab\">scolded</span> his workers all the time. The <span class=\"vocab\">chef</span> had a young <span class=\"vocab\">apprentice</span>. The <span class=\"vocab\">apprentice</span>'s first <span class=\"vocab\">priority</span> was to make the best food in the world. He was happy to have a good teacher, but he didn't like the <span class=\"vocab\">chef</span>. The boy was a <span class=\"vocab\">diligent</span> worker, but the <span class=\"vocab\">chef</span> <span class=\"vocab\">scolded</span> him more than anyone else.</p><p>Then one day, the <span class=\"vocab\">chef</span> got great news. The <span class=\"vocab\">emperor</span> wanted to have dinner there that night. He was very excited. He was working very fast, and he made a mistake. He cut his hand with a knife, and it started to <span class=\"vocab\">bleed</span>. The <span class=\"vocab\">apprentice</span> gave him a <span class=\"vocab\">bandage</span>, but the <span class=\"vocab\">chef</span> still couldn't cook. The <span class=\"vocab\">chef</span> started to <span class=\"vocab\">panic</span>. The <span class=\"vocab\">apprentice</span> tried to <span class=\"vocab\">assure</span> him. \"Everything will be OK,\" he said. But the <span class=\"vocab\">chef</span> was still afraid. Then they started to work together. They began to <span class=\"vocab\">bond</span>. The <span class=\"vocab\">chef</span> told the <span class=\"vocab\">apprentice</span> what to do, and the boy cooked a great meal.</p><p>As soon as they finished, the <span class=\"vocab\">emperor</span> arrived. He wore a beautiful <span class=\"vocab\">robe</span> made of soft <span class=\"vocab\">fibers</span>. He also had a <span class=\"vocab\">massive</span> <span class=\"vocab\">crown</span>. Everyone in the restaurant <span class=\"vocab\">kneeled</span> when the <span class=\"vocab\">emperor</span> came in. The <span class=\"vocab\">chef</span> and the boy brought out his food.</p><p>The <span class=\"vocab\">emperor</span> was used to <span class=\"vocab\">luxuries</span>. Would he like the food? The <span class=\"vocab\">emperor</span> loved the food. After his <span class=\"vocab\">departure</span>, the <span class=\"vocab\">chef</span> was very proud and very thankful to his new friend, the <span class=\"vocab\">apprentice</span>.</p>",
+  "questions": [
+    {
+      "q": "Why didn't the workers like working for the chef?",
+      "opts": ["He paid them very little", "He was impolite and scolded them all the time", "He made them work at night", "He cooked bad food"],
+      "ans": 1
+    },
+    {
+      "q": "What was the apprentice's first priority?",
+      "opts": ["To become emperor", "To open his own restaurant", "To be liked by the chef", "To make the best food in the world"],
+      "ans": 3
+    },
+    {
+      "q": "What great news did the chef get one day?",
+      "opts": ["The emperor wanted to have dinner at the restaurant", "The restaurant won a big prize", "A famous cook was coming to help him", "The restaurant was moving to the palace"],
+      "ans": 0
+    },
+    {
+      "q": "How did the chef hurt himself?",
+      "opts": ["He burned his hand on a pan", "He fell on the kitchen floor", "He cut his hand with a knife", "He dropped a heavy pot on his foot"],
+      "ans": 2
+    },
+    {
+      "q": "What did the apprentice do first when the chef's hand started to bleed?",
+      "opts": ["He called a doctor", "He finished cooking alone", "He told the emperor to wait", "He gave the chef a bandage"],
+      "ans": 3
+    },
+    {
+      "q": "The apprentice tried to \"assure\" the chef. What does \"assure\" mean here?",
+      "opts": ["To give someone medicine", "To tell someone that everything will be fine", "To teach someone to cook", "To warn someone about danger"],
+      "ans": 1
+    },
+    {
+      "q": "Who actually cooked the great meal for the emperor?",
+      "opts": ["The apprentice, following the chef's instructions", "The chef, using his injured hand", "Another cook from the palace", "The emperor's own servants"],
+      "ans": 0
+    },
+    {
+      "q": "What was the emperor's beautiful robe made of?",
+      "opts": ["Heavy wool", "Golden thread", "Soft fibers", "Thick leather"],
+      "ans": 2
+    },
+    {
+      "q": "What did everyone in the restaurant do when the emperor came in?",
+      "opts": ["They clapped their hands", "They sang a song", "They left the restaurant", "They kneeled"],
+      "ans": 3
+    },
+    {
+      "q": "How did the chef feel after the emperor's departure?",
+      "opts": ["Proud and thankful to the apprentice", "Angry with the apprentice", "Sad that the emperor had left", "Afraid of losing his restaurant"],
+      "ans": 0
+    }
+  ]
+}

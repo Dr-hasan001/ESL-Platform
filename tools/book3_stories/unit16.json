@@ -1,0 +1,57 @@
+{
+  "unit": 16,
+  "title": "Matthew Learns a Lesson",
+  "story_html": "<p>Matthew was an <span class=\"vocab\">adolescent</span> and a <span class=\"vocab\">sensible</span> boy. He always kept his room <span class=\"vocab\">tidy</span> and had a natural <span class=\"vocab\">literary</span> <span class=\"vocab\">aptitude</span>. He hoped to one day have a career in <span class=\"vocab\">journalism</span>. He spent much of his time reading and liked his <span class=\"vocab\">privacy</span>. But his quiet personality <span class=\"vocab\">hindered</span> his ability to make friends.</p><p>One day, Matthew went to the <span class=\"vocab\">pharmacy</span> to pick up some <span class=\"vocab\">pills</span> for his grandmother. He saw some boys leaning against a tree outside. One of the boys <span class=\"vocab\">complimented</span> Matthew: \"I like your jacket.\"</p><p>Another boy asked, \"Do you want to go to Nate's Restaurant?\" \"Sure!\" Matthew said. The boys walked to the restaurant. They were going to have <span class=\"vocab\">slices</span> of pizza. They ordered their food and drank soda with <span class=\"vocab\">straws</span>. They ate until their bellies <span class=\"vocab\">swelled</span> up. Matthew was having so much fun.</p><p>One of the boys said, \"Let's leave without paying.\" Matthew didn't want to. But he <span class=\"vocab\">presumed</span> his new friends wouldn't like him if he didn't.</p><p>Suddenly, the waiter yelled, \"Stop!\" The two other boys ran, leaving Matthew there alone.</p><p>Soon, the police arrived. \"Leaving without paying for your meal is the same as stealing,\" said the police officer. \"The restaurant wants <span class=\"vocab\">justice</span>. So next week you have to go to court and let a <span class=\"vocab\">jury</span> decide your <span class=\"vocab\">punishment</span>.\" When he went to court, the judge asked, \"Do you have anything to say, Matthew?\" He said, \"I am full of <span class=\"vocab\">sorrow</span> for what I've done. Now I know that real friends won't ask you to do something illegal.\" The <span class=\"vocab\">jury</span> then let him have his <span class=\"vocab\">liberty</span>. But they made Matthew pick up garbage as a <span class=\"vocab\">punishment</span>. Much to Matthew's surprise, he ended up meeting some new friends.</p>",
+  "questions": [
+    {
+      "q": "What career did Matthew hope to have one day?",
+      "opts": ["A doctor at a pharmacy", "A career in journalism", "A police officer", "A waiter in a restaurant"],
+      "ans": 1
+    },
+    {
+      "q": "Why did Matthew go to the pharmacy?",
+      "opts": ["To pick up some pills for his grandmother", "To buy a new jacket", "To meet his new friends", "To get medicine for himself"],
+      "ans": 0
+    },
+    {
+      "q": "What did one of the boys say to compliment Matthew?",
+      "opts": ["\"Do you want to play soccer?\"", "\"Where did you buy your shoes?\"", "\"I like your jacket.\"", "\"You look very smart.\""],
+      "ans": 2
+    },
+    {
+      "q": "What did the boys eat at Nate's Restaurant?",
+      "opts": ["Sandwiches", "Burgers", "Salad", "Slices of pizza"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word \"hindered\" is closest in meaning to:",
+      "opts": ["made more difficult", "improved", "changed", "explained"],
+      "ans": 0
+    },
+    {
+      "q": "Why did Matthew leave the restaurant without paying?",
+      "opts": ["He had no money with him", "The waiter told him to leave", "He presumed his new friends wouldn't like him if he didn't", "He forgot that he had to pay"],
+      "ans": 2
+    },
+    {
+      "q": "Who decided what Matthew's punishment would be?",
+      "opts": ["The police officer", "A jury", "His grandmother", "The waiter"],
+      "ans": 1
+    },
+    {
+      "q": "What punishment did Matthew receive?",
+      "opts": ["He had to pay double for the meal", "He had to stay in jail for a week", "He had to work at the restaurant", "He had to pick up garbage"],
+      "ans": 3
+    },
+    {
+      "q": "When Matthew said he was \"full of sorrow,\" he meant that he felt:",
+      "opts": ["angry", "afraid", "very sad about what he did", "surprised"],
+      "ans": 2
+    },
+    {
+      "q": "What lesson did Matthew learn from this experience?",
+      "opts": ["Real friends won't ask you to do something illegal", "You should never talk to boys outside a pharmacy", "Pizza restaurants are dangerous places", "It is fine to leave without paying if you run fast"],
+      "ans": 0
+    }
+  ]
+}

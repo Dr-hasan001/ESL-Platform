@@ -1,0 +1,57 @@
+{
+  "unit": 11,
+  "title": "July 28, 2017",
+  "story_html": "<p>Dear Diary,</p><p>I am beyond excited! My <span class=\"vocab\">cousin</span> Ella is coming all the way from England for a visit. We haven't seen each other for many years. Ella's <span class=\"vocab\">plane</span> will land soon, and I want to be a gracious <span class=\"vocab\">host</span> and get everything ready to <span class=\"vocab\">welcome</span> my special <span class=\"vocab\">guest</span> from abroad.</p><p>The warm <span class=\"vocab\">temperature</span> in <span class=\"vocab\">July</span> is just right. Earlier today, I opened the window to let in fresh air and looked outside. The afternoon sky was a brilliant blue, the grass was a fresh emerald green, and the <span class=\"vocab\">pink</span> roses were in full <span class=\"vocab\">bloom</span>. It was a stunning display of natural beauty. Ella is coming at the perfect time!</p><p>I still have to finish cleaning up and then vacuum the <span class=\"vocab\">carpet</span>. I have already stocked the <span class=\"vocab\">refrigerator</span> with Ella's favorite foods. Last night, I set out clean towels and arranged the <span class=\"vocab\">guest</span> bedroom for Ella. I will set out toiletries and other things soon.</p><p>I want to go over the activity list for Ella's visit one last time. I made sure to keep a copy of the list on my <span class=\"vocab\">desk</span> and also on my computer. I meticulously planned the details for each day so that they are productive and packed with fun-filled activities.</p><p>I know that Ella loves history, so we will visit the <span class=\"vocab\">museum</span> on Monday, where there is a special show about <span class=\"vocab\">architecture</span> in <span class=\"vocab\">modern</span> cities. We will go to the art <span class=\"vocab\">gallery</span> on Tuesday and see the latest works of contemporary art. I also want to take Ella to the <span class=\"vocab\">upper</span> part of town because that is where the best shopping and sales are. Then, we'll watch Hamlet, a Shakespearean play being performed at the local drama <span class=\"vocab\">theater</span>.</p><p>I also want to take Ella on a <span class=\"vocab\">canoe</span> ride and enjoy the many lakes around the city. We can pack a picnic <span class=\"vocab\">basket</span>, have lunch at the lake, and enjoy the beautiful weather outside. I am really excited about it because I've never been on a <span class=\"vocab\">canoe</span> ride!</p><p>There are so many sightseeing opportunities and so much to show Ella, but I also want to spend time at home with Ella so we can both relax and catch up.</p><p>I'd better run because it's almost time to pick up Ella at the airport.</p><p>I can't wait to see Ella!</p><p>Love,</p><p>Gemma</p>",
+  "questions": [
+    {
+      "q": "Who is coming to visit the writer of the diary?",
+      "opts": ["Her sister Ella", "Her cousin Ella", "Her old teacher", "Her aunt from abroad"],
+      "ans": 1
+    },
+    {
+      "q": "Where is Ella coming from?",
+      "opts": ["England", "France", "Canada", "Australia"],
+      "ans": 0
+    },
+    {
+      "q": "How is Ella traveling to visit Gemma?",
+      "opts": ["By train", "By ship", "By plane", "By car"],
+      "ans": 2
+    },
+    {
+      "q": "What does Gemma still have to do to prepare the house?",
+      "opts": ["Buy Ella's favorite foods", "Wash the towels", "Arrange the guest bedroom", "Vacuum the carpet"],
+      "ans": 3
+    },
+    {
+      "q": "What has Gemma already stocked with Ella's favorite foods?",
+      "opts": ["The refrigerator", "The picnic basket", "The kitchen cupboard", "The guest bedroom"],
+      "ans": 0
+    },
+    {
+      "q": "Why will Gemma and Ella visit the museum on Monday?",
+      "opts": ["Because it is free on Mondays", "Because Ella loves history", "Because it is next to the airport", "Because Gemma works there"],
+      "ans": 1
+    },
+    {
+      "q": "In the story, a gracious \"host\" is a person who...",
+      "opts": ["sells tickets for a show", "flies a plane to another country", "receives and takes care of guests", "cleans houses for money"],
+      "ans": 2
+    },
+    {
+      "q": "Where does Gemma keep copies of the activity list?",
+      "opts": ["In the refrigerator and on the wall", "In her bag and at the theater", "On the carpet and in a drawer", "On her desk and on her computer"],
+      "ans": 3
+    },
+    {
+      "q": "What play will Gemma and Ella watch at the theater?",
+      "opts": ["Hamlet", "Romeo and Juliet", "Macbeth", "A modern comedy"],
+      "ans": 0
+    },
+    {
+      "q": "Why is Gemma in a hurry at the end of the diary entry?",
+      "opts": ["The museum is about to close", "The canoe trip starts soon", "It is almost time to pick up Ella at the airport", "She has to finish her homework"],
+      "ans": 2
+    }
+  ]
+}

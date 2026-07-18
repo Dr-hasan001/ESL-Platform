@@ -1,0 +1,57 @@
+{
+  "unit": 28,
+  "title": "The Boy Who Saved the Town",
+  "story_html": "<p>Marcus lived in a small <span class=\"vocab\">suburb</span> near the sea. He was a <span class=\"vocab\">stubborn</span> boy, and he only cared about himself. His father worked as a <span class=\"vocab\">chemist</span> for a large <span class=\"vocab\">institution</span> and wanted Marcus to get a job there. Instead, the boy delivered milk. Every morning, he took <span class=\"vocab\">dairy</span> products to the <span class=\"vocab\">grocers</span>.</p><p>One day, Marcus was <span class=\"vocab\">jogging</span> down the street that <span class=\"vocab\">descended</span> into the lower part of the town with a gallon of milk to give to a <span class=\"vocab\">merchant</span>. He didn’t want to be late. He ran down a path beside a large <span class=\"vocab\">canal</span>. A wall there kept water from coming into the town during high <span class=\"vocab\">tide</span>. But Marcus saw a small hole in the wall. Marcus knew that if the wall broke, it would be a <span class=\"vocab\">tragedy</span> for the town.</p><p>At first, he <span class=\"vocab\">hesitated</span>. He had to choose between helping himself and helping the town. There was only one way to save the town. It seemed crazy to him, but it was the only thing he could do. He <span class=\"vocab\">poked</span> his finger into the hole. This didn’t fix the problem forever, but it did <span class=\"vocab\">postpone</span> the <span class=\"vocab\">tragedy</span>.</p><p>His finger <span class=\"vocab\">ached</span>. He felt the <span class=\"vocab\">chill</span> of the <span class=\"vocab\">arctic</span> water as it <span class=\"vocab\">splashed</span> him. There was no one else around. He knew he had to wait until the <span class=\"vocab\">tide</span> went out again. It was very difficult, but Marcus stayed there and saved the town.</p><p>Once the <span class=\"vocab\">tide</span> had gone out, Marcus told everyone what happened. A group of people went to the wall. They saw the hole and fixed it. Everyone was very happy with Marcus. The local <span class=\"vocab\">congress</span> even gave him a gift for saving the town. He was a hero.</p>",
+  "questions": [
+    {
+      "q": "Where did Marcus live?",
+      "opts": ["In the city center", "In a small suburb near the sea", "On a farm in the mountains", "On a small island"],
+      "ans": 1
+    },
+    {
+      "q": "What did Marcus do every morning?",
+      "opts": ["He worked as a chemist", "He studied at a large institution", "He fixed walls by the canal", "He took dairy products to the grocers"],
+      "ans": 3
+    },
+    {
+      "q": "What did Marcus's father want him to do?",
+      "opts": ["Get a job at the large institution where he worked", "Deliver more milk", "Become a merchant", "Join the local congress"],
+      "ans": 0
+    },
+    {
+      "q": "Why was there a wall beside the canal?",
+      "opts": ["To keep strangers out of the town", "To mark the edge of the suburb", "To keep water from coming into the town during high tide", "To protect the grocers' shops"],
+      "ans": 2
+    },
+    {
+      "q": "What did Marcus see in the wall?",
+      "opts": ["A locked gate", "A small hole", "A painted sign", "A broken window"],
+      "ans": 1
+    },
+    {
+      "q": "Why did Marcus hesitate at first?",
+      "opts": ["He had to choose between helping himself and helping the town", "He was afraid of the water", "He didn't know where the wall was", "He wanted to ask his father first"],
+      "ans": 0
+    },
+    {
+      "q": "How did Marcus postpone the tragedy?",
+      "opts": ["He shouted for help", "He built a new wall", "He emptied the canal", "He poked his finger into the hole"],
+      "ans": 3
+    },
+    {
+      "q": "The water is described as \"arctic.\" What does this tell us about the water?",
+      "opts": ["It was dirty", "It was warm", "It was extremely cold", "It was salty"],
+      "ans": 2
+    },
+    {
+      "q": "How long did Marcus have to stay at the wall?",
+      "opts": ["Until the tide went out again", "Until his father arrived", "Until the next morning", "Until the merchant came to help"],
+      "ans": 0
+    },
+    {
+      "q": "What did the local congress do at the end of the story?",
+      "opts": ["They fixed the hole themselves", "They gave Marcus a gift for saving the town", "They gave Marcus a job", "They built a new canal"],
+      "ans": 1
+    }
+  ]
+}

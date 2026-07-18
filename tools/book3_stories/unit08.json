@@ -1,0 +1,57 @@
+{
+  "unit": 8,
+  "title": "The Anniversary Gift",
+  "story_html": "<p>Joe was a <span class=\"vocab\">carpenter</span>. He built houses in the <span class=\"vocab\">highlands</span>. Joe’s wife, Stella, used a <span class=\"vocab\">needle</span> and <span class=\"vocab\">thread</span> to <span class=\"vocab\">sew</span> <span class=\"vocab\">elegant</span> clothing. She only used beautiful <span class=\"vocab\">fabric</span> to make clothes.</p><p>Since they didn’t have a lot of money, they lived in an old <span class=\"vocab\">shed</span>. Water <span class=\"vocab\">dripped</span> in when it rained. They had broken chairs instead of a <span class=\"vocab\">couch</span>. But they had <span class=\"vocab\">coal</span> for heat, and flour from the <span class=\"vocab\">mill</span> for bread. Together, they <span class=\"vocab\">trimmed</span> the bushes to make their house look nice. Joe and Stella were poor, but not <span class=\"vocab\">ashamed</span>. They were happy.</p><p>Sometimes in the evening, they walked downtown. They looked in store windows and dreamed. Stella wanted a hairbrush with an <span class=\"vocab\">ivory</span> handle. She pulled her hair <span class=\"vocab\">upwards</span> every day because she didn’t have a brush to make it nice. Joe wanted to fix his grandfather’s watch.</p><p>For their <span class=\"vocab\">anniversary</span>, Stella wanted to get Joe what he wanted. But then she did the <span class=\"vocab\">arithmetic</span>. It would take at least six months to save enough money. Then, she had an idea. She cut off all of her hair and sold it.</p><p>Meanwhile, Joe knew that he could never fix his watch. So he <span class=\"vocab\">polished</span> it and sold it. He made enough to buy the brush. On their <span class=\"vocab\">anniversary</span>, the door <span class=\"vocab\">burst</span> open. Joe was excited to give Stella his gift. But first, Stella gave him the money to fix the watch. When he saw his wife without any hair, he smiled. “I sold my watch to buy you something,” Joe said. He gave her the brush, and she laughed. They were both willing to give up something very special to make each other happy.</p>",
+  "questions": [
+    {
+      "q": "What was Joe's job?",
+      "opts": ["He worked at a mill", "He was a carpenter", "He sold watches", "He was a coal miner"],
+      "ans": 1
+    },
+    {
+      "q": "What did Stella use to sew elegant clothing?",
+      "opts": ["A machine and cheap fabric", "Coal and flour", "A needle and thread", "An ivory brush"],
+      "ans": 2
+    },
+    {
+      "q": "Where did Joe and Stella live?",
+      "opts": ["In an old shed", "In a house downtown", "In a fancy hotel", "At the mill"],
+      "ans": 0
+    },
+    {
+      "q": "What happened in their home when it rained?",
+      "opts": ["The coal got wet", "The bushes fell over", "The door burst open", "Water dripped in"],
+      "ans": 3
+    },
+    {
+      "q": "What did Stella dream of buying in the store window?",
+      "opts": ["A new couch for the shed", "A hairbrush with an ivory handle", "Beautiful fabric for a dress", "A watch like Joe's"],
+      "ans": 1
+    },
+    {
+      "q": "Stella 'did the arithmetic' before buying the gift. What does this mean?",
+      "opts": ["She calculated how long saving the money would take", "She asked a teacher for help", "She wrote a list of gifts", "She counted the store windows"],
+      "ans": 0
+    },
+    {
+      "q": "How did Stella get the money for Joe's gift?",
+      "opts": ["She sewed clothes for six months", "She borrowed it from the mill", "She cut off all of her hair and sold it", "She sold her broken chairs"],
+      "ans": 2
+    },
+    {
+      "q": "Why did Joe sell his grandfather's watch?",
+      "opts": ["He never liked the old watch", "He needed money for coal", "He wanted to buy a new watch", "He knew he could never fix it and wanted to buy the brush"],
+      "ans": 3
+    },
+    {
+      "q": "On their anniversary, 'the door burst open.' What does 'burst' suggest?",
+      "opts": ["It opened suddenly and with force", "It was broken by the rain", "It opened very slowly", "It made no sound at all"],
+      "ans": 0
+    },
+    {
+      "q": "What is the main message of the story?",
+      "opts": ["Poor people should not buy gifts", "True love means giving up something special for each other", "It is foolish to sell things you cannot fix", "Saving money takes at least six months"],
+      "ans": 1
+    }
+  ]
+}

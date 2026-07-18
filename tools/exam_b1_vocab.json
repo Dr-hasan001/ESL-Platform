@@ -1,0 +1,80 @@
+{
+  "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
+  "title": "Exam",
+  "subtitle": "Vocabulary   ·   Grammar   ·   Reading",
+  "level": "B1",
+  "instructor": "Hasan Alaa",
+  "time_allowed": "35 minutes",
+  "cover_image": "tools/assets/exam_cover.png",
+
+  "part1": {
+    "label": "Look at the picture and circle the correct word.",
+    "hint": "Circle one letter (a, b, c, or d) for each question.  ·  1 mark each",
+    "items": [
+      {"num": 1,  "word": "Wheel",     "options": ["wheel", "hook", "shell", "grave"],       "answer": "a"},
+      {"num": 2,  "word": "Penny",     "options": ["shell", "penny", "cloth", "strip"],      "answer": "b"},
+      {"num": 3,  "word": "Furniture", "options": ["chamber", "curtain", "furniture", "shore"], "answer": "c"},
+      {"num": 4,  "word": "Clay",      "options": ["feather", "shell", "grave", "clay"],     "answer": "d"},
+      {"num": 5,  "word": "Hole",      "options": ["hole", "hook", "strip", "shell"],        "answer": "a"},
+      {"num": 6,  "word": "Shell",     "options": ["feather", "shell", "iron", "cloth"],     "answer": "b"},
+      {"num": 7,  "word": "Hook",      "options": ["wheel", "strip", "hook", "hole"],        "answer": "c"},
+      {"num": 8,  "word": "Flood",     "options": ["channel", "grave", "chamber", "flood"],  "answer": "d"},
+      {"num": 9,  "word": "Shore",     "options": ["shore", "surface", "province", "channel"], "answer": "a"},
+      {"num": 10, "word": "Curtain",   "options": ["cloth", "curtain", "furniture", "strip"], "answer": "b"}
+    ]
+  },
+
+  "part2": {
+    "label": "Fill in each blank with the correct word from the Word Bank.",
+    "hint": "There are 12 words but only 10 blanks — two words are extra.  ·  1 mark each",
+    "bank": ["role", "grateful", "found", "annual", "ideal", "deserve", "loose", "agreement", "romantic", "obtain", "decent", "swear"],
+    "sentences": [
+      {"num": 1,  "text": "My grandfather helped ______________ the City Bank many years ago.", "answer": "found"},
+      {"num": 2,  "text": "Her ______________ in the office is to sell products to customers.", "answer": "role"},
+      {"num": 3,  "text": "After months of talks, the two sides finally reached an ______________.", "answer": "agreement"},
+      {"num": 4,  "text": "The only time I see my uncles is at our ______________ family picnic.", "answer": "annual"},
+      {"num": 5,  "text": "Students who work hard ______________ good grades.", "answer": "deserve"},
+      {"num": 6,  "text": "After I passed the test, I was able to ______________ my driver's license.", "answer": "obtain"},
+      {"num": 7,  "text": "The girls were ______________ for the chance to visit their grandfather.", "answer": "grateful"},
+      {"num": 8,  "text": "Eric did a ______________ job painting the fence.", "answer": "decent"},
+      {"num": 9,  "text": "The bolt was ______________, so I tightened it with the wrench.", "answer": "loose"},
+      {"num": 10, "text": "I will put my hand on the book and ______________ to tell the truth.", "answer": "swear"}
+    ]
+  },
+
+  "part3": {
+    "label": "Read the story, then circle T (true) or F (false).",
+    "hint": "The vocabulary words are printed in bold.  ·  1 mark each",
+    "story_title": "The Hidden Chamber",
+    "story": "Last summer, Omar visited an old <b>royal</b> palace with a <b>bunch</b> of friends. Their guide, Miss Layla, was famous for her <b>intelligence</b> — she had studied the palace for twenty years. While they were walking, Omar noticed a <b>gap</b> between two stones in the wall. Under the dust on the <b>surface</b>, there was a small door. “Are you <b>kidding</b> me?” laughed his friend Ali. “That's <b>ridiculous</b> — there are no secret rooms here!” But Miss Layla opened the door, and they found a hidden <b>chamber</b> full of old boxes. Inside one box, there was a golden crown. Sadly, tests later showed the crown was <b>fake</b> — a clever copy made a hundred years ago. Still, the discovery brought great <b>glory</b> to the little museum, and Omar's photo appeared in the national newspaper.",
+    "statements": [
+      {"num": 1,  "text": "Omar visited the palace with a group of friends.", "answer": true},
+      {"num": 2,  "text": "Miss Layla was known for being very clever.", "answer": true},
+      {"num": 3,  "text": "Omar noticed a gap between two stones in the floor.", "answer": false},
+      {"num": 4,  "text": "Ali believed there were secret rooms in the palace.", "answer": false},
+      {"num": 5,  "text": "The small door was easy to see because the surface was clean.", "answer": false},
+      {"num": 6,  "text": "The hidden chamber was full of old boxes.", "answer": true},
+      {"num": 7,  "text": "The golden crown was real royal treasure.", "answer": false},
+      {"num": 8,  "text": "The crown was a copy made about a hundred years ago.", "answer": true},
+      {"num": 9,  "text": "The discovery brought honour to the little museum.", "answer": true},
+      {"num": 10, "text": "Ali was serious when he asked about the secret door.", "answer": false}
+    ]
+  },
+
+  "part4": {
+    "label": "Grammar — Present Perfect Continuous.",
+    "hint": "Read the requirement in red brackets, then write your answer.  ·  1 mark each",
+    "items": [
+      {"num": 1,  "sentence": "Ali ______________________ (work) at the hospital since 2018.", "requirement": "correct", "line": false, "answer": "has been working"},
+      {"num": 2,  "sentence": "They have been playing football since this morning.", "requirement": "make negative", "line": true, "answer": "They haven't been playing football since this morning."},
+      {"num": 3,  "sentence": "Sara has been learning French ______________ two years.", "requirement": "use since or for", "line": false, "answer": "for"},
+      {"num": 4,  "sentence": "I work in this school for five years.", "requirement": "fix the mistake", "line": true, "answer": "I have been working in this school for five years."},
+      {"num": 5,  "sentence": "My father has been driving a taxi ______________ twenty years.", "requirement": "use since or for", "line": false, "answer": "for"},
+      {"num": 6,  "sentence": "We have waiting here for two hours.", "requirement": "fix the mistake", "line": true, "answer": "We have been waiting here for two hours."},
+      {"num": 7,  "sentence": "It has been raining ______________ I left the house.", "requirement": "use since or for", "line": false, "answer": "since"},
+      {"num": 8,  "sentence": "The children ______________________ (play) outside since lunchtime.", "requirement": "correct", "line": false, "answer": "have been playing"},
+      {"num": 9,  "sentence": "She has been watching TV all afternoon.", "requirement": "make negative", "line": true, "answer": "She hasn't been watching TV all afternoon."},
+      {"num": 10, "sentence": "I have been knowing him since we were children.", "requirement": "fix the mistake", "line": true, "answer": "I have known him since we were children."}
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "unit": 12,
+  "title": "The Ice Cream Cone Explosion",
+  "story_html": "<p>One day, John walked to his uncle's ice cream shop. When he reached the sidewalk near the shop, he caught the <span class=\"vocab\">scent</span> of ice cream cones and <span class=\"vocab\">anticipated</span> eating some ice cream.</p><p>Sam opened the door. Uncle John had a new, <span class=\"vocab\">steel</span> machine. \"What is that?\"</p><p>\"It's a cone maker. I built it from a <span class=\"vocab\">kit</span>. You take flour from the <span class=\"vocab\">barrel</span> and put it in this pan,\" Uncle John said. \"Then, add water and sugar here and stir it so the sugar <span class=\"vocab\">dissolves</span>. Next, you <span class=\"vocab\">fasten</span> down the <span class=\"vocab\">beam</span>.\" Uncle John wanted to look <span class=\"vocab\">casual</span>, but he was excited. He made a few <span class=\"vocab\">swift</span> movements and turned it on. There was a <span class=\"vocab\">puff</span> of smoke, and then cones came out the other end.</p><p>\"Is it hard to use?\" Sam asked.</p><p>\"On the <span class=\"vocab\">contrary</span>, it's easy to use. Want to try?\"</p><p>Sam washed his hands with <span class=\"vocab\">caution</span>. He made a <span class=\"vocab\">deliberate</span> attempt to keep <span class=\"vocab\">germs</span> out of the dough. Soon, Sam had his first cone. He smiled in <span class=\"vocab\">triumph</span>!</p><p>Uncle John tried to turn the machine off, but it kept making cones. Sam and Uncle John put them on the counter, then on chairs. Before long, cones were <span class=\"vocab\">scattered</span> all over the floor.</p><p>They tried everything to stop it, but it wouldn't stop! \"What are we going to do?\" he said.</p><p>\"Kick it!\" yelled Sam. Uncle John lifted his foot and gave the machine a kick. It made a funny noise and <span class=\"vocab\">exploded</span>. They were both covered with dough. Uncle John laughed when he knew Sam was OK. He <span class=\"vocab\">tossed</span> Sam a <span class=\"vocab\">rag</span> to clean his face and smiled. \"I guess we have enough cones now!\"</p>",
+  "questions": [
+    {
+      "q": "Where does the story take place?",
+      "opts": ["At Sam's school", "At a bakery", "At a city park", "At an ice cream shop"],
+      "ans": 3
+    },
+    {
+      "q": "What did Sam smell when he reached the sidewalk near the shop?",
+      "opts": ["Fresh bread", "Ice cream cones", "Hot chocolate", "Roasted nuts"],
+      "ans": 1
+    },
+    {
+      "q": "What was Uncle John's new machine made of?",
+      "opts": ["Steel", "Wood", "Plastic", "Glass"],
+      "ans": 0
+    },
+    {
+      "q": "How did Uncle John get his cone maker?",
+      "opts": ["He bought it already finished", "A friend built it for him", "He built it from a kit", "He found it in the shop"],
+      "ans": 2
+    },
+    {
+      "q": "According to Uncle John, where do you take the flour from?",
+      "opts": ["From a paper bag", "From the barrel", "From the refrigerator", "From the counter"],
+      "ans": 1
+    },
+    {
+      "q": "In the story, Uncle John made a few \"swift\" movements. What does \"swift\" mean?",
+      "opts": ["Careless", "Slow and careful", "Noisy", "Quick and fast"],
+      "ans": 3
+    },
+    {
+      "q": "Why did Sam wash his hands with caution?",
+      "opts": ["To keep germs out of the dough", "Because they were covered with dough", "Because Uncle John told him to hurry", "To help the sugar dissolve"],
+      "ans": 0
+    },
+    {
+      "q": "What problem did the machine have?",
+      "opts": ["It made cones too slowly", "It burned all the cones", "It kept making cones and would not stop", "It made too much smoke"],
+      "ans": 2
+    },
+    {
+      "q": "What happened after Uncle John kicked the machine?",
+      "opts": ["It started working correctly", "It made a funny noise and exploded", "It stopped quietly", "It made even more cones"],
+      "ans": 1
+    },
+    {
+      "q": "Why did Uncle John toss Sam a rag at the end?",
+      "opts": ["So Sam could clean his face", "To cover the broken machine", "To clean the floor", "To wrap up the cones"],
+      "ans": 0
+    }
+  ]
+}

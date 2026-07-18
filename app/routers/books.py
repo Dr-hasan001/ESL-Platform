@@ -10,9 +10,8 @@ from app.routers.deps import current_user
 
 
 def _assert_level(book: Book, user: User):
-    """Redirect to /books if the student tries to access a wrong-level book."""
-    if user.cefr_level and book.cefr_level != user.cefr_level:
-        raise HTTPException(status_code=403, detail="This book is not available at your level.")
+    """Library is open to every student — all 6 books accessible regardless of CEFR level."""
+    return
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -22,10 +21,8 @@ templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/books")
 async def bookshelf_page(request: Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
-    books_q = db.query(Book).order_by(Book.book_number)
-    if user.cefr_level:
-        books_q = books_q.filter(Book.cefr_level == user.cefr_level)
-    books = books_q.all()
+    # Show the full 6-book library to every student (no CEFR filter)
+    books = db.query(Book).order_by(Book.book_number).all()
     return templates.TemplateResponse("student/bookshelf.html", {"request": request, "books": books, "user": user})
 
 
@@ -87,10 +84,8 @@ async def study_page(unit_id: int, request: Request, db: Session = Depends(get_d
 
 @router.get("/quiz/create")
 async def quiz_create_page(request: Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
-    books_q = db.query(Book).order_by(Book.book_number)
-    if user.cefr_level:
-        books_q = books_q.filter(Book.cefr_level == user.cefr_level)
-    books = books_q.all()
+    # Show the full 6-book library to every student (no CEFR filter)
+    books = db.query(Book).order_by(Book.book_number).all()
     books_with_units = []
     for b in books:
         units = (
@@ -188,10 +183,8 @@ async def story_page(unit_id: int, request: Request, db: Session = Depends(get_d
 
 @router.get("/api/books")
 async def api_books(db: Session = Depends(get_db), user: User = Depends(current_user)):
-    books_q = db.query(Book).order_by(Book.book_number)
-    if user.cefr_level:
-        books_q = books_q.filter(Book.cefr_level == user.cefr_level)
-    books = books_q.all()
+    # Show the full 6-book library to every student (no CEFR filter)
+    books = db.query(Book).order_by(Book.book_number).all()
     return [{"id": b.id, "title": b.title, "cefr_level": b.cefr_level, "cover_color": b.cover_color, "unit_count": b.unit_count} for b in books]
 
 

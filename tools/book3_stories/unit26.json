@@ -1,0 +1,57 @@
+{
+  "unit": 26,
+  "title": "Everyone Is Special",
+  "story_html": "<p>When I was young, everything that went wrong in my house seemed to be my fault. Once, my brothers tried to make cookies. They <span class=\"vocab\">blended</span> <span class=\"vocab\">flour</span> and <span class=\"vocab\">ginger</span> and made a <span class=\"vocab\">disgusting</span> <span class=\"vocab\">paste</span>. Then, they tried to wash it down the <span class=\"vocab\">drain</span>, but it got all over the floor. Later, my brothers said that I had done, and I had to <span class=\"vocab\">wipe</span> it up.</p><p>I worried that my parents liked them more than me. One <span class=\"vocab\">autumn</span> day, I was sure I would make my parents proud. I bought a model rocket. After I put it together, I invited everybody to watch it. I wanted my brothers to <span class=\"vocab\">envy</span> my technical knowledge. I lit the <span class=\"vocab\">fuse</span>, but nothing happened.</p><p>“Looks like your <span class=\"vocab\">fireworks</span> don’t work. I hope you kept the <span class=\"vocab\">receipt</span> so you can return them,” my brother said. “It’s not a <span class=\"vocab\">firework</span>!” I screamed. They were making fun of me again. I didn’t know what went wrong. I hadn’t <span class=\"vocab\">altered</span> anything. I quickly moved the <span class=\"vocab\">wires</span> on the bottom, hoping that would help. Suddenly, the rocket flew up. We stood <span class=\"vocab\">aside</span> as it <span class=\"vocab\">curved</span> through the grass and ran straight into the mailbox. Then, the mailbox <span class=\"vocab\">collapsed</span>. The rocket was <span class=\"vocab\">crushed</span>.</p><p>Embarrassed, I ran inside and hid. A few minutes later, my mom asked, “Are you OK?”</p><p>“I just wanted them to be <span class=\"vocab\">jealous</span> of me for once. Now, I see why you and Dad don’t love me as much as you love them,” I said. “That’s not true!” said my mom. “See my fingers . . . each one is different. You kids are like my fingers: all are different, but I love them all the same.”</p><p>I <span class=\"vocab\">embraced</span> her. Now, I know that my parents love me just as much as my brothers.</p>",
+  "questions": [
+    {
+      "q": "What did the narrator's brothers try to make at the beginning of the story?",
+      "opts": ["Cookies", "A model rocket", "A cake", "Soup"],
+      "ans": 0
+    },
+    {
+      "q": "What did the brothers blend together to make a disgusting paste?",
+      "opts": ["Sugar and butter", "Flour and ginger", "Eggs and milk", "Flour and water"],
+      "ans": 1
+    },
+    {
+      "q": "Who had to wipe up the mess that got all over the floor?",
+      "opts": ["The mother", "The brothers", "The narrator", "The father"],
+      "ans": 2
+    },
+    {
+      "q": "Why did the narrator buy a model rocket?",
+      "opts": ["Because his brothers asked him to", "Because he needed it for school", "Because he wanted to sell it", "Because he wanted to make his parents proud"],
+      "ans": 3
+    },
+    {
+      "q": "What happened when the narrator first lit the fuse?",
+      "opts": ["Nothing happened", "The rocket flew straight up", "The rocket exploded", "The fireworks started"],
+      "ans": 0
+    },
+    {
+      "q": "The narrator wanted his brothers to \"envy\" his technical knowledge. What does \"envy\" mean here?",
+      "opts": ["To laugh at something", "To wish you had what someone else has", "To forget about something", "To be afraid of something"],
+      "ans": 1
+    },
+    {
+      "q": "What did the rocket run into after it curved through the grass?",
+      "opts": ["A tree", "The garage", "The mailbox", "The front door"],
+      "ans": 2
+    },
+    {
+      "q": "What did the mother compare her children to?",
+      "opts": ["Flowers in a garden", "Stars in the sky", "Model rockets", "Her fingers"],
+      "ans": 3
+    },
+    {
+      "q": "Why did the narrator run inside and hide after the rocket crashed?",
+      "opts": ["He was embarrassed", "He was afraid of the fire", "He wanted to find the receipt", "He needed to fix the wires"],
+      "ans": 0
+    },
+    {
+      "q": "What did the narrator understand at the end of the story?",
+      "opts": ["That his brothers were better at science", "That his parents love him just as much as his brothers", "That he should never buy rockets again", "That his mother was angry with him"],
+      "ans": 1
+    }
+  ]
+}

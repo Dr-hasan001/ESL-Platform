@@ -29,8 +29,9 @@
   .cb .q-back { background: var(--cb); }
   .cc .q-back { background: var(--cc); }
   .cd .q-back { background: var(--cd); }
-  .q-img-half { width: 100%; height: 55%; overflow: hidden; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
-  .q-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .q-img-half { position: relative; width: 100%; height: 55%; overflow: hidden; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
+  .q-img-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(18px) brightness(.9); transform: scale(1.15); }
+  .q-card-img { position: relative; width: 100%; height: 100%; object-fit: contain; display: block; transition: transform .25s; }
   .q-img-half:hover .q-card-img { transform: scale(1.05); }
   .q-emoji-big { font-size: 4rem; line-height: 1; pointer-events: none; }
   .q-text-half { width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .45rem; padding: .6rem 1rem; }
@@ -119,7 +120,7 @@ function buildCard(w, position) {
       <div class="face q-back">
         <div class="q-img-half">
           ${w.image_url
-            ? `<img src="${w.image_url}" alt="${w.word}" class="q-card-img">`
+            ? `<img src="${w.image_url}" alt="" class="q-img-bg" aria-hidden="true"><img src="${w.image_url}" alt="${w.word}" class="q-card-img">`
             : `<div class="q-emoji-big">${w.emoji || ''}</div>`}
         </div>
         <div class="q-text-half">

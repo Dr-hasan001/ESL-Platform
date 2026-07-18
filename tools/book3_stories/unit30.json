@@ -1,0 +1,57 @@
+{
+  "unit": 30,
+  "title": "The Island",
+  "story_html": "<p>“Where am I?” Bob thought to himself when he woke up on a beach. “I can’t remember what happened.” There had been a bad storm, and Bob’s fishing boat had sunk. He washed ashore on a small island, but he had gotten hurt during the storm. He had a terrible <span class=\"vocab\">headache</span>, and he had a <span class=\"vocab\">fracture</span> in his <span class=\"vocab\">shoulder</span>. He felt awful. But he had a strong desire to make it home to his <span class=\"vocab\">spouse</span> and children. He had to <span class=\"vocab\">tolerate</span> all the pain and <span class=\"vocab\">devise</span> a plan.</p><p>Bob stood up and looked around. “I’ll walk to a higher place so I can see everything around me and see far in the <span class=\"vocab\">distance</span>,” thought Bob. “Maybe I’ll gain some <span class=\"vocab\">insight</span> about this island and find something to help me escape.” As he walked along a mountain <span class=\"vocab\">ridge</span>, he noticed that the tall trees looked strong and thick. Bob got a brilliant idea. He could build a <span class=\"vocab\">raft</span>! He cut down some leaves and tree <span class=\"vocab\">limbs</span>. Even though his <span class=\"vocab\">shoulder</span> injury affected his ability to carry the materials, he slowly <span class=\"vocab\">shoved</span> them down the mountain until he reached the <span class=\"vocab\">coastline</span>.</p><p>Bob was a <span class=\"vocab\">proficient</span> builder. He used his building <span class=\"vocab\">expertise</span> to line up the <span class=\"vocab\">limbs</span> and tie them together with long vines. When the <span class=\"vocab\">raft</span> was finished, Bob was happy with his work. “This will bring me home to my family,” he said with a smile.</p><p>At last, Bob was ready to <span class=\"vocab\">implement</span> his plan. With all his <span class=\"vocab\">might</span>, he <span class=\"vocab\">thrust</span> the <span class=\"vocab\">raft</span> into the water. He climbed on and began the job of finding his way home. Bob smiled again and thought, “I’m glad I kept a good attitude. It prevented the pain from <span class=\"vocab\">deterring</span> me from my plan. <span class=\"vocab\">Optimism</span> and ambition make anything possible.” Slowly, he floated out to sea. In a few days, he made it to shore and ran home to see his worried family.</p>",
+  "questions": [
+    {
+      "q": "How did Bob end up on the island?",
+      "opts": ["He swam there for exercise", "His fishing boat sank in a bad storm", "His plane crashed near the beach", "He sailed there to explore it"],
+      "ans": 1
+    },
+    {
+      "q": "What injuries did Bob have after the storm?",
+      "opts": ["A broken leg and a cold", "Burns on his hands", "A terrible headache and a fracture in his shoulder", "A deep cut on his foot"],
+      "ans": 2
+    },
+    {
+      "q": "Why did Bob want so badly to get home?",
+      "opts": ["He had a strong desire to see his spouse and children", "He had to go back to work", "His boat needed to be repaired", "He was afraid of the island at night"],
+      "ans": 0
+    },
+    {
+      "q": "Why did Bob decide to walk to a higher place?",
+      "opts": ["To find fresh water", "To escape from wild animals", "To build a shelter in the trees", "To see far in the distance and gain insight about the island"],
+      "ans": 3
+    },
+    {
+      "q": "What gave Bob the idea to build a raft?",
+      "opts": ["Finding a book about boats", "The tall trees that looked strong and thick", "A raft that washed up on the shore", "Seeing another island nearby"],
+      "ans": 1
+    },
+    {
+      "q": "How did Bob get the materials to the coastline?",
+      "opts": ["He slowly shoved them down the mountain", "He carried them on his back", "He floated them down a river", "He asked a friend to help him"],
+      "ans": 0
+    },
+    {
+      "q": "Bob was a \"proficient\" builder. What does \"proficient\" mean?",
+      "opts": ["Slow and careless", "Nervous and afraid", "Skilled and good at something", "Rich and famous"],
+      "ans": 2
+    },
+    {
+      "q": "How did Bob join the tree limbs together to make the raft?",
+      "opts": ["With nails from his boat", "With strips of his shirt", "With wet sand and mud", "He tied them together with long vines"],
+      "ans": 3
+    },
+    {
+      "q": "What did Bob do with all his might?",
+      "opts": ["He thrust the raft into the water", "He cut down the tallest tree", "He shouted for help", "He climbed the mountain ridge"],
+      "ans": 0
+    },
+    {
+      "q": "What lesson does Bob's story teach?",
+      "opts": ["Never go fishing when it is cloudy", "Optimism and ambition make anything possible", "Building a raft is easy for anyone", "Pain always stops people from reaching their goals"],
+      "ans": 1
+    }
+  ]
+}

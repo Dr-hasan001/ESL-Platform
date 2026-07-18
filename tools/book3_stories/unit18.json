@@ -1,0 +1,57 @@
+{
+  "unit": 18,
+  "title": "The Knight's Plan",
+  "story_html": "<p>A town was fighting for their <span class=\"vocab\">independence</span> from another country. Several <span class=\"vocab\">rebels</span> started a <span class=\"vocab\">revolution</span>. However, they were afraid of an <span class=\"vocab\">invasion</span> from a lot of <span class=\"vocab\">troops</span>. They didn't have enough <span class=\"vocab\">warriors</span> to stop the enemy, so they asked a <span class=\"vocab\">knight</span> for help.</p><p>The <span class=\"vocab\">knight</span> made a plan. A tall mountain was outside the town. The road near the top was very narrow. <span class=\"vocab\">Cliffs</span> rose on both sides of it.</p><p>\"We must trick the enemy. They have to follow us up the mountain,\" the <span class=\"vocab\">knight</span> explained. \"On the narrow path, only a few can attack us at one time.\"</p><p>The people agreed with the <span class=\"vocab\">knight's</span> plan.</p><p>The <span class=\"vocab\">knight</span> put on his <span class=\"vocab\">armor</span>, and the <span class=\"vocab\">warriors</span> got their <span class=\"vocab\">spears</span>. When the enemy attacked, the <span class=\"vocab\">knight</span> and <span class=\"vocab\">warriors</span> acted as if they were afraid. They quickly <span class=\"vocab\">withdrew</span> toward the mountain. The enemy <span class=\"vocab\">troops</span> followed them up the <span class=\"vocab\">steep</span> path. Soon, the enemy became tired.</p><p>At the <span class=\"vocab\">summit</span>, the <span class=\"vocab\">knight</span> and his <span class=\"vocab\">troops</span> stopped. The enemy was close behind them. But now they were tired. Also, only a few could attack because the path was narrow. The <span class=\"vocab\">knight</span> and the <span class=\"vocab\">warriors</span> fought the enemy. But there were too many <span class=\"vocab\">troops</span>. The <span class=\"vocab\">knight</span> was afraid. If the <span class=\"vocab\">warriors</span> <span class=\"vocab\">yielded</span> the path to the enemy, the town would be lost. A storm suddenly came over the mountain. There was strong wind and rain. <span class=\"vocab\">Thunder</span> <span class=\"vocab\">boomed</span>. <span class=\"vocab\">Lightning</span> struck some trees near the enemy. The trees <span class=\"vocab\">blazed</span>. The <span class=\"vocab\">flames</span> scared the enemy, and they <span class=\"vocab\">retreated</span>. They ran down the mountain, out of the town, and never returned. The <span class=\"vocab\">knight</span> explained, \"With a little luck, a good plan beats even a big army.\"</p>",
+  "questions": [
+    {
+      "q": "What was the town fighting for?",
+      "opts": ["Their independence from another country", "More land for their farms", "Control of a tall mountain", "A treasure hidden in the cliffs"],
+      "ans": 0
+    },
+    {
+      "q": "Why did the rebels ask a knight for help?",
+      "opts": ["The knight owned the mountain", "The knight knew the enemy's leader", "They didn't have enough warriors to stop the enemy", "The knight had a large army of his own"],
+      "ans": 2
+    },
+    {
+      "q": "What was special about the road near the top of the mountain?",
+      "opts": ["It was wide and easy to walk on", "It was very narrow, with cliffs on both sides", "It was covered with trees", "It was blocked by a storm"],
+      "ans": 1
+    },
+    {
+      "q": "What was the knight's plan?",
+      "opts": ["To hide the town's people in the mountain", "To attack the enemy at night", "To build a wall around the town", "To trick the enemy into following them up the mountain"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word \"withdrew\" is closest in meaning to:",
+      "opts": ["attacked quickly", "shouted loudly", "moved back", "stood still"],
+      "ans": 2
+    },
+    {
+      "q": "Why did the knight and warriors act as if they were afraid?",
+      "opts": ["So the enemy would follow them up the mountain", "Because they had lost their spears", "Because the storm was coming", "So the enemy would feel sorry for them"],
+      "ans": 0
+    },
+    {
+      "q": "At the summit, why was the knight afraid?",
+      "opts": ["The storm was too strong", "His armor was broken", "The enemy had taken the town", "If the warriors yielded the path, the town would be lost"],
+      "ans": 3
+    },
+    {
+      "q": "What happened when lightning struck some trees near the enemy?",
+      "opts": ["The enemy climbed the trees", "The trees blazed, and the flames scared the enemy", "The rain put out the fire at once", "The knight's troops were burned"],
+      "ans": 1
+    },
+    {
+      "q": "What did the enemy do at the end of the battle?",
+      "opts": ["They attacked one more time", "They asked the knight for peace", "They retreated, ran out of the town, and never returned", "They waited at the summit until morning"],
+      "ans": 2
+    },
+    {
+      "q": "What did the knight mean by \"With a little luck, a good plan beats even a big army\"?",
+      "opts": ["Clever planning can defeat a much stronger force", "Luck is the only thing that matters in war", "Big armies always win in the end", "A knight should never fight without armor"],
+      "ans": 0
+    }
+  ]
+}

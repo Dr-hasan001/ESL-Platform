@@ -1,0 +1,57 @@
+{
+  "unit": 7,
+  "title": "Patsy Ann",
+  "story_html": "<p>A long time ago in Alaska, a dog named Patsy Ann watched the <span class=\"vocab\">horizon</span>. Every day, she waited by the <span class=\"vocab\">bay</span> for ships returning from an <span class=\"vocab\">expedition</span>.</p><p>Patsy Ann was a <span class=\"vocab\">brilliant</span> dog, and she was very unique. She was <span class=\"vocab\">deaf</span>. She couldn’t <span class=\"vocab\">bark</span>, either. But she used all of her other <span class=\"vocab\">senses</span> to know when a ship was near.</p><p>Patsy Ann lived on the streets. Her owners did not want her because she could not hear, so they <span class=\"vocab\">abandoned</span> her. She found <span class=\"vocab\">refuge</span> in a fancy hotel. Guests <span class=\"vocab\">rubbed</span> her back and scratched her <span class=\"vocab\">chin</span>. Many people gave her food. She became quite <span class=\"vocab\">overweight</span>.</p><p>She became very famous. Visitors to Alaska were <span class=\"vocab\">enthusiastic</span> about meeting her. They brought presents for her. They liked seeing her, and the feeling was <span class=\"vocab\">mutual</span>. The <span class=\"vocab\">mayor</span> said Patsy Ann should be called the town’s greeter*.</p><p>The people in town loved Patsy Ann, too, even though she lived on the streets. They were willing to fight to keep her. A new law made all dogs wear a collar and get shots. The <span class=\"vocab\">mayor</span> received many <span class=\"vocab\">complaints</span>. People wanted Patsy Ann to be able to stay. One <span class=\"vocab\">ambitious</span> sailor got people to help. Together, they paid for Patsy Ann to go to the <span class=\"vocab\">veterinarian</span>. She got her shots and a collar. She could stay.</p><p>When Patsy Ann died, everyone missed the town’s <span class=\"vocab\">loyal</span> greeter. So the <span class=\"vocab\">mayor</span> hired someone to make a statue of Patsy Ann. He <span class=\"vocab\">restored</span> the town’s greeter. Now, she stands near the water forever, waiting for ships to come home.</p><p>*greeter – a person whose job is to say hello to new people.</p>",
+  "questions": [
+    {
+      "q": "Where did Patsy Ann wait for ships every day?",
+      "opts": ["At the fancy hotel", "On the mayor's street", "By the bay", "On a ship"],
+      "ans": 2
+    },
+    {
+      "q": "Why couldn't Patsy Ann hear when a ship was near?",
+      "opts": ["She was deaf", "She was too old", "She was sleeping all day", "The ships were too far away"],
+      "ans": 0
+    },
+    {
+      "q": "Why did Patsy Ann's owners abandon her?",
+      "opts": ["She barked too much", "She was overweight", "She ran away to the bay", "She could not hear"],
+      "ans": 3
+    },
+    {
+      "q": "Where did Patsy Ann find refuge after living on the streets?",
+      "opts": ["In the mayor's house", "In a fancy hotel", "In a ship by the bay", "At the veterinarian's office"],
+      "ans": 1
+    },
+    {
+      "q": "The story says the visitors liked seeing her, 'and the feeling was mutual.' What does 'mutual' mean?",
+      "opts": ["Shared by both sides", "Very strong", "Kept secret", "Hard to explain"],
+      "ans": 0
+    },
+    {
+      "q": "What did the new law make all dogs do?",
+      "opts": ["Live inside a house", "Stay away from hotels", "Wear a collar and get shots", "Be checked by the mayor"],
+      "ans": 2
+    },
+    {
+      "q": "How did Patsy Ann get her shots and collar?",
+      "opts": ["The hotel guests bought them for her", "An ambitious sailor got people to pay together", "The mayor paid for them himself", "The veterinarian treated her for free"],
+      "ans": 1
+    },
+    {
+      "q": "In this story, 'abandoned' means her owners:",
+      "opts": ["trained her carefully", "sold her to a hotel", "took her on an expedition", "left her and did not keep her"],
+      "ans": 3
+    },
+    {
+      "q": "What did the mayor do after Patsy Ann died?",
+      "opts": ["He hired someone to make a statue of her", "He wrote a law in her name", "He bought a new dog for the town", "He closed the bay for a day"],
+      "ans": 0
+    },
+    {
+      "q": "Why does the story say the statue 'restored the town's greeter'?",
+      "opts": ["The statue could say hello to new people", "The mayor fixed the old broken statue", "A new dog was trained to greet ships", "The statue lets Patsy Ann keep watching for ships forever"],
+      "ans": 3
+    }
+  ]
+}

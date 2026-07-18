@@ -1,0 +1,57 @@
+{
+  "unit": 29,
+  "title": "An Interesting Life",
+  "story_html": "<p>A man looked through some boxes with his grandson. They were filled with old photographs and objects that <span class=\"vocab\">portrayed</span> important events from the grandfather’s life. He wished to share the <span class=\"vocab\">circumstances</span> behind each event with his grandson.</p><p>The grandson, however, thought his grandfather’s stories were boring. The grandfather <span class=\"vocab\">coped</span> with this. He ignored his grandson’s <span class=\"vocab\">criticism</span>.</p><p>He took a photo from the box. “That’s the <span class=\"vocab\">submarine</span> I was on during the war,” he explained. The grandson <span class=\"vocab\">gazed</span> at it.</p><p>The grandfather <span class=\"vocab\">glanced</span> at the next picture and <span class=\"vocab\">frowned</span>. It showed a row of <span class=\"vocab\">coffins</span>. His grandson noticed the <span class=\"vocab\">grief</span> in his grandfather’s face.</p><p>“What is it?” the boy inquired.</p><p>“This was after a <span class=\"vocab\">nuclear</span> <span class=\"vocab\">bomb</span> was dropped,” the grandfather answered. “It <span class=\"vocab\">devastated</span> a city.”</p><p>Next, the grandfather pulled a toy <span class=\"vocab\">microscope</span> from the box and <span class=\"vocab\">rotated</span> it in his hand.</p><p>“Where did you get that?” the grandson asked.</p><p>“This is a <span class=\"vocab\">souvenir</span> I bought at the science museum,” the grandfather said.</p><p>Now, the boy was really interested. He started to understand that his grandfather was telling him a larger story. It was the story of his grandfather’s life.</p><p>The grandfather picked up another photo. It showed a young bride and <span class=\"vocab\">groom</span>. They were very happy. A <span class=\"vocab\">certificate</span> was attached to the photo. The boy couldn’t read it, but he <span class=\"vocab\">traced</span> his finger over the paper.</p><p>“What’s this from, Granddad?” he asked.</p><p>“That’s my marriage <span class=\"vocab\">license</span> from the day I married your grandmother,” the grandfather said.</p><p>“Wow!” said the boy. “Granddad, now I know all about your life!”</p>",
+  "questions": [
+    {
+      "q": "What were the boxes filled with?",
+      "opts": ["Old clothes and shoes", "Books about the war", "Toys from the science museum", "Old photographs and objects"],
+      "ans": 3
+    },
+    {
+      "q": "At the beginning, what did the grandson think of his grandfather's stories?",
+      "opts": ["They were exciting", "They were boring", "They were frightening", "They were funny"],
+      "ans": 1
+    },
+    {
+      "q": "How did the grandfather cope with his grandson's criticism?",
+      "opts": ["He ignored it", "He got angry", "He stopped telling stories", "He asked the boy to leave"],
+      "ans": 0
+    },
+    {
+      "q": "Where was the grandfather during the war?",
+      "opts": ["On an airplane", "In a hospital", "On a submarine", "In a science museum"],
+      "ans": 2
+    },
+    {
+      "q": "Why did the grandfather frown at the picture of the coffins?",
+      "opts": ["He couldn't remember the picture", "The picture was damaged", "The boy was not listening", "The picture reminded him of a very sad event"],
+      "ans": 3
+    },
+    {
+      "q": "According to the grandfather, what did the nuclear bomb do?",
+      "opts": ["It devastated a city", "It sank his submarine", "It destroyed his house", "It ended the war immediately"],
+      "ans": 0
+    },
+    {
+      "q": "What was the toy microscope?",
+      "opts": ["A gift from the grandson", "A souvenir the grandfather bought at the science museum", "A prize from school", "A tool the grandfather used during the war"],
+      "ans": 1
+    },
+    {
+      "q": "The boy couldn't read the certificate, so what did he do?",
+      "opts": ["He asked his grandmother about it", "He put it back in the box", "He traced his finger over the paper", "He took a photo of it"],
+      "ans": 2
+    },
+    {
+      "q": "What was the certificate attached to the wedding photo?",
+      "opts": ["The grandfather's marriage license", "A school diploma", "A war medal certificate", "A ticket to the museum"],
+      "ans": 0
+    },
+    {
+      "q": "What did the boy begin to understand as he looked at the objects?",
+      "opts": ["That his grandfather was once rich", "That his grandfather was telling the story of his whole life", "That the objects were worth a lot of money", "That his grandfather wanted to sell the objects"],
+      "ans": 1
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "unit": 3,
+  "title": "The Shepherd and the Wild Sheep",
+  "story_html": "<p>Once, there was a <span class=\"vocab\">shepherd</span>. Every night, he gathered and counted his sheep. He made sure never to <span class=\"vocab\">overlook</span> any of them. One night, he saw some wild sheep had joined his herd. He hoped to <span class=\"vocab\">acquire</span> the <span class=\"vocab\">newcomers</span>.</p><p>It snowed that night. In the morning, the <span class=\"vocab\">shepherd</span> couldn't take his sheep out of his <span class=\"vocab\">lodge</span>. Instead, he had to feed them inside. He gave a small amount of <span class=\"vocab\">wheat</span> to his own sheep. But he gave more of the food to the wild sheep. He thought the extra <span class=\"vocab\">wheat</span> would <span class=\"vocab\">discourage</span> them from leaving.</p><p>It snowed for several days. During that time, the <span class=\"vocab\">shepherd</span>'s sheep ate very little. The wild sheep, however, ate very well. At last, the snow melted, and they <span class=\"vocab\">ventured</span> outdoors. As soon as he opened the door of his <span class=\"vocab\">hut</span>, the wild sheep started to run away.</p><p>\"Wait! This is how you <span class=\"vocab\">repay</span> me? After I treated you so kindly, why do you run away?\" the <span class=\"vocab\">shepherd</span> asked. His voice was full of <span class=\"vocab\">hatred</span>. The wild sheep stopped and turned toward the <span class=\"vocab\">shepherd</span>.</p><p>\"We're leaving because you fed us better than your own sheep,\" one of the wild sheep replied. \"You tried to <span class=\"vocab\">deceive</span> us with your <span class=\"vocab\">ridiculous</span> plan. Yesterday, you treated us kindly, but tomorrow you might be different. If more wild sheep joined your herd, you would treat us as <span class=\"vocab\">inferior</span> sheep.\"</p><p>As the wild sheep ran away, the <span class=\"vocab\">shepherd</span> understood his <span class=\"vocab\">offense</span>. He knew this <span class=\"vocab\">awkward</span> situation was his own fault. He had not been a <span class=\"vocab\">satisfactory</span> <span class=\"vocab\">caretaker</span>. He was a <span class=\"vocab\">fake</span> friend to the wild sheep. Because of this, he had <span class=\"vocab\">neglected</span> his own sheep.</p>",
+  "questions": [
+    {
+      "q": "What did the shepherd do every night?",
+      "opts": ["He gathered and counted his sheep", "He fed the wild sheep wheat", "He locked the wild sheep in a hut", "He sold some of his sheep"],
+      "ans": 0
+    },
+    {
+      "q": "What did the shepherd hope to do when wild sheep joined his herd?",
+      "opts": ["Chase them away", "Sell them at the market", "Acquire the newcomers for his own herd", "Return them to another shepherd"],
+      "ans": 2
+    },
+    {
+      "q": "Why did the shepherd have to feed his sheep inside?",
+      "opts": ["The sheep were sick", "There was no grass in the field", "Wolves were near the lodge", "It had snowed, so he couldn't take them outside"],
+      "ans": 3
+    },
+    {
+      "q": "Why did the shepherd give more wheat to the wild sheep?",
+      "opts": ["Because they were bigger and hungrier", "Because he thought the extra food would discourage them from leaving", "Because his own sheep didn't like wheat", "Because the wild sheep asked him for it"],
+      "ans": 1
+    },
+    {
+      "q": "What happened as soon as the shepherd opened the door of his hut?",
+      "opts": ["The wild sheep started to run away", "The wild sheep thanked the shepherd", "His own sheep ran away", "It began to snow again"],
+      "ans": 0
+    },
+    {
+      "q": "In the story, the word 'repay' means:",
+      "opts": ["to run away quickly", "to count something again", "to feed hungry animals", "to give something back in return for kindness"],
+      "ans": 3
+    },
+    {
+      "q": "Why did the wild sheep decide to leave?",
+      "opts": ["Because the shepherd's voice was full of hatred", "Because he fed them better than his own sheep, so they did not trust him", "Because the lodge was too cold in winter", "Because they wanted to find more wheat"],
+      "ans": 1
+    },
+    {
+      "q": "What did the wild sheep think would happen if more wild sheep joined the herd?",
+      "opts": ["They would get more food than before", "They would be sold to another farm", "They would be treated as inferior sheep", "They would be locked inside the hut"],
+      "ans": 2
+    },
+    {
+      "q": "What did the shepherd understand at the end of the story?",
+      "opts": ["That the awkward situation was his own fault", "That the wild sheep were ungrateful", "That he needed a bigger lodge", "That wheat was bad for sheep"],
+      "ans": 0
+    },
+    {
+      "q": "Why can the shepherd be called a 'fake' friend to the wild sheep?",
+      "opts": ["He never gave the wild sheep any food", "He shouted at the wild sheep every day", "He told lies about the wild sheep to others", "His kindness was not honest — he only wanted to keep them for himself"],
+      "ans": 3
+    }
+  ]
+}

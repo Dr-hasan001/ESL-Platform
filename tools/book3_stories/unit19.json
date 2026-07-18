@@ -1,0 +1,57 @@
+{
+  "unit": 19,
+  "title": "The Magic Pear Tree",
+  "story_html": "<p>It was a cool morning, and the grass was covered in <span class=\"vocab\">mist</span>. The market was full of people. A mean farmer named Jack yelled, \"Pears for sale!\" He sat on a <span class=\"vocab\">bench</span>, <span class=\"vocab\">plotting</span> how he could trick people. Then, an <span class=\"vocab\">orphan</span> came to his cart.</p><p>\"Can you <span class=\"vocab\">spare</span> a pear?\" she asked.</p><p>Jack felt <span class=\"vocab\">rage</span>. He replied, \"You don't have any money!\" \"Please, I haven't had <span class=\"vocab\">supper</span> in days.\" \"No!\" shouted the farmer.</p><p>The <span class=\"vocab\">orphan</span> <span class=\"vocab\">sighed</span>. However, a <span class=\"vocab\">pregnant</span> lady heard the <span class=\"vocab\">dispute</span> and came over to Jack. \"Just give her a pear,\" she said. Jack had no <span class=\"vocab\">shame</span> and said no. Finally, a man bought a pear for the girl.</p><p>The girl quickly ate it, but she saved the seed. She wanted to get <span class=\"vocab\">revenge</span>.</p><p>She told Jack, \"I know a way to get hundreds of pears in one day. I'll show you how.\"</p><p>He watched the girl dig a hole. She dropped the seed into the ground. Then she spread the dirt over it.</p><p>\"Watch closely,\" she said. \"In a few minutes, a <span class=\"vocab\">stem</span> will grow. It'll turn into a tree that's full of pears!\"</p><p>Jack stared at the dirt, but nothing happened. The only <span class=\"vocab\">objects</span> there were a few <span class=\"vocab\">daisies</span>. He looked for the girl, but she had <span class=\"vocab\">snuck</span> away.</p><p>Then, he looked at his cart in <span class=\"vocab\">horror</span>. It was <span class=\"vocab\">empty</span>! He suddenly realized that the <span class=\"vocab\">orphan</span> had tricked him. While Jack was waiting for the tree to grow, the people had taken the pears from his cart. They all laughed while they were eating the <span class=\"vocab\">tender</span> fruit. The farmer felt ashamed. The <span class=\"vocab\">incident</span> taught him to be kinder.</p>",
+  "questions": [
+    {
+      "q": "What was Jack doing while he sat on the bench?",
+      "opts": ["Counting his money", "Eating a pear", "Waiting for the mist to clear", "Plotting how he could trick people"],
+      "ans": 3
+    },
+    {
+      "q": "What did the orphan ask Jack?",
+      "opts": ["\"Where is the market?\"", "\"Can you spare a pear?\"", "\"How much is a pear?\"", "\"Can I work for you?\""],
+      "ans": 1
+    },
+    {
+      "q": "How did Jack react when the orphan asked for a pear?",
+      "opts": ["He felt rage and refused to give her one", "He gave her the smallest pear", "He called the police", "He asked the pregnant lady to help her"],
+      "ans": 0
+    },
+    {
+      "q": "Who finally got a pear for the girl?",
+      "opts": ["The pregnant lady", "Jack the farmer", "A man who bought one for her", "Another orphan"],
+      "ans": 2
+    },
+    {
+      "q": "Why did the girl save the seed of the pear?",
+      "opts": ["She wanted to plant a garden", "She wanted to get revenge", "She wanted to sell it", "She wanted to give it to the lady"],
+      "ans": 1
+    },
+    {
+      "q": "What did the girl say would happen after she planted the seed?",
+      "opts": ["Daisies would grow around it", "Jack would become rich", "The seed would take years to grow", "A stem would grow and turn into a tree full of pears"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, \"she had snuck away\" means that the girl had:",
+      "opts": ["left quietly without being noticed", "run away screaming", "hidden inside the cart", "asked someone for help"],
+      "ans": 0
+    },
+    {
+      "q": "Why did Jack look at his cart in horror?",
+      "opts": ["The cart was broken", "A tree was growing through it", "The cart was empty", "The daisies had covered it"],
+      "ans": 2
+    },
+    {
+      "q": "What had happened while Jack was waiting for the tree to grow?",
+      "opts": ["The girl had planted more seeds", "The market had closed", "The people had taken the pears from his cart", "The pregnant lady had paid for all the pears"],
+      "ans": 2
+    },
+    {
+      "q": "What did the incident teach Jack?",
+      "opts": ["To be kinder", "To never go to the market again", "To watch his cart more carefully", "To grow his own pear trees"],
+      "ans": 0
+    }
+  ]
+}

@@ -28,8 +28,9 @@
   .cb .back { background: var(--cb); }
   .cc .back { background: var(--cc); }
   .cd .back { background: var(--cd); }
-  .b-img-half { width: 100%; height: 50%; overflow: hidden; border-radius: 22px 22px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
-  .b-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .b-img-half { position: relative; width: 100%; height: 50%; overflow: hidden; border-radius: 22px 22px 0 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.12); cursor: zoom-in; flex-shrink: 0; }
+  .b-img-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(18px) brightness(.9); transform: scale(1.15); }
+  .b-card-img { position: relative; width: 100%; height: 100%; object-fit: contain; display: block; transition: transform .25s; }
   .b-img-half:hover .b-card-img { transform: scale(1.05); }
   .b-emoji-big { font-size: 5rem; line-height: 1; }
   .b-text-half { width: 100%; flex: 1; padding: .85rem 1.4rem; display: flex; flex-direction: column; gap: .28rem; overflow: hidden; }
@@ -221,7 +222,7 @@ function buildCard(w, idx) {
         <div class="face back">
           <div class="b-img-half">
             ${w.image_url
-              ? `<img src="${w.image_url}" alt="${w.word}" class="b-card-img">`
+              ? `<img src="${w.image_url}" alt="" class="b-img-bg" aria-hidden="true"><img src="${w.image_url}" alt="${w.word}" class="b-card-img">`
               : `<div class="b-emoji-big">${w.emoji || ''}</div>`}
           </div>
           <div class="b-text-half">

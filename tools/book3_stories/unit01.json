@@ -1,0 +1,57 @@
+{
+  "unit": 1,
+  "title": "The Great Pyramids Of Egypt",
+  "story_html": "<p>The <span class=\"vocab\">distinct</span> history of the famous Great Pyramids has been studied for many years by people who study <span class=\"vocab\">archaeology</span>. The pyramids were built nearly 5,000 years ago!</p><p>According to ancient Egyptians, kings played an important <span class=\"vocab\">role</span> in the building of the pyramids. Egyptians believed that kings were chosen by the gods and that, when a king died, he went on to become the god of the dead in the <span class=\"vocab\">afterlife</span>. Gold, food, and clothes were buried with the body so that the spirit would have these things in the <span class=\"vocab\">afterlife</span>. The <span class=\"vocab\">royal</span> family and other <span class=\"vocab\">elite</span> individuals were also buried near the king. Pyramids were <span class=\"vocab\">founded</span> for the <span class=\"vocab\">sole</span> reason of helping the king by containing his things for the <span class=\"vocab\">afterlife</span>.</p><p>The biggest of the three pyramids is known as the Great Pyramid. This structure took over twenty years to <span class=\"vocab\">engineer</span>. The Great Pyramid is made of over 2.5 million stone blocks; the base alone covers an area of thirteen <span class=\"vocab\">acres</span>. (One <span class=\"vocab\">acre</span> is almost the size of a football field.) The visible <span class=\"vocab\">core</span> of the Great Pyramid was originally covered by smooth casing stones. Some of the casing stones that cover the <span class=\"vocab\">surface</span> can still be seen at the base. The stones were laid so well that there is not a single <span class=\"vocab\">gap</span> between them.</p><p>The <span class=\"vocab\">interior</span> of the Great Pyramid is accessible through <span class=\"vocab\">stairs</span> that lead to a <span class=\"vocab\">channel</span>, which then divides into a <span class=\"vocab\">corridor</span> going up and another going down. The rising <span class=\"vocab\">corridor</span> goes up to the Queen's <span class=\"vocab\">Chamber</span>, the Grand Gallery, and the King's <span class=\"vocab\">Chamber</span>. The other <span class=\"vocab\">corridor</span> goes down to a underground <span class=\"vocab\">chamber</span> and an escape tunnel.</p><p>The Sphinx is a big statue of a <span class=\"vocab\">lion</span> with a human head and can be found near the Great Pyramid. The statue is also made from big stones, and it is said to guard the pyramid.</p><p>Surrounded by history and mystery, the Great Pyramids of Egypt are a popular place to visit, and tourists come from around the world to see their <span class=\"vocab\">glory</span>.</p>",
+  "questions": [
+    {
+      "q": "When were the Great Pyramids built?",
+      "opts": ["About 2,000 years ago", "About 3,500 years ago", "Nearly 5,000 years ago", "More than 10,000 years ago"],
+      "ans": 2
+    },
+    {
+      "q": "According to ancient Egyptians, what happened to a king when he died?",
+      "opts": ["He became the god of the dead in the afterlife", "He was turned into a lion", "He came back to life as a new king", "He was buried at sea"],
+      "ans": 0
+    },
+    {
+      "q": "Why were the pyramids founded?",
+      "opts": ["To protect Egypt from its enemies", "To contain the king's things for the afterlife", "To give the royal family a place to live", "To store food for the whole country"],
+      "ans": 1
+    },
+    {
+      "q": "How many stone blocks make up the Great Pyramid?",
+      "opts": ["About 5,000", "About 13,000", "About 1 million", "Over 2.5 million"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word 'elite' is closest in meaning to:",
+      "opts": ["very poor", "belonging to the highest or most important class", "very old", "coming from another country"],
+      "ans": 1
+    },
+    {
+      "q": "How large is the base of the Great Pyramid?",
+      "opts": ["Thirteen acres", "Two acres", "Thirty acres", "One hundred acres"],
+      "ans": 0
+    },
+    {
+      "q": "What originally covered the visible core of the Great Pyramid?",
+      "opts": ["Plates of gold", "Painted wood", "Smooth casing stones", "Desert sand"],
+      "ans": 2
+    },
+    {
+      "q": "In the story, the word 'gap' means:",
+      "opts": ["a large stone", "a kind of tool", "a secret door", "a space or opening between things"],
+      "ans": 3
+    },
+    {
+      "q": "What is the Sphinx?",
+      "opts": ["A king buried inside the Great Pyramid", "A big statue of a lion with a human head", "An underground chamber", "An escape tunnel"],
+      "ans": 1
+    },
+    {
+      "q": "Why do tourists from around the world visit the Great Pyramids?",
+      "opts": ["To study archaeology at a university", "To search for gold", "To see the pyramids' glory", "To meet the royal family"],
+      "ans": 2
+    }
+  ]
+}

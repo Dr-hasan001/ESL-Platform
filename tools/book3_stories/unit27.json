@@ -1,0 +1,57 @@
+{
+  "unit": 27,
+  "title": "Pizarro and the Inca Gold",
+  "story_html": "<p>According to <span class=\"vocab\">rumors</span>, there’s lots of <span class=\"vocab\">precious</span> gold hidden in the jungles of Peru. It got there when the Spanish <span class=\"vocab\">conquered</span> parts of South America. A Spanish <span class=\"vocab\">noble</span>, Francisco Pizarro, arrived in Peru in the 1500s. He found a group of people called the Incas. The Incas believed that their leader, Atahualpa, was both a king and a god. But Pizarro didn’t agree.</p><p>“It is a <span class=\"vocab\">sin</span> for a man to think he is God!” he said to Atahualpa. Atahualpa thought Pizarro was <span class=\"vocab\">insulting</span> his <span class=\"vocab\">heritage</span>. He thought the <span class=\"vocab\">blonde</span> Spanish men held <span class=\"vocab\">prejudices</span> against the Incas. But Atahualpa was a kind man and didn’t want to fight the Spaniards. He said, “If I give you a room full of gold, will you leave my country in peace?”</p><p>Pizarro was <span class=\"vocab\">suspicious</span>. He thought Atahualpa was <span class=\"vocab\">exaggerating</span>. But a few days later, Pizarro returned to the Inca palace with his <span class=\"vocab\">ambassadors</span>. He saw a room filled with <span class=\"vocab\">stacks</span> of gold. There were golden <span class=\"vocab\">necklaces</span>, cups, plates, and <span class=\"vocab\">vases</span>. It was a great <span class=\"vocab\">spectacle</span>. He <span class=\"vocab\">acknowledged</span> that Atahualpa had told the truth. But after seeing the gold, he wanted all of Peru’s gold. So he didn’t leave the country.</p><p>The Spanish soldiers stayed in Peru and grabbed all the gold they could find. But the Inca people tricked the Spaniards. They mixed the gold with <span class=\"vocab\">tin</span> so that it was poor quality. They gave this gold to the Spaniards. <span class=\"vocab\">Meanwhile</span>, they hid the good gold. They put it into sacks and <span class=\"vocab\">dragged</span> it deep into the jungle. The Spanish <span class=\"vocab\">conquerors</span> never found the gold. People think it is still there today.</p>",
+  "questions": [
+    {
+      "q": "According to rumors, where is lots of precious gold hidden?",
+      "opts": ["In the mountains of Spain", "In the Inca palace", "In the jungles of Peru", "Under the sea"],
+      "ans": 2
+    },
+    {
+      "q": "Who was Francisco Pizarro?",
+      "opts": ["A Spanish noble", "An Inca king", "A gold merchant", "A Peruvian farmer"],
+      "ans": 0
+    },
+    {
+      "q": "What did the Incas believe about their leader, Atahualpa?",
+      "opts": ["He was the richest man in Peru", "He was a Spanish ambassador", "He was a great soldier", "He was both a king and a god"],
+      "ans": 3
+    },
+    {
+      "q": "Why did Atahualpa offer Pizarro a room full of gold?",
+      "opts": ["Because he wanted to buy Spanish ships", "Because he didn't want to fight the Spaniards", "Because Pizarro was his friend", "Because he had promised it to the Spanish king"],
+      "ans": 1
+    },
+    {
+      "q": "Pizarro thought Atahualpa was \"exaggerating.\" What does \"exaggerating\" mean?",
+      "opts": ["Making something seem bigger or better than it really is", "Telling the complete truth", "Speaking very quietly", "Hiding something valuable"],
+      "ans": 0
+    },
+    {
+      "q": "What did Pizarro see when he returned to the Inca palace?",
+      "opts": ["An empty room", "An army of Inca soldiers", "A room filled with stacks of gold", "A map showing where gold was hidden"],
+      "ans": 2
+    },
+    {
+      "q": "What did Pizarro do after he saw the gold?",
+      "opts": ["He left Peru in peace", "He stayed because he wanted all of Peru's gold", "He apologized to Atahualpa", "He sent the gold back to Spain"],
+      "ans": 1
+    },
+    {
+      "q": "How did the Inca people trick the Spaniards?",
+      "opts": ["They gave them empty sacks", "They led them into the jungle", "They gave them fake maps", "They mixed the gold with tin so it was poor quality"],
+      "ans": 3
+    },
+    {
+      "q": "What did the Incas do with the good gold?",
+      "opts": ["They put it into sacks and dragged it deep into the jungle", "They buried it under the palace", "They threw it into the river", "They gave it to Pizarro's ambassadors"],
+      "ans": 0
+    },
+    {
+      "q": "According to the story, what do people think about the good gold today?",
+      "opts": ["Pizarro found it in the end", "The Spaniards took it all home", "It was melted and made into coins", "It is still hidden in the jungle"],
+      "ans": 3
+    }
+  ]
+}

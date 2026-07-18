@@ -1,0 +1,107 @@
+{
+  "unit": 24,
+  "title": "Travel Writers",
+  "story_html": "<p>Travel writers travel around the world and write about their experiences. They post their articles on an online blog or in a magazine. It may seem like the perfect way to earn <span class=\"vocab\">income</span>, but there is a lot of hard work involved.</p><p>Travel writers have to be prepared to travel on short notice. Whether getting on a <span class=\"vocab\">jet</span> to travel <span class=\"vocab\">abroad</span> or boarding a small plane for a <span class=\"vocab\">domestic</span> flight, travel writers must have <span class=\"vocab\">official</span> documents such as passports. They must also have international <span class=\"vocab\">currency</span>. And they must have personal belongings ready at all times. Since travel writers also get paid to write about their trips, a laptop to keep track of all the <span class=\"vocab\">data</span> they <span class=\"vocab\">gather</span> is important.</p><p>Being good at research is a must for travel writers. They must choose <span class=\"vocab\">airlines</span> that offer <span class=\"vocab\">maximum</span> travel perks. They must hunt for hotel <span class=\"vocab\">bargains</span>. And they must choose the best things to do on a <span class=\"vocab\">brief</span> trip.</p><p>Good travel writers must attract an <span class=\"vocab\">audience</span> in large <span class=\"vocab\">volumes</span>. To do this, they first write <span class=\"vocab\">drafts</span> about their experiences. They edit the <span class=\"vocab\">drafts</span> many times. Since they get paid to <span class=\"vocab\">recommend</span> and <span class=\"vocab\">refer</span> travelers to hotels, restaurants, and places to visit, their articles have to be well written and inviting to read.</p><p>Getting paid to travel around the world might seem like an exciting profession, but travel writers often endure <span class=\"vocab\">sleepless</span> nights and long wait times at the airport. They travel to <span class=\"vocab\">remote</span> locations and must adjust to new environments. It takes some time to make these adjustments, but for someone who loves to travel as a <span class=\"vocab\">hobby</span> and loves to write, being a travel writer is a great job!</p>",
+  "questions": [
+    {
+      "q": "Where do travel writers post their articles?",
+      "opts": [
+        "In school books",
+        "On an online blog or in a magazine",
+        "On television",
+        "In travel agencies"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "What official documents must travel writers have?",
+      "opts": [
+        "Passports",
+        "Hotel receipts",
+        "Airline tickets only",
+        "Bank statements"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Why is a laptop important for travel writers?",
+      "opts": [
+        "To watch movies at the airport",
+        "To book domestic flights",
+        "To keep track of all the data they gather",
+        "To talk with their families"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "According to the story, what must travel writers hunt for?",
+      "opts": [
+        "Cheap laptops",
+        "New friends",
+        "Free airline tickets",
+        "Hotel bargains"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word 'brief' is closest in meaning to:",
+      "opts": [
+        "expensive",
+        "short",
+        "dangerous",
+        "exciting"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "What do good travel writers do first to attract a large audience?",
+      "opts": [
+        "They write drafts about their experiences",
+        "They buy advertisements",
+        "They call hotels and restaurants",
+        "They take photos of famous places"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Why do travel writers' articles have to be well written and inviting to read?",
+      "opts": [
+        "Because magazines refuse short articles",
+        "Because their teachers check the articles",
+        "Because they get paid to recommend and refer travelers to hotels, restaurants, and places to visit",
+        "Because they want to become famous actors"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What do travel writers often endure?",
+      "opts": [
+        "Boring hotel rooms",
+        "Losing their passports",
+        "Angry readers",
+        "Sleepless nights and long wait times at the airport"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "The word 'remote' in the story is closest in meaning to:",
+      "opts": [
+        "far away",
+        "beautiful",
+        "crowded",
+        "modern"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "According to the story, who would find being a travel writer a great job?",
+      "opts": [
+        "Someone who likes staying at home",
+        "Someone who loves to travel as a hobby and loves to write",
+        "Someone who wants to work at an airport",
+        "Someone who dislikes new environments"
+      ],
+      "ans": 1
+    }
+  ]
+}

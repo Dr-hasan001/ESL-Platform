@@ -1,0 +1,57 @@
+{
+  "unit": 17,
+  "title": "The Magic Cup",
+  "story_html": "<p>Paul and John were brothers. They fought all the time because they both wanted to be leaders of the <span class=\"vocab\">agency</span> they both worked at.</p><p>There was a <span class=\"vocab\">superstition</span> in their town about a magic cup. People said the cup was in a volcano located far away. Anyone who <span class=\"vocab\">retrieved</span> the cup would have a wish come true. John and Paul both wanted to find it. Then, they could become the leader.</p><p>They both left to find the cup. Before their trip, their mother said they should work together. They <span class=\"vocab\">dismissed</span> that idea. Even though their trips <span class=\"vocab\">originated</span> from the same house, each wanted to travel alone. They were both <span class=\"vocab\">miserable</span> during the trip. They had to <span class=\"vocab\">navigate</span> small boats across <span class=\"vocab\">shallow</span> rivers and climb difficult <span class=\"vocab\">slopes</span>. Their journey <span class=\"vocab\">spanned</span> many days. When they finally got close to the volcano, the ground began to <span class=\"vocab\">vibrate</span>, and the volcano <span class=\"vocab\">erupted</span>. <span class=\"vocab\">Ash</span> filled the sky, and <span class=\"vocab\">lava</span> covered everything. John climbed to the top of a hill to keep from getting burned. A few moments later, his brother went up the same hill. They were <span class=\"vocab\">confined</span> to the hill until the <span class=\"vocab\">lava</span> cooled down.</p><p>They talked about the things they had seen while <span class=\"vocab\">wandering</span> around the country. They felt more <span class=\"vocab\">sympathy</span> and <span class=\"vocab\">affection</span> for each other than ever before. They decided that <span class=\"vocab\">fate</span> had brought them together.</p><p>The next day, they left to finish the <span class=\"vocab\">remainder</span> of the trip together. Everything seemed much easier. When they finally found the cup, they learned that it didn't make wishes come true. It was only an ordinary cup. But the trip to reach the cup taught them to work together and love each other.</p>",
+  "questions": [
+    {
+      "q": "Why did Paul and John fight all the time?",
+      "opts": ["They both wanted the magic cup for themselves", "They lived in the same house", "They both wanted to be leaders of the agency they worked at", "Their mother liked one of them more"],
+      "ans": 2
+    },
+    {
+      "q": "According to the superstition, what would happen to anyone who retrieved the cup?",
+      "opts": ["A wish would come true", "They would become rich", "They would live forever", "They would own the volcano"],
+      "ans": 0
+    },
+    {
+      "q": "What did their mother say before the trip?",
+      "opts": ["They should stay at home", "They should take a boat", "They should leave on different days", "They should work together"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word \"originated\" is closest in meaning to:",
+      "opts": ["ended", "started", "changed direction", "slowed down"],
+      "ans": 1
+    },
+    {
+      "q": "What did the brothers have to do during their difficult journey?",
+      "opts": ["Navigate small boats across shallow rivers and climb difficult slopes", "Ride horses across the desert", "Fly over the volcano in a plane", "Swim across a deep ocean"],
+      "ans": 0
+    },
+    {
+      "q": "What happened when they finally got close to the volcano?",
+      "opts": ["They found the cup right away", "It started to rain heavily", "The ground began to vibrate, and the volcano erupted", "A stranger warned them to go home"],
+      "ans": 2
+    },
+    {
+      "q": "Why did John climb to the top of a hill?",
+      "opts": ["To see the volcano better", "To keep from getting burned", "To look for his brother", "To find the magic cup"],
+      "ans": 1
+    },
+    {
+      "q": "While they were confined to the hill, what did the brothers decide?",
+      "opts": ["That they should give up the trip", "That the cup was not real", "That their mother was wrong", "That fate had brought them together"],
+      "ans": 3
+    },
+    {
+      "q": "What did the brothers learn when they finally found the cup?",
+      "opts": ["It didn't make wishes come true; it was only an ordinary cup", "It could only grant one wish", "It belonged to another family", "It was broken by the lava"],
+      "ans": 0
+    },
+    {
+      "q": "What did the trip teach Paul and John in the end?",
+      "opts": ["To never believe their mother", "To avoid volcanoes", "To work together and love each other", "To find a better agency to work at"],
+      "ans": 2
+    }
+  ]
+}

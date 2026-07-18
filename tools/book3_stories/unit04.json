@@ -1,0 +1,57 @@
+{
+  "unit": 4,
+  "title": "The Boy and His Sled",
+  "story_html": "<p>Mike was the smallest child in school. Another boy, Joe, always <span class=\"vocab\">teased</span> Mike. Joe had a large <span class=\"vocab\">scar</span> on his face from fighting other children. One day, Joe <span class=\"vocab\">offended</span> Mike when he made fun of Mike's <span class=\"vocab\">valentine</span>, Jane. This was <span class=\"vocab\">disgraceful</span>, but Mike didn't know how to make Joe stop.</p><p>That day, Mike walked home down an <span class=\"vocab\">alley</span>. He found a <span class=\"vocab\">bunch</span> of wood boards next to a <span class=\"vocab\">pine</span> tree. He thought to himself, \"I could build a <span class=\"vocab\">decent</span> <span class=\"vocab\">sled</span> from these. If I let Joe use it, he will be nicer to me and Jane.\" He took the wood home.</p><p>Mike got an <span class=\"vocab\">ax</span> and cut the wood. He used nails to make sure that the pieces were not <span class=\"vocab\">loose</span>. As he worked, he bumped his <span class=\"vocab\">elbow</span> on the boards. The painful <span class=\"vocab\">sensation</span> made him want to cry. It was a hard <span class=\"vocab\">chore</span>, but he <span class=\"vocab\">persisted</span>. He worked <span class=\"vocab\">overnight</span>. By morning, the <span class=\"vocab\">sled</span> was finished.</p><p>Mike called Joe on the telephone. He said, \"Hi, Joe. Come over to my house right away.\"</p><p>Joe didn't know why Mike wanted him to come over. When Joe arrived, Mike told him, \"Joe, it <span class=\"vocab\">irritated</span> me the other day when you said mean things about Jane. You weren't <span class=\"vocab\">kidding</span> when you said those mean things. But I'm not like you. I just built this <span class=\"vocab\">sled</span>, and I'll let you ride it with me if you are nice.\"</p><p>They became friends, and Joe was <span class=\"vocab\">grateful</span> that Mike was so nice to him. He learned that it is more fun to be nice than to be mean.</p>",
+  "questions": [
+    {
+      "q": "How did Joe offend Mike?",
+      "opts": ["He broke Mike's sled", "He made fun of Mike's valentine, Jane", "He took Mike's wood boards", "He pushed Mike at school"],
+      "ans": 1
+    },
+    {
+      "q": "What did Joe have on his face?",
+      "opts": ["A large scar from fighting other children", "A mark from a sled accident", "Paint from art class", "A cut from an ax"],
+      "ans": 0
+    },
+    {
+      "q": "Where did Mike find the wood boards?",
+      "opts": ["In his garage", "At Joe's house", "Next to a pine tree in an alley", "In the school yard"],
+      "ans": 2
+    },
+    {
+      "q": "Why did Mike want to build a sled?",
+      "opts": ["To sell it for money", "To ride it to school", "To give it to Jane as a gift", "So that Joe would be nicer to him and Jane"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, the word 'persisted' means:",
+      "opts": ["gave up quickly", "kept working even though it was difficult", "asked someone for help", "worked slowly and carefully"],
+      "ans": 1
+    },
+    {
+      "q": "What made Mike want to cry while he was working?",
+      "opts": ["Joe's mean words about Jane", "The cold night air", "The painful sensation of bumping his elbow on the boards", "Cutting his hand with the ax"],
+      "ans": 2
+    },
+    {
+      "q": "When was the sled finished?",
+      "opts": ["By morning, after Mike worked overnight", "After a week of work", "That same afternoon", "After Joe came to help"],
+      "ans": 0
+    },
+    {
+      "q": "What did Mike tell Joe when Joe arrived at his house?",
+      "opts": ["That he never wanted to see Joe again", "That Jane had built a sled", "That Joe had to pay to ride the sled", "That Joe's mean words had irritated him, but he would share the sled if Joe was nice"],
+      "ans": 3
+    },
+    {
+      "q": "When Mike says 'You weren't kidding', he means that Joe:",
+      "opts": ["was not listening", "was not fighting", "was not joking", "was not smiling"],
+      "ans": 2
+    },
+    {
+      "q": "What did Joe learn at the end of the story?",
+      "opts": ["That building sleds is easy", "That it is more fun to be nice than to be mean", "That Mike was the strongest boy in school", "That Jane wanted to be his friend"],
+      "ans": 1
+    }
+  ]
+}

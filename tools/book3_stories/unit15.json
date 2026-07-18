@@ -1,0 +1,57 @@
+{
+  "unit": 15,
+  "title": "Why Monkey Has No Home",
+  "story_html": "<p>For five years, there was a <span class=\"vocab\">famine</span>. The farmers asked people to <span class=\"vocab\">bless</span> them, and finally they had a good <span class=\"vocab\">harvest</span>. Since there was now plenty of food, the <span class=\"vocab\">pharaoh</span> decided to have a party. The party was a happy <span class=\"vocab\">affair</span>. For five days, they had a huge feast.</p><p>Monkey was very happy. Because of the <span class=\"vocab\">famine</span>, he was very <span class=\"vocab\">slim</span>. He wanted to eat a lot of food. When he arrived at the feast hundreds of long tables were filled with food. There were <span class=\"vocab\">nuts</span>, bowls of <span class=\"vocab\">cereal</span>, and <span class=\"vocab\">ripe</span> fruit. He could also smell hot <span class=\"vocab\">roasted</span> meat cooking on the <span class=\"vocab\">stove</span>.</p><p>The <span class=\"vocab\">assembly</span> of animals was <span class=\"vocab\">merry</span>. However, during the meal, Monkey thought of a <span class=\"vocab\">scheme</span> to <span class=\"vocab\">exploit</span> the <span class=\"vocab\">pharaoh</span>'s kindness. He decided to steal some of the food and then eat it at home.</p><p>All the animals were <span class=\"vocab\">cheerful</span>. They didn't notice that Monkey was hiding food. After the feast, Monkey took the food to his house and ate it. He repeated this <span class=\"vocab\">routine</span> every day for four days.</p><p>But on the fifth day, the <span class=\"vocab\">pharaoh</span> had a surprise. He was going to give all the animals a home. Monkey was very excited. But when he arrived at the <span class=\"vocab\">pharaoh</span>'s home, he could not get through the door. The <span class=\"vocab\">diameter</span> of his waist was wider than the door. He was too fat!</p><p>Monkey asked the <span class=\"vocab\">pharaoh</span> to forgive him for his <span class=\"vocab\">theft</span>. But the <span class=\"vocab\">pharaoh</span> said no.</p><p>\"<span class=\"vocab\">Pardon</span>?\" asked the monkey. He didn't understand why the <span class=\"vocab\">pharaoh</span> was being unkind. \"Everybody else will have a home now, but not you. Now you know that greed gets you nothing,\" explained the <span class=\"vocab\">pharoah</span>.</p>",
+  "questions": [
+    {
+      "q": "Why did the pharaoh decide to have a party?",
+      "opts": ["It was his birthday", "The animals asked him for a feast", "There was finally plenty of food after a good harvest", "He wanted to say goodbye to the farmers"],
+      "ans": 2
+    },
+    {
+      "q": "Why was Monkey very slim at the beginning of the story?",
+      "opts": ["Because of the famine", "Because he exercised every day", "Because he shared all his food", "Because he was ill"],
+      "ans": 0
+    },
+    {
+      "q": "Which of these foods was at the feast?",
+      "opts": ["Fresh fish", "Sweet cakes", "Cold soup", "Ripe fruit"],
+      "ans": 3
+    },
+    {
+      "q": "What was Monkey's scheme?",
+      "opts": ["To cook the roasted meat himself", "To steal some food and eat it at home", "To sleep at the pharaoh's house", "To leave the party early"],
+      "ans": 1
+    },
+    {
+      "q": "For how long did Monkey repeat his routine of taking food home?",
+      "opts": ["Four days", "Five years", "One day", "Two weeks"],
+      "ans": 0
+    },
+    {
+      "q": "What surprise did the pharaoh have on the fifth day?",
+      "opts": ["He gave the animals more food", "He punished all the animals", "He was going to give all the animals a home", "He ended the feast early"],
+      "ans": 2
+    },
+    {
+      "q": "Why couldn't Monkey get through the pharaoh's door?",
+      "opts": ["The door was locked", "The diameter of his waist was wider than the door", "The pharaoh closed the door", "He arrived too late"],
+      "ans": 1
+    },
+    {
+      "q": "The assembly of animals was \"merry\". What does \"merry\" mean?",
+      "opts": ["Hungry", "Tired", "Angry", "Happy and cheerful"],
+      "ans": 3
+    },
+    {
+      "q": "What did Monkey ask the pharaoh to do at the end?",
+      "opts": ["To give him more food", "To make the door bigger", "To forgive him for his theft", "To let him live with another animal"],
+      "ans": 2
+    },
+    {
+      "q": "What lesson did the pharaoh teach Monkey?",
+      "opts": ["Greed gets you nothing", "Hard work brings a good harvest", "Never trust the farmers", "Always arrive early to a feast"],
+      "ans": 0
+    }
+  ]
+}

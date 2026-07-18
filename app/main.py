@@ -148,10 +148,8 @@ async def dashboard(request: Request):
             })
 
         from app.models.book import Book
-        books_q = db.query(Book).order_by(Book.book_number)
-        if user.cefr_level:
-            books_q = books_q.filter(Book.cefr_level == user.cefr_level)
-        books = books_q.all()
+        # Show the full 6-book library to every student (no CEFR filter)
+        books = db.query(Book).order_by(Book.book_number).all()
 
         return templates.TemplateResponse("student/dashboard.html", {
             "request": request,

@@ -1,0 +1,57 @@
+{
+  "unit": 13,
+  "title": "Sheriff Dan",
+  "story_html": "<p>Dan was the evil <span class=\"vocab\">sheriff</span> of Oceantown. Dan was as cruel as the <span class=\"vocab\">devil</span>. He <span class=\"vocab\">worshipped</span> money. Dan was a <span class=\"vocab\">millionaire</span>, but he paid his police officers almost nothing. The police were very <span class=\"vocab\">bitter</span>, but Dan didn't care. He only cared about his money.</p><p>Every person who <span class=\"vocab\">inhabited</span> Oceantown disliked him. Dan <span class=\"vocab\">enforced</span> cruel laws. Once, Dan even put his own brother in jail for throwing a coin into a <span class=\"vocab\">fountain</span>! Sometimes, he pointed his gun into the air and pulled the <span class=\"vocab\">trigger</span>. He didn't want the <span class=\"vocab\">bullets</span> to hit anyone. He just wanted to scare people with the loud sound.</p><p>Finally, the people of Oceantown decided that they had to get rid of <span class=\"vocab\">Sheriff</span> Dan, and tried to find some way to do this. Their wish to get rid of Dan helped to <span class=\"vocab\">unify</span> the town. They <span class=\"vocab\">marched</span> to Dan's house. He was <span class=\"vocab\">startled</span> by the sight when he ran to the door. When he opened the door, the crowd jumped on him. They used a rope to tie him to a chair. Dan yelled, \"Get your hands off me! I'll put you all in jail for the rest of your lives!\"</p><p>The crowd didn't listen. They carried Dan to the <span class=\"vocab\">harbor</span> and put him <span class=\"vocab\">aboard</span> a <span class=\"vocab\">vessel</span>. Dan was so scared that he began to <span class=\"vocab\">sweat</span>. He begged, \"If you let me go, I will give you all my money!\" The crowd said, \"<span class=\"vocab\">Sheriff</span>, we don't care about your money. We know you will never change. We're sending you on a <span class=\"vocab\">voyage</span> to the middle of the ocean.\" The boat <span class=\"vocab\">drifted</span> out of the <span class=\"vocab\">port</span>, and Dan was never seen again. The people chose a new <span class=\"vocab\">sheriff</span>, who was kind and fair.</p>",
+  "questions": [
+    {
+      "q": "What kind of person was Sheriff Dan?",
+      "opts": ["Cruel and greedy", "Kind and fair", "Shy and quiet", "Brave and generous"],
+      "ans": 0
+    },
+    {
+      "q": "Why were the police officers of Oceantown very bitter?",
+      "opts": ["Dan made them work at night", "Dan put them in jail", "Dan paid them almost nothing", "Dan took away their guns"],
+      "ans": 2
+    },
+    {
+      "q": "Why did Dan once put his own brother in jail?",
+      "opts": ["For stealing money", "For throwing a coin into a fountain", "For breaking a window", "For refusing to obey a law"],
+      "ans": 1
+    },
+    {
+      "q": "Why did Dan sometimes point his gun into the air and pull the trigger?",
+      "opts": ["To hit birds", "To call the police officers", "To celebrate holidays", "To scare people with the loud sound"],
+      "ans": 3
+    },
+    {
+      "q": "What helped to unify the town of Oceantown?",
+      "opts": ["A new law about money", "The new sheriff's speech", "The people's wish to get rid of Dan", "Dan's gifts to the people"],
+      "ans": 2
+    },
+    {
+      "q": "In the story, \"every person who inhabited Oceantown\" means every person who...",
+      "opts": ["lived in Oceantown", "visited Oceantown", "left Oceantown", "worked for the sheriff"],
+      "ans": 0
+    },
+    {
+      "q": "What did the crowd do when Dan opened his door?",
+      "opts": ["They gave him a letter", "They asked him for money", "They ran away in fear", "They jumped on him and tied him to a chair"],
+      "ans": 3
+    },
+    {
+      "q": "What did Dan offer the crowd if they let him go?",
+      "opts": ["A new fountain", "All his money", "His house", "A job as sheriff"],
+      "ans": 1
+    },
+    {
+      "q": "Where did the crowd send Dan?",
+      "opts": ["To jail", "To another town", "On a voyage to the middle of the ocean", "To his brother's house"],
+      "ans": 2
+    },
+    {
+      "q": "What happened at the end of the story?",
+      "opts": ["Dan came back as sheriff", "The people chose a new sheriff who was kind and fair", "Dan's brother became a millionaire", "The town was left without any sheriff"],
+      "ans": 1
+    }
+  ]
+}

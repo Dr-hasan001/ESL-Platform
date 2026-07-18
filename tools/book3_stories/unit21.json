@@ -1,0 +1,107 @@
+{
+  "unit": 21,
+  "title": "Genes and Cancer",
+  "story_html": "<p><span class=\"vocab\">Cancer</span> is a disease that develops because of unusual <span class=\"vocab\">cell</span> growth in the human body. <span class=\"vocab\">Cancer</span> <span class=\"vocab\">cells</span> take over and <span class=\"vocab\">attack</span> healthy <span class=\"vocab\">cells</span>, leaving the normal working <span class=\"vocab\">cells</span> in a state of <span class=\"vocab\">destruction</span>.</p><p><span class=\"vocab\">Extensive</span> research has been done to understand the <span class=\"vocab\">link</span> between <span class=\"vocab\">genes</span> and <span class=\"vocab\">cancer</span>. A <span class=\"vocab\">gene</span> is what decides the traits a living thing may <span class=\"vocab\">inherit</span>. <span class=\"vocab\">Genes</span> can be found in the <span class=\"vocab\">DNA</span> of each <span class=\"vocab\">cell</span> in the body. <span class=\"vocab\">DNA</span> contains a <span class=\"vocab\">code</span> that carries all the needed information about the qualities of a living thing. <span class=\"vocab\">Genes</span> control how <span class=\"vocab\">cells</span> work by making proteins that have special jobs. These proteins make up everything—bones, teeth, muscles, blood, etc.—in our bodies. <span class=\"vocab\">Genes</span> pass on the <span class=\"vocab\">DNA</span> <span class=\"vocab\">code</span> to proteins that decide eye color, hair color, and skin color. <span class=\"vocab\">Furthermore</span>, damaged <span class=\"vocab\">DNA</span> can sometimes be passed on as well. The damaged <span class=\"vocab\">DNA</span> can eventually lead to <span class=\"vocab\">gene</span> changes, which then may <span class=\"vocab\">result</span> in a problem in the body. Over time, the problem may become a disease and, sometimes, even become <span class=\"vocab\">cancerous</span>.</p><p>There are many different types of <span class=\"vocab\">cancers</span>. <span class=\"vocab\">Breast</span> <span class=\"vocab\">cancer</span> is the most common in the <span class=\"vocab\">female</span> <span class=\"vocab\">population</span>, while prostate <span class=\"vocab\">cancer</span> is most common in the <span class=\"vocab\">male</span> <span class=\"vocab\">population</span>. Drinking alcohol increases the chances of developing <span class=\"vocab\">cancer</span> in different places of the body such as the head, neck, liver, or throat. <span class=\"vocab\">Cigarette</span> smoking is the number one cause of lung <span class=\"vocab\">cancer</span> in the United States. Studies also show a strong <span class=\"vocab\">link</span> between eating too much <span class=\"vocab\">sugar</span> and a higher risk of <span class=\"vocab\">cancerous</span> <span class=\"vocab\">cells</span> growing even faster.</p><p>Although scientists have been studying <span class=\"vocab\">cancer</span>, there is still no <span class=\"vocab\">cure</span> for the disease. Hopefully, a <span class=\"vocab\">cure</span> will eventually be found and prevent the sadness that comes from losing a loved one to <span class=\"vocab\">cancer</span>.</p>",
+  "questions": [
+    {
+      "q": "Why does cancer develop in the human body?",
+      "opts": [
+        "Because of eating too little sugar",
+        "Because of healthy cell growth",
+        "Because of unusual cell growth",
+        "Because of too much exercise"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What is a gene, according to the story?",
+      "opts": [
+        "Something that decides the traits a living thing may inherit",
+        "A type of protein found in the blood",
+        "A disease that attacks healthy cells",
+        "A cure for cancer"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Where can genes be found?",
+      "opts": [
+        "Only in the brain",
+        "In the bones and teeth",
+        "In the blood only",
+        "In the DNA of each cell in the body"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "What does the DNA code carry?",
+      "opts": [
+        "Instructions for making cigarettes",
+        "All the needed information about the qualities of a living thing",
+        "A list of all known diseases",
+        "The cure for cancer"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "In the story, the word 'extensive' is closest in meaning to:",
+      "opts": [
+        "A great amount of",
+        "Very expensive",
+        "Very quick",
+        "Secret"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Which type of cancer is the most common in the female population?",
+      "opts": [
+        "Lung cancer",
+        "Prostate cancer",
+        "Breast cancer",
+        "Liver cancer"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What is the number one cause of lung cancer in the United States?",
+      "opts": [
+        "Drinking alcohol",
+        "Cigarette smoking",
+        "Eating too much sugar",
+        "Damaged DNA"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "According to studies, what is linked to cancerous cells growing even faster?",
+      "opts": [
+        "Drinking too much water",
+        "Sleeping too little",
+        "Eating too many proteins",
+        "Eating too much sugar"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "What happens to healthy cells when cancer cells attack them?",
+      "opts": [
+        "They are left in a state of destruction",
+        "They become stronger",
+        "They change color",
+        "They move to another part of the body"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Why does the writer hope a cure will be found?",
+      "opts": [
+        "So that scientists can stop studying cancer",
+        "So that hospitals can make more money",
+        "To prevent the sadness of losing a loved one to cancer",
+        "To stop people from smoking cigarettes"
+      ],
+      "ans": 2
+    }
+  ]
+}

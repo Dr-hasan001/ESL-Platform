@@ -1,0 +1,57 @@
+{
+  "unit": 10,
+  "title": "Anna the Babysitter",
+  "story_html": "<p>Since her parents got a <span class=\"vocab\">divorce</span>, Anna has had to help her mother. In her mother’s <span class=\"vocab\">absence</span>, Anna takes care of Grace, the baby. At first, Anna thought it was an easy job.</p><p>One afternoon, Anna played with Grace. She meowed like a cat, and Grace <span class=\"vocab\">imitated</span> her. In fact, Grace <span class=\"vocab\">reproduced</span> every sound that Anna made. Anna then took her sister outside. She put Grace in the <span class=\"vocab\">wagon</span>, but there was <span class=\"vocab\">nowhere</span> for them to go. So they went back inside.</p><p>Anna put the <span class=\"vocab\">infant</span> on the floor and went into her room. But when she came back, Grace had <span class=\"vocab\">vanished</span>! Anna looked everywhere, but she could not find her sister. Maybe the baby had been <span class=\"vocab\">kidnapped</span>! “Where are you?” Anna called <span class=\"vocab\">aloud</span>.</p><p>The situation was becoming <span class=\"vocab\">urgent</span>. She wanted to call her mom, but she didn’t want her to think Anna couldn’t do the job. Anna sat down. What was she going to do? But then, Anna heard something. It was coming from her room. “Grace?” She got down on her knees and looked under the bed. She could see Grace’s <span class=\"vocab\">bald</span> head. Grace had followed Anna into her room and <span class=\"vocab\">crept</span> under the bed.</p><p>“What a <span class=\"vocab\">relief</span>!” Anna cried. She picked up her sister and <span class=\"vocab\">patted</span> her on the head. Her head was soft and had no <span class=\"vocab\">wrinkles</span>. Grace was <span class=\"vocab\">sucking</span> on her thumb and looked tired. So, Anna wrapped her in a <span class=\"vocab\">blanket</span> and sang <span class=\"vocab\">rhymes</span> for her. Then, she put Grace in bed for a <span class=\"vocab\">nap</span>.</p><p>After that afternoon, Anna knew that taking care of Grace was not an easy job. It is a lot of work to take care of a baby!</p>",
+  "questions": [
+    {
+      "q": "Why does Anna take care of Grace?",
+      "opts": ["Her mother is sick in bed", "She helps her mother since her parents got a divorce", "She works as a babysitter for a neighbor", "Her mother is on a long trip abroad"],
+      "ans": 1
+    },
+    {
+      "q": "What did Grace do when Anna meowed like a cat?",
+      "opts": ["She laughed and clapped", "She started to cry", "She hid under the bed", "She imitated the sound"],
+      "ans": 3
+    },
+    {
+      "q": "Why did Anna and Grace go back inside after using the wagon?",
+      "opts": ["There was nowhere for them to go", "It started to rain", "Grace began to cry loudly", "The wagon was broken"],
+      "ans": 0
+    },
+    {
+      "q": "What did Anna discover when she came back to the infant?",
+      "opts": ["Grace was sleeping on the floor", "Grace was crying for her mother", "Grace had vanished", "Grace was playing with a blanket"],
+      "ans": 2
+    },
+    {
+      "q": "Why didn't Anna want to call her mom?",
+      "opts": ["Her mom's phone was turned off", "She didn't want her mom to think she couldn't do the job", "She was afraid her mom would be angry at Grace", "She didn't know her mom's number"],
+      "ans": 1
+    },
+    {
+      "q": "Where did Anna finally find Grace?",
+      "opts": ["Under the bed in Anna's room", "Inside the wagon outside", "In the kitchen closet", "Behind the living room couch"],
+      "ans": 0
+    },
+    {
+      "q": "Grace had 'crept' under the bed. What does 'crept' mean?",
+      "opts": ["Jumped quickly", "Rolled over", "Called out loudly", "Moved quietly and slowly"],
+      "ans": 3
+    },
+    {
+      "q": "Anna cried, 'What a relief!' What does 'relief' mean here?",
+      "opts": ["A feeling of great fear", "A feeling of anger", "A good feeling when a worry ends", "A feeling of being tired"],
+      "ans": 2
+    },
+    {
+      "q": "What did Anna do to help Grace fall asleep?",
+      "opts": ["She gave her warm milk", "She wrapped her in a blanket and sang rhymes", "She took her for a ride in the wagon", "She patted her back for an hour"],
+      "ans": 1
+    },
+    {
+      "q": "What did Anna learn by the end of the story?",
+      "opts": ["Taking care of a baby is a lot of work", "Babies should never be left alone", "Grace loves hiding games", "Her mother's job is easy"],
+      "ans": 0
+    }
+  ]
+}

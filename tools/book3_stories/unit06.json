@@ -1,0 +1,57 @@
+{
+  "unit": 6,
+  "title": "The Senator and the Worm",
+  "story_html": "<p>A rich <span class=\"vocab\">senator</span> lived in a big house. He had more money than anyone in his <span class=\"vocab\">district</span>. One day, he was sitting on a chair listening to a radio <span class=\"vocab\">broadcast</span>. As he listened to the news <span class=\"vocab\">bulletin</span>, a <span class=\"vocab\">worm</span> crawled from <span class=\"vocab\">underneath</span> the chair and onto his head.</p><p>His cook was in the kitchen <span class=\"vocab\">stirring</span> some spaghetti sauce. Suddenly, a cry from the <span class=\"vocab\">senator</span> <span class=\"vocab\">alerted</span> him. He ran to the <span class=\"vocab\">rear</span> of the house where the <span class=\"vocab\">senator</span> was sitting.</p><p>The cook looked and saw the <span class=\"vocab\">worm</span>. He tried to <span class=\"vocab\">console</span> the <span class=\"vocab\">senator</span>. “I’ll take it off right away,” he said.</p><p>“No!” shouted the <span class=\"vocab\">senator</span>. “I want you to kill it.”</p><p>“But it’s only a <span class=\"vocab\">worm</span>,” the cook said. “Why should we <span class=\"vocab\">execute</span> it? It hasn’t committed a crime.”</p><p>The <span class=\"vocab\">senator</span> could not <span class=\"vocab\">endure</span> the <span class=\"vocab\">worm</span> on his head. “Hurry!” he shouted.</p><p>The cook looked through several <span class=\"vocab\">drawers</span> but found nothing. Then he ran to the <span class=\"vocab\">closet</span> and took out a pipe. He returned to the <span class=\"vocab\">senator</span> and lifted the pipe over his head. He knew he couldn’t just <span class=\"vocab\">tap</span> the <span class=\"vocab\">worm</span>. He was going to hit it hard. He <span class=\"vocab\">grasped</span> the pipe tightly.</p><p>“What are you waiting for?” said the <span class=\"vocab\">senator</span>. “Kill it!”</p><p>The cook swung the pipe at the <span class=\"vocab\">senator</span>’s head.</p><p>“Oh, no,” the <span class=\"vocab\">worm</span> said. “He’s going to <span class=\"vocab\">chop</span> me in half.” It jumped off the <span class=\"vocab\">senator</span>’s head.</p><p>There was a <span class=\"vocab\">tremendous</span> noise. “Owww!” cried the <span class=\"vocab\">senator</span>.</p><p>A <span class=\"vocab\">bump</span> rose upon his <span class=\"vocab\">skull</span>. Meanwhile, the <span class=\"vocab\">worm</span> crawled outside. “That was close,” said the <span class=\"vocab\">worm</span>. “Instead of being nice, he wanted to hurt me. Now, that man has a big <span class=\"vocab\">bump</span> on his head.”</p>",
+  "questions": [
+    {
+      "q": "Why was the senator special in his district?",
+      "opts": ["He was the oldest man there", "He had more money than anyone else", "He owned a famous restaurant", "He was the best cook in town"],
+      "ans": 1
+    },
+    {
+      "q": "What was the senator doing when the worm crawled onto his head?",
+      "opts": ["Cooking spaghetti sauce", "Sleeping in his bed", "Reading a news bulletin in the paper", "Listening to a radio broadcast"],
+      "ans": 3
+    },
+    {
+      "q": "Where was the cook when he heard the senator's cry?",
+      "opts": ["In the kitchen, stirring spaghetti sauce", "In the closet, looking for a pipe", "In the garden, outside the house", "In the rear of the house, cleaning"],
+      "ans": 0
+    },
+    {
+      "q": "What did the cook first offer to do about the worm?",
+      "opts": ["Hit it with a pipe", "Chop it in half", "Take it off right away", "Put it in a drawer"],
+      "ans": 2
+    },
+    {
+      "q": "In the story, the cook asks, 'Why should we execute it?' What does 'execute' mean here?",
+      "opts": ["To feed", "To kill", "To catch", "To frighten"],
+      "ans": 1
+    },
+    {
+      "q": "What did the cook take out of the closet?",
+      "opts": ["A pipe", "A broom", "A knife", "A pot"],
+      "ans": 0
+    },
+    {
+      "q": "The senator could not 'endure' the worm on his head. What does 'endure' mean?",
+      "opts": ["To see clearly", "To touch gently", "To laugh at", "To put up with"],
+      "ans": 3
+    },
+    {
+      "q": "What happened when the cook swung the pipe?",
+      "opts": ["He killed the worm instantly", "He missed and broke the chair", "He hit the senator's head", "He dropped the pipe on the floor"],
+      "ans": 2
+    },
+    {
+      "q": "What rose upon the senator's skull after he was hit?",
+      "opts": ["A bump", "A cut", "A worm", "A bruise the size of an egg"],
+      "ans": 0
+    },
+    {
+      "q": "What lesson can we learn from the worm's final words?",
+      "opts": ["Always listen to the radio news", "Being cruel can end up hurting you instead", "Cooks should never leave the kitchen", "Worms are dangerous animals"],
+      "ans": 1
+    }
+  ]
+}

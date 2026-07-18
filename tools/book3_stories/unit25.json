@@ -1,0 +1,107 @@
+{
+  "unit": 25,
+  "title": "How Did Greenland Get Its Name?",
+  "story_html": "<p>The nation of Greenland isn't very green. The sun's <span class=\"vocab\">rays</span> don't shine there for three whole months. As a result, it's covered with snow, ice, and <span class=\"vocab\">frost</span>. Then, how was the name <span class=\"vocab\">derived</span>? It started with a Viking named Erik the Red. Erik had many <span class=\"vocab\">merits</span>. However, there was an <span class=\"vocab\">underlying</span> problem: he got angry easily. People were scared of him. However, he was married to the niece of a very powerful man. So, everybody tried to be nice to him.</p><p>One day, Erik fought with his neighbor and killed him. His <span class=\"vocab\">consequent</span> punishment was to leave Iceland.</p><p>Many stories <span class=\"vocab\">circulated</span> about a land west of Iceland. But only a <span class=\"vocab\">fraction</span> of the people in Iceland believed them. Still, Erik wanted to find it.</p><p>Erik sailed toward the land <span class=\"vocab\">via</span> the Atlantic Ocean. His <span class=\"vocab\">marine</span> knowledge was good, but the trip was hard. Some of his men <span class=\"vocab\">drowned</span>. Erik's <span class=\"vocab\">lieutenant</span> wanted to <span class=\"vocab\">resign</span> from his position. Others thought about committing <span class=\"vocab\">suicide</span>.</p><p>Suddenly, Erik thought he saw something. \"I don't believe it,\" said Erik. \"It must be an <span class=\"vocab\">illusion</span>.\" But it was no trick—it was the new land!</p><p>Erik <span class=\"vocab\">trembled</span> in the cold <span class=\"vocab\">polar</span> air. He saw that there was ice everywhere. He realized that the ice could keep enemies out. Not even the best <span class=\"vocab\">navy</span> could <span class=\"vocab\">invade</span> the new land. He could start a new <span class=\"vocab\">dynasty</span> in his name. But how could he convince people to live here?</p><p>\"I'll call it Greenland,\" he said. Erik's plan worked. Within two years, over a thousand people moved to Greenland.</p>",
+  "questions": [
+    {
+      "q": "Why isn't Greenland very green?",
+      "opts": [
+        "Because nobody plants trees there",
+        "Because the sea covers most of the land",
+        "Because the sun's rays don't shine there for three whole months, and it's covered with snow, ice, and frost",
+        "Because the wind blows all the plants away"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What was Erik the Red's underlying problem?",
+      "opts": [
+        "He got angry easily",
+        "He was very poor",
+        "He couldn't sail a ship",
+        "He was afraid of the sea"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Why did everybody try to be nice to Erik?",
+      "opts": [
+        "Because he gave them money",
+        "Because he was married to the niece of a very powerful man",
+        "Because he was the king of Iceland",
+        "Because he protected the town from enemies"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "What was Erik's consequent punishment after he killed his neighbor?",
+      "opts": [
+        "He had to pay a large amount of money",
+        "He was put in prison",
+        "He had to join the navy",
+        "He had to leave Iceland"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "How many people in Iceland believed the stories about a land west of Iceland?",
+      "opts": [
+        "Only a fraction of them",
+        "Almost all of them",
+        "None of them",
+        "Exactly half of them"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "What happened to some of Erik's men during the trip?",
+      "opts": [
+        "They found gold",
+        "They returned to Iceland",
+        "They drowned",
+        "They got lost in a storm"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What did Erik's lieutenant want to do during the hard trip?",
+      "opts": [
+        "Take control of the ship",
+        "Sail back home immediately",
+        "Fight with Erik",
+        "Resign from his position"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "When Erik said, 'It must be an illusion,' he thought he was seeing something that:",
+      "opts": [
+        "belonged to his enemies",
+        "wasn't really there",
+        "was very far away",
+        "was covered in ice"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "Why did Erik think the ice everywhere was a good thing?",
+      "opts": [
+        "It could keep enemies out — not even the best navy could invade the new land",
+        "It could be sold to other countries",
+        "It would keep the food fresh",
+        "It made the land look beautiful"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "How did Erik's plan to convince people to live in the new land work?",
+      "opts": [
+        "He paid people to move there",
+        "He promised everyone free houses",
+        "He told them the ice would disappear soon",
+        "He called it Greenland, and within two years over a thousand people moved there"
+      ],
+      "ans": 3
+    }
+  ]
+}

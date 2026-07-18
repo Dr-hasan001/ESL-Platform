@@ -1,0 +1,57 @@
+{
+  "unit": 20,
+  "title": "Little Wolf and Mother Wolf",
+  "story_html": "<p>Mother Wolf was a <span class=\"vocab\">magnificent</span> animal. She had all the <span class=\"vocab\">traits</span> of a <span class=\"vocab\">terrific</span> hunter. She was very strong and fast. She knew how to hide and how to <span class=\"vocab\">seize</span> animals. Mother Wolf was the forest's <span class=\"vocab\">supreme</span> creature. Her skills were <span class=\"vocab\">evident</span> to all the other animals.</p><p>Mother Wolf lived in a den <span class=\"vocab\">beneath</span> a tree with her <span class=\"vocab\">cub</span>, Little Wolf. One morning at <span class=\"vocab\">dawn</span>, Little Wolf and Mother Wolf were eating breakfast. Little Wolf looked sad. Mother Wolf said, \"What is wrong, my <span class=\"vocab\">cub</span>?\"</p><p>Little Wolf said, \"I want to be big like you. You can run and <span class=\"vocab\">leap</span> better than anyone. You can <span class=\"vocab\">howl</span> so loudly. Being big is a <span class=\"vocab\">necessity</span>, and I am so small.\"</p><p>Mother Wolf said, \"Don't be <span class=\"vocab\">dissatisfied</span> with your size. Being small can be very helpful sometimes.\"</p><p>Just then, rain and <span class=\"vocab\">hail</span> began to fall. The tree was hit by lightning. It fell on the wolves' den. Little Wolf was scared. The wolves knew that escaping the den was <span class=\"vocab\">vital</span>. Mother Wolf said, \"Little Wolf, I cannot move the heavy <span class=\"vocab\">pile</span> of branches. But you can escape with <span class=\"vocab\">ease</span>. You can get out and find help!\"</p><p>Little Wolf crawled out of the den and called all the large animals for help. They went to the den and pulled away the branches. Mother Wolf came out and said, \"Thank you, Little Wolf! You saved my life!\" She softly <span class=\"vocab\">squeezed</span> Little Wolf and kissed her.</p><p>Little Wolf smiled. She said, \"Mother, this <span class=\"vocab\">outcome</span> has taught me a <span class=\"vocab\">profound</span> lesson. Even though I'm small, I'm still important.\"</p>",
+  "questions": [
+    {
+      "q": "Why was Mother Wolf known as the forest's supreme creature?",
+      "opts": ["She was the biggest animal in the forest", "She was strong, fast, and knew how to hide and seize animals", "She lived in the tallest tree", "All the animals were afraid of her howl"],
+      "ans": 1
+    },
+    {
+      "q": "Where did Mother Wolf live with Little Wolf?",
+      "opts": ["On top of a hill", "In a cave near a river", "In a nest in a tree", "In a den beneath a tree"],
+      "ans": 3
+    },
+    {
+      "q": "Why did Little Wolf look sad at breakfast?",
+      "opts": ["She wanted to be big like her mother", "She did not like her breakfast", "She was scared of the storm", "She had no friends in the forest"],
+      "ans": 0
+    },
+    {
+      "q": "In the story, the word \"dissatisfied\" is closest in meaning to:",
+      "opts": ["excited", "surprised", "not happy", "very tired"],
+      "ans": 2
+    },
+    {
+      "q": "What happened to the wolves' den during the storm?",
+      "opts": ["It was washed away by the rain", "It was filled with hail", "Another animal took it", "A tree hit by lightning fell on it"],
+      "ans": 3
+    },
+    {
+      "q": "Why couldn't Mother Wolf escape from the den?",
+      "opts": ["She could not move the heavy pile of branches", "She was hurt by the lightning", "She was too scared to move", "The den was under water"],
+      "ans": 0
+    },
+    {
+      "q": "How did Little Wolf save her mother?",
+      "opts": ["She moved the branches by herself", "She dug a new way out of the den", "She crawled out and called all the large animals for help", "She howled until the storm stopped"],
+      "ans": 2
+    },
+    {
+      "q": "What did Mother Wolf do when she came out of the den?",
+      "opts": ["She scolded Little Wolf for leaving", "She thanked Little Wolf, squeezed her softly, and kissed her", "She chased the large animals away", "She started to rebuild the den"],
+      "ans": 1
+    },
+    {
+      "q": "The wolves knew that escaping the den was \"vital.\" This means escaping was:",
+      "opts": ["extremely important", "impossible", "very easy", "not necessary"],
+      "ans": 0
+    },
+    {
+      "q": "What profound lesson did Little Wolf learn from this outcome?",
+      "opts": ["Big animals are always the most helpful", "Storms are dangerous for small animals", "Even though she is small, she is still important", "She should always listen to her mother"],
+      "ans": 2
+    }
+  ]
+}

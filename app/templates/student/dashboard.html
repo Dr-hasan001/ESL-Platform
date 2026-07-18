@@ -48,8 +48,8 @@
 
   .book-level {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 900; color: #fff;
-    line-height: 1;
+    font-size: 1.7rem; font-weight: 900; color: #fff;
+    line-height: 1; white-space: nowrap;
   }
   .book-divider {
     width: 32px; height: 2px;
@@ -108,9 +108,9 @@
     {% for book in books %}
     <a class="book-card" href="/books/{{ book.id }}"
        style="background: {{ color_map.get(book.cefr_level, '#1E5C72') }};">
-      <span class="book-level">{{ book.cefr_level }}</span>
+      <span class="book-level">Book {{ book.book_number }}</span>
       <div class="book-divider"></div>
-      <span class="book-name">Book {{ book.book_number }}</span>
+      <span class="book-name">{{ book.cefr_level }}</span>
       <span class="book-units">{{ book.unit_count }} Units</span>
     </a>
     {% else %}

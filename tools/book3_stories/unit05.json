@@ -1,0 +1,57 @@
+{
+  "unit": 5,
+  "title": "Trick or Treat!",
+  "story_html": "<p>Many different cultures have had traditions about the dead. People in places like Ireland, China, Egypt, and Mexico believed that souls needed food. They thought the food <span class=\"vocab\">nourished</span> them on their journey from <span class=\"vocab\">cemeteries</span> to heaven. People had to put out good things for souls to eat. However, if the food <span class=\"vocab\">rotted</span> or <span class=\"vocab\">spoiled</span>, the soul got mad. The <span class=\"vocab\">wicked</span> soul might <span class=\"vocab\">curse</span> the family and make them <span class=\"vocab\">starve</span> during the winter.</p><p>In other places, people begged for food on a holiday that remembers the souls of dead saints. People wore <span class=\"vocab\">disguises</span> with <span class=\"vocab\">hoods</span> that covered their faces. If they did not get food, they played a trick on the home's owner. For this reason, the activity is known as \"trick-or-treating.\" <span class=\"vocab\">Shortly</span> after people first began trick-or-treating, parents started sending their children to beg on that day. Housewives gave the children food if they performed a song or a dance. When people moved to America from all over the world, they brought this tradition with them. <span class=\"vocab\">Inhabitants</span> of villages started trick-or-treating in the early 1900s. In 1939, a children's <span class=\"vocab\">publication</span> <span class=\"vocab\">acquainted</span> the whole country with the tradition. It became very popular.</p><p>Today, trick-or-treaters do not beg for food, and they are not scared of souls. They just enjoy the <span class=\"vocab\">thrill</span> of dressing up like <span class=\"vocab\">creatures</span> and getting candy. Ghosts and <span class=\"vocab\">skeletons</span> are favorite costumes. But some children wear <span class=\"vocab\">fancy</span> <span class=\"vocab\">disguises</span>, like <span class=\"vocab\">pirate</span> costumes. They carry <span class=\"vocab\">flashlights</span> instead of fires. In some places, children still perform songs or <span class=\"vocab\">riddles</span> to get candy. But most of the time, they just say, \"Trick or treat!\"</p>",
+  "questions": [
+    {
+      "q": "Why did people in places like Ireland, China, Egypt, and Mexico put out food?",
+      "opts": ["To feed poor travelers", "To celebrate a good harvest", "They believed the food nourished souls on their journey to heaven", "To keep wild animals away from their houses"],
+      "ans": 2
+    },
+    {
+      "q": "According to the story, what might happen if the food rotted or spoiled?",
+      "opts": ["The wicked soul might curse the family and make them starve", "The family had to move to a new village", "The soul returned to the cemetery forever", "The neighbors refused to visit the family"],
+      "ans": 0
+    },
+    {
+      "q": "Why did people wear disguises with hoods?",
+      "opts": ["To keep warm in winter", "To scare away wicked souls", "To look like famous saints", "So that the hoods covered their faces"],
+      "ans": 3
+    },
+    {
+      "q": "Why is the activity known as 'trick-or-treating'?",
+      "opts": ["Because children performed magic tricks for candy", "Because people played a trick on the home's owner if they did not get food", "Because the food was hidden as a trick", "Because parents tricked children into begging"],
+      "ans": 1
+    },
+    {
+      "q": "What did housewives ask the children to do before giving them food?",
+      "opts": ["Clean the house", "Solve a difficult riddle", "Perform a song or a dance", "Bring wood for the fire"],
+      "ans": 2
+    },
+    {
+      "q": "How did the trick-or-treating tradition come to America?",
+      "opts": ["People who moved to America from all over the world brought it with them", "A children's publication invented it in America", "American housewives created it in 1939", "Pirates introduced it to villages"],
+      "ans": 0
+    },
+    {
+      "q": "What happened in 1939?",
+      "opts": ["Trick-or-treating was banned in villages", "A children's publication acquainted the whole country with the tradition", "The first pirate costumes were sold", "Children stopped begging for food"],
+      "ans": 1
+    },
+    {
+      "q": "In the story, the word 'inhabitants' means:",
+      "opts": ["visitors from other countries", "children who beg for candy", "owners of large houses", "people who live in a place"],
+      "ans": 3
+    },
+    {
+      "q": "Why do trick-or-treaters enjoy the activity today?",
+      "opts": ["They enjoy the thrill of dressing up like creatures and getting candy", "They are scared of souls", "They need food for the winter", "They want to visit cemeteries"],
+      "ans": 0
+    },
+    {
+      "q": "What do children carry instead of fires?",
+      "opts": ["Candles", "Lanterns", "Flashlights", "Torches"],
+      "ans": 2
+    }
+  ]
+}

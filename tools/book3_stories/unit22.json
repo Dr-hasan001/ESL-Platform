@@ -1,0 +1,107 @@
+{
+  "unit": 22,
+  "title": "The Circus",
+  "story_html": "<p>Ben was unhappy. He lived on a <span class=\"vocab\">ranch</span> near a small town, and he didn't have many friends. Then one day, a <span class=\"vocab\">messenger</span> came to the <span class=\"vocab\">ranch</span>. He showed the <span class=\"vocab\">headline</span> in the town newspaper. The <span class=\"vocab\">circus</span> was coming to the town. It even <span class=\"vocab\">coincided</span> with Ben's birthday!</p><p>Ben was very excited as his father <span class=\"vocab\">steered</span> the car through the town. The <span class=\"vocab\">circus</span> couldn't <span class=\"vocab\">accommodate</span> all the people who wanted to see the show, but Ben had a ticket.</p><p>Ben <span class=\"vocab\">peered</span> at the activity around him. He watched people of both <span class=\"vocab\">genders</span> dance all around. They wore funny costumes, and their hair was <span class=\"vocab\">dyed</span> many different colors. Also, <span class=\"vocab\">tame</span> tigers with <span class=\"vocab\">stripes</span> on their fur did tricks. Outside, people could <span class=\"vocab\">commission</span> an <span class=\"vocab\">informal</span> <span class=\"vocab\">portrait</span>. They <span class=\"vocab\">posed</span> in front of a funny picture while an artist quickly drew them. Ben couldn't believe it. He was happier than he had ever been before.</p><p>That day, Ben knew what he wanted to do. He loved the <span class=\"vocab\">circus</span> to such an <span class=\"vocab\">extent</span> that he wanted to have his own <span class=\"vocab\">circus</span> when he grew older. Seeing the <span class=\"vocab\">circus</span> was like a <span class=\"vocab\">dose</span> of medicine for him. He wasn't unhappy anymore. He felt special. He <span class=\"vocab\">inquired</span> about what he needed to do to have his own <span class=\"vocab\">circus</span>. He studied hard and learned about business. Ben worked very hard, and one day, he had his own <span class=\"vocab\">circus</span>. It was a great <span class=\"vocab\">circus</span>. People told him that he could be very rich. But he wasn't <span class=\"vocab\">tempted</span> by money. He just wanted to make children happy. He knew the <span class=\"vocab\">circus</span> had changed his life, and he wanted to do the same thing for others.</p>",
+  "questions": [
+    {
+      "q": "Why was Ben unhappy at the beginning of the story?",
+      "opts": [
+        "He didn't like living with his father",
+        "He lived on a ranch near a small town and didn't have many friends",
+        "He couldn't get a ticket to the circus",
+        "He didn't have enough money"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "How did Ben find out that the circus was coming to town?",
+      "opts": [
+        "His father told him about it",
+        "He heard it on the radio",
+        "He saw a poster in the town",
+        "A messenger showed the headline in the town newspaper"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "What was special about the day the circus came to town?",
+      "opts": [
+        "It coincided with Ben's birthday",
+        "It was the circus's first show ever",
+        "It was a national holiday",
+        "It was the last show of the year"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "In the story, 'The circus couldn't accommodate all the people' means the circus:",
+      "opts": [
+        "couldn't entertain the people",
+        "couldn't sell food to all the people",
+        "didn't have enough room for all the people",
+        "couldn't find all the people"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What did the tame tigers at the circus do?",
+      "opts": [
+        "They danced with the people",
+        "They did tricks",
+        "They drew pictures",
+        "They wore funny costumes"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "What could people commission outside?",
+      "opts": [
+        "An informal portrait",
+        "A funny costume",
+        "A ticket for the show",
+        "A photograph with the tigers"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "The word 'peered' in the story is closest in meaning to:",
+      "opts": [
+        "shouted",
+        "laughed",
+        "pointed",
+        "looked closely"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "What was seeing the circus like for Ben?",
+      "opts": [
+        "Like a boring school lesson",
+        "Like a bad dream",
+        "Like a dose of medicine",
+        "Like a long trip"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "What did Ben do so that he could have his own circus one day?",
+      "opts": [
+        "He inquired about what to do, studied hard, and learned about business",
+        "He asked the messenger for a job",
+        "He borrowed money from his father",
+        "He joined the circus as a performer"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Why wasn't Ben tempted by money?",
+      "opts": [
+        "He was already very rich",
+        "He just wanted to make children happy",
+        "He didn't believe he could be rich",
+        "He wanted to give the money to the ranch"
+      ],
+      "ans": 1
+    }
+  ]
+}

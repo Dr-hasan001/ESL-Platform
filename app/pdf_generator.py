@@ -1167,3 +1167,257 @@ def generate_results_pdf(hw, student_rows) -> bytes:
     _draw_page_footer(c, page_num)
     c.save()
     return buf.getvalue()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Branded editorial exam — dramatic cover page + image MCQs + fill-blank
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _draw_editorial_cover(
+    c: canvas.Canvas,
+    *,
+    eyebrow: str,
+    title: str,
+    subtitle: str,
+    instructor: str,
+    total_marks: int,
+    show_name_date: bool = True,
+):
+    """A magazine-grade cover page. Pure typography, generous whitespace."""
+    # Outer double rule — top
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(1.4)
+    c.line(15 * mm, PAGE_H - 12 * mm, PAGE_W - 15 * mm, PAGE_H - 12 * mm)
+    c.setLineWidth(0.4)
+    c.line(15 * mm, PAGE_H - 14.5 * mm, PAGE_W - 15 * mm, PAGE_H - 14.5 * mm)
+
+    # Eyebrow — tiny, tracked
+    c.setFont("Helvetica-Bold", 8.5)
+    c.setFillColor(EXAM_MUTED)
+    spaced = "    ".join(list(eyebrow))
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 28 * mm, spaced)
+
+    # Decorative accent rule
+    c.setStrokeColor(EXAM_ACCENT)
+    c.setLineWidth(0.6)
+    c.line(PAGE_W / 2 - 18 * mm, PAGE_H - 34 * mm, PAGE_W / 2 + 18 * mm, PAGE_H - 34 * mm)
+
+    # HERO title — large serif
+    c.setFont("Times-Bold", 56)
+    c.setFillColor(EXAM_INK)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 75 * mm, title)
+
+    # Italic subtitle
+    c.setFont("Times-Italic", 18)
+    c.setFillColor(EXAM_ACCENT)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 90 * mm, subtitle)
+
+    # Center ornament — three diamonds with side rules
+    orn_y = PAGE_H - 108 * mm
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.4)
+    c.line(PAGE_W / 2 - 50 * mm, orn_y, PAGE_W / 2 - 12 * mm, orn_y)
+    c.line(PAGE_W / 2 + 12 * mm, orn_y, PAGE_W / 2 + 50 * mm, orn_y)
+    c.setFont("Times-Roman", 14)
+    c.setFillColor(EXAM_ACCENT)
+    c.drawCentredString(PAGE_W / 2, orn_y - 4, "❖  ❖  ❖")
+
+    # Instructor block
+    inst_y = PAGE_H - 132 * mm
+    c.setFont("Helvetica-Bold", 8.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, inst_y, "I  N  S  T  R  U  C  T  O  R")
+    c.setFont("Times-Italic", 22)
+    c.setFillColor(EXAM_INK)
+    c.drawCentredString(PAGE_W / 2, inst_y - 10 * mm, instructor)
+
+    # Lower decorative rule
+    c.setStrokeColor(EXAM_INK)
+    c.setLineWidth(0.6)
+    c.line(15 * mm, PAGE_H - 165 * mm, PAGE_W - 15 * mm, PAGE_H - 165 * mm)
+
+    # Student fill-in block — Name / Date
+    if show_name_date:
+        bx = 20 * mm
+        bw = PAGE_W - 40 * mm
+        by = PAGE_H - 195 * mm
+        c.setFont("Helvetica-Bold", 9)
+        c.setFillColor(EXAM_INK)
+        c.drawString(bx, by, "NAME")
+        c.setStrokeColor(EXAM_INK)
+        c.setLineWidth(0.6)
+        c.line(bx + 16 * mm, by - 0.5, bx + bw * 0.55, by - 0.5)
+
+        c.drawString(bx + bw * 0.6, by, "DATE")
+        c.line(bx + bw * 0.6 + 14 * mm, by - 0.5, bx + bw, by - 0.5)
+
+    # Total marks box — bottom right
+    box_w = 36 * mm
+    box_h = 22 * mm
+    box_x = PAGE_W - 15 * mm - box_w
+    box_y = 30 * mm
+    c.setStrokeColor(EXAM_ACCENT)
+    c.setLineWidth(0.8)
+    c.rect(box_x, box_y, box_w, box_h, stroke=1, fill=0)
+    c.setFont("Helvetica-Bold", 7.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(box_x + box_w / 2, box_y + box_h - 6, "T O T A L   M A R K S")
+    c.setFont("Times-Bold", 22)
+    c.setFillColor(EXAM_INK)
+    c.drawCentredString(box_x + box_w / 2, box_y + 4 * mm, f"/  {total_marks}")
+
+    # Bottom rule
+    c.setLineWidth(1.4)
+    c.setStrokeColor(EXAM_INK)
+    c.line(15 * mm, 18 * mm, PAGE_W - 15 * mm, 18 * mm)
+    c.setLineWidth(0.4)
+    c.line(15 * mm, 15.5 * mm, PAGE_W - 15 * mm, 15.5 * mm)
+
+    # Footer signature
+    c.setFont("Helvetica", 7.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawCentredString(PAGE_W / 2, 11 * mm, f"{title.upper()}   ·   {instructor.upper()}")
+
+
+def _draw_branded_page_header(c: canvas.Canvas, title: str, instructor: str):
+    """Slim running header used on every interior page."""
+    c.setFont("Helvetica-Bold", 7.5)
+    c.setFillColor(EXAM_MUTED)
+    c.drawString(15 * mm, PAGE_H - 10 * mm, title.upper())
+    c.drawRightString(PAGE_W - 15 * mm, PAGE_H - 10 * mm, instructor.upper())
+    c.setStrokeColor(EXAM_RULE)
+    c.setLineWidth(0.3)
+    c.line(15 * mm, PAGE_H - 12 * mm, PAGE_W - 15 * mm, PAGE_H - 12 * mm)
+
+
+def generate_branded_exam_pdf(
+    *,
+    word_pool: list,
+    num_image_q: int,
+    num_blank_q: int,
+    exam_title: str,
+    instructor: str,
+    unit_label: str,
+    eyebrow: str = "ESL VOCABULARY",
+) -> bytes:
+    """Editorial-grade exam PDF — cover page, image MCQs, fill-in-blank with
+    word bank, teacher answer key. All branding strings come from the caller."""
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    c.setTitle(f"{exam_title} - {instructor}")
+
+    total_marks = num_image_q + num_blank_q
+
+    # ── Cover page ──────────────────────────────────────────────────────────
+    _draw_editorial_cover(
+        c,
+        eyebrow=eyebrow,
+        title=exam_title,
+        subtitle=unit_label,
+        instructor=instructor,
+        total_marks=total_marks,
+    )
+    _draw_page_footer(c, 1)
+    c.showPage()
+
+    page_num = [2]
+
+    def page_break():
+        _draw_page_footer(c, page_num[0])
+        c.showPage()
+        page_num[0] += 1
+
+    img_words_chosen = []
+
+    # ── PART I — Image MCQs ─────────────────────────────────────────────────
+    candidates_img = [
+        w for w in word_pool
+        if getattr(w, "image_url", None)
+        and (w.word or "").strip().lower() not in ABSTRACT_FOR_IMAGE
+    ]
+    if not candidates_img:
+        candidates_img = [w for w in word_pool if getattr(w, "image_url", None)]
+    chosen_img = random.sample(candidates_img, min(num_image_q, len(candidates_img))) if candidates_img else []
+
+    if chosen_img:
+        _draw_branded_page_header(c, exam_title, instructor)
+        _draw_section_title(
+            c, PAGE_H - 22 * mm,
+            "Part I", "Look at the picture and circle the correct word.",
+            hint="Circle one letter (a, b, c, or d) for each question.",
+        )
+        start_y = PAGE_H - 34 * mm
+        on_page = 0
+        num = 1
+        for w in chosen_img:
+            if on_page >= IMG_Q_PER_PAGE:
+                page_break()
+                _draw_branded_page_header(c, exam_title, instructor)
+                _draw_section_title(c, PAGE_H - 22 * mm, "Part I", "(continued)")
+                start_y = PAGE_H - 34 * mm
+                on_page = 0
+            row = on_page // IMG_Q_COLS
+            col = on_page % IMG_Q_COLS
+            x = 15 * mm + col * IMG_Q_W
+            y = start_y - (row + 1) * IMG_Q_H
+
+            distractors = [d.word for d in word_pool if d.id != w.id]
+            random.shuffle(distractors)
+            opts = [w.word] + distractors[:3]
+            random.shuffle(opts)
+            _draw_image_question(c, x, y, num, w, opts)
+
+            img_words_chosen.append((num, w.word))
+            num += 1
+            on_page += 1
+        page_break()
+        next_num = num
+    else:
+        next_num = 1
+
+    # ── PART II — Fill in the blank with word bank ──────────────────────────
+    blank_candidates = [w for w in word_pool if (getattr(w, "example", None) and getattr(w, "word", None))]
+    chosen_blanks = random.sample(blank_candidates, min(num_blank_q, len(blank_candidates))) if blank_candidates else []
+
+    blank_words_chosen = []
+    if chosen_blanks:
+        _draw_branded_page_header(c, exam_title, instructor)
+        y = PAGE_H - 22 * mm
+        _draw_section_title(
+            c, y, "Part II", "Fill in the blank with the correct word.",
+            hint="Choose a word from the Word Bank and write it on the blank line.",
+        )
+        y -= 12 * mm
+
+        bank_words = [w.word for w in chosen_blanks]
+        y = _draw_word_bank(c, y, bank_words)
+        y -= 4 * mm
+
+        style = ParagraphStyle(
+            name="exam_blank", fontName="Times-Roman", fontSize=12,
+            leading=18, textColor=EXAM_INK, alignment=TA_LEFT,
+        )
+        avail_w = PAGE_W - 30 * mm
+        bottom = 18 * mm
+        for w in chosen_blanks:
+            text = _blank_word_in_sentence(w.word, w.example or "")
+            p = Paragraph(f'<font name="Times-Bold">{next_num}.</font> &nbsp; {text}', style)
+            _, p_h = p.wrap(avail_w, 999)
+            row_h = p_h + 6 * mm
+            if y - row_h < bottom:
+                page_break()
+                _draw_branded_page_header(c, exam_title, instructor)
+                _draw_section_title(c, PAGE_H - 22 * mm, "Part II", "(continued)")
+                y = PAGE_H - 34 * mm
+            p.drawOn(c, 15 * mm, y - p_h)
+            y -= row_h
+            blank_words_chosen.append((next_num, w.word))
+            next_num += 1
+        page_break()
+
+    # ── Teacher answer key (last page) ──────────────────────────────────────
+    _draw_answer_key(c, img_words_chosen, blank_words_chosen)
+    _draw_page_footer(c, page_num[0])
+
+    c.save()
+    return buf.getvalue()

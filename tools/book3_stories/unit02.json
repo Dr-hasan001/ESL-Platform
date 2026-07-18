@@ -1,0 +1,57 @@
+{
+  "unit": 2,
+  "title": "The Real Saint Nick",
+  "story_html": "<p>At Christmas, children wait for Saint Nicholas to bring gifts down the <span class=\"vocab\">chimney</span>. But it's not just a story. Saint Nicholas was a real person.</p><p>A long time ago, a man named Marcus <span class=\"vocab\">occupied</span> a house with his family. He was not <span class=\"vocab\">modest</span>. He always told everybody he was the strongest man in the <span class=\"vocab\">province</span>.</p><p>He worked hard, but he could barely <span class=\"vocab\">sustain</span> his family. He wanted to save money and <span class=\"vocab\">prosper</span>. Still, he could never earn a <span class=\"vocab\">penny</span> more than he needed.</p><p>One day, Marcus made an <span class=\"vocab\">agreement</span> with a <span class=\"vocab\">blacksmith</span>. The <span class=\"vocab\">blacksmith</span> had a lot of work to do, but he couldn't do it all by himself. Marcus wanted to help him <span class=\"vocab\">forge</span> <span class=\"vocab\">iron</span>. The <span class=\"vocab\">blacksmith</span> agreed to <span class=\"vocab\">compensate</span> him with a lot of money.</p><p>In the same town, there was a man named Nicholas. At an early age, Nicholas started <span class=\"vocab\">preaching</span>. But he also believed that he should be <span class=\"vocab\">humble</span> and helpful. He learned that helping people gave him even more <span class=\"vocab\">satisfaction</span> than <span class=\"vocab\">preaching</span>.</p><p>One day, Nicholas <span class=\"vocab\">encountered</span> Marcus. Marcus told Nicholas about his <span class=\"vocab\">agreement</span> with the <span class=\"vocab\">blacksmith</span>. \"I worked hard for him,\" Marcus said, \"but a problem <span class=\"vocab\">arose</span>. Even though I worked for him, he didn't pay me.\"</p><p>Nicholas wanted to help Marcus. That night, he went back to Marcus's house. He brought a bag of gold. It <span class=\"vocab\">exceeded</span> the amount that Marcus needed. Nicholas climbed up a <span class=\"vocab\">ladder</span> and dropped the bag of gold down the <span class=\"vocab\">chimney</span>. Marcus thanked his <span class=\"vocab\">benefactor</span>.</p><p>Soon, people found out about Nicholas's gift. He became well known and loved. Even today, people still give secret gifts to children. And we say they are from Saint Nicholas.</p>",
+  "questions": [
+    {
+      "q": "At Christmas, what do children wait for Saint Nicholas to do?",
+      "opts": ["To sing songs at their door", "To bring gifts down the chimney", "To leave food on the table", "To light the Christmas tree"],
+      "ans": 1
+    },
+    {
+      "q": "What did Marcus always tell everybody?",
+      "opts": ["That he was the richest man in town", "That he was a famous blacksmith", "That he was Saint Nicholas", "That he was the strongest man in the province"],
+      "ans": 3
+    },
+    {
+      "q": "In the story, 'sustain his family' means:",
+      "opts": ["to support his family with enough money and food", "to move his family to a new town", "to teach his family a trade", "to protect his family from danger"],
+      "ans": 0
+    },
+    {
+      "q": "Why did the blacksmith need Marcus's help?",
+      "opts": ["He was too old to work", "He wanted to learn to forge iron", "He had a lot of work but couldn't do it all by himself", "He was going away on a trip"],
+      "ans": 2
+    },
+    {
+      "q": "What did the blacksmith agree to do for Marcus?",
+      "opts": ["Give Marcus a house", "Teach Marcus how to preach", "Make Marcus his partner", "Compensate him with a lot of money"],
+      "ans": 3
+    },
+    {
+      "q": "What gave Nicholas even more satisfaction than preaching?",
+      "opts": ["Earning money", "Helping people", "Traveling around the province", "Making gifts"],
+      "ans": 1
+    },
+    {
+      "q": "What problem did Marcus tell Nicholas about?",
+      "opts": ["The blacksmith did not pay him for his work", "His house had burned down", "He had lost a bag of gold", "His family was sick"],
+      "ans": 0
+    },
+    {
+      "q": "How did Nicholas give the gold to Marcus?",
+      "opts": ["He left it at the front door", "He gave it to the blacksmith to deliver", "He climbed a ladder and dropped it down the chimney", "He hid it in Marcus's garden"],
+      "ans": 2
+    },
+    {
+      "q": "In the story, a 'benefactor' is:",
+      "opts": ["a person who repairs houses", "a person who tells stories", "a person who works with iron", "a person who helps others by giving money or gifts"],
+      "ans": 3
+    },
+    {
+      "q": "Why do people today say that secret gifts are from Saint Nicholas?",
+      "opts": ["Because Nicholas became well known and loved for secretly giving a gift", "Because Nicholas asked people to use his name", "Because Marcus told everyone to say it", "Because the blacksmith started the tradition"],
+      "ans": 0
+    }
+  ]
+}

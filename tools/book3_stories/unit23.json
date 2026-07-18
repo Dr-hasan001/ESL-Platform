@@ -1,0 +1,107 @@
+{
+  "unit": 23,
+  "title": "Lazy Hans",
+  "story_html": "<p>Hans was lazy. He <span class=\"vocab\">seldom</span> helped his mother with anything. He didn't cook, and he never <span class=\"vocab\">mowed</span> the <span class=\"vocab\">lawn</span>. He didn't even <span class=\"vocab\">shave</span>! He spent the <span class=\"vocab\">daytime</span> <span class=\"vocab\">gambling</span> with his mother's money. One day, his mother realized that her money was gone from her <span class=\"vocab\">purse</span>. \"You're <span class=\"vocab\">banned</span> from my house!\" she shouted. \"Don't come back until you've learned your lesson!\"</p><p>Hans went to live in the forest like an <span class=\"vocab\">outlaw</span>. But it was cold, and Hans couldn't find any food. He went to a <span class=\"vocab\">cottage</span> to ask for a meal.</p><p>A <span class=\"vocab\">wizard</span> answered the door. \"Can I stay here, please?\" Hans asked.</p><p>\"You can stay if you work,\" the man replied.</p><p>Hans liked the <span class=\"vocab\">prospect</span> of food and warmth, so he agreed.</p><p>The man pointed to a field. \"Take this <span class=\"vocab\">rod</span> and plant it over there. I am a <span class=\"vocab\">wizard</span>, and this magic <span class=\"vocab\">rod</span> will bring us food.\"</p><p>The field was far away. Hans knew it would be <span class=\"vocab\">exhausting</span> to walk there. So he just threw the <span class=\"vocab\">rod</span> behind the <span class=\"vocab\">cottage</span> and sat by the river. When daylight <span class=\"vocab\">faded</span>, he returned to the <span class=\"vocab\">cottage</span> and went to sleep.</p><p>The next morning, the old man looked very <span class=\"vocab\">fierce</span>. \"You didn't take the <span class=\"vocab\">rod</span> to the field!\" he shouted.</p><p>\"No,\" <span class=\"vocab\">confessed</span> Hans, \"it was too far!\"</p><p>\"Because of you, we have nothing to eat!\" replied the man.</p><p>Hans was <span class=\"vocab\">terrified</span> that the man would punish him. So he ran home. \"Mama!\" he cried, \"I'm <span class=\"vocab\">desperate</span> to come back!\" His mother was <span class=\"vocab\">cautious</span>.</p><p>\"Do you promise to work?\" she asked.</p><p>\"Yes!\" said Hans, \"I'll never be lazy again!\"</p>",
+  "questions": [
+    {
+      "q": "How did Hans spend the daytime?",
+      "opts": [
+        "Cooking for his mother",
+        "Mowing the lawn",
+        "Gambling with his mother's money",
+        "Working in a field"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "Why did Hans's mother ban him from her house?",
+      "opts": [
+        "She realized her money was gone from her purse",
+        "He refused to shave",
+        "He broke something in the house",
+        "He stayed out too late at night"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "Where did Hans go to live after his mother sent him away?",
+      "opts": [
+        "In a hotel in town",
+        "In a friend's house",
+        "On a farm",
+        "In the forest, like an outlaw"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "Why did Hans go to the cottage?",
+      "opts": [
+        "To find a job as a wizard",
+        "To ask for a meal",
+        "To hide from his mother",
+        "To steal some money"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "What was the man's condition for letting Hans stay?",
+      "opts": [
+        "Hans had to work",
+        "Hans had to pay money",
+        "Hans had to learn magic",
+        "Hans had to cook the meals"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "What did the wizard tell Hans to do with the rod?",
+      "opts": [
+        "Throw it into the river",
+        "Use it to catch fish",
+        "Plant it in the field",
+        "Bring it back to the cottage"
+      ],
+      "ans": 2
+    },
+    {
+      "q": "Why didn't Hans take the rod to the field?",
+      "opts": [
+        "He lost the rod by the river",
+        "He knew the walk would be exhausting because the field was far away",
+        "He didn't believe in magic",
+        "He forgot what the wizard told him"
+      ],
+      "ans": 1
+    },
+    {
+      "q": "The word 'fierce' in the story is closest in meaning to:",
+      "opts": [
+        "tired and sleepy",
+        "kind and gentle",
+        "confused",
+        "very angry"
+      ],
+      "ans": 3
+    },
+    {
+      "q": "Why did Hans run home to his mother?",
+      "opts": [
+        "He was terrified that the man would punish him",
+        "He missed his mother's cooking",
+        "The wizard sent him home with food",
+        "He wanted to get more money"
+      ],
+      "ans": 0
+    },
+    {
+      "q": "What did Hans promise his mother at the end of the story?",
+      "opts": [
+        "To give her back the money",
+        "To go back and work for the wizard",
+        "To mow the lawn every day",
+        "To work and never be lazy again"
+      ],
+      "ans": 3
+    }
+  ]
+}

@@ -31,10 +31,11 @@
 
   .shelf-level {
     font-family: 'Playfair Display', serif;
-    font-size: 3.2rem;
+    font-size: 2.2rem;
     font-weight: 900;
     color: #fff;
     line-height: 1;
+    white-space: nowrap;
   }
   .shelf-book-name {
     font-size: .68rem;
@@ -75,8 +76,8 @@
   {% set book_colors = ['#C84830','#1E5C72','#4A3580','#2A6B3D','#8B4513','#1A1209'] %}
   {% for book in books %}
   <a class="shelf-card" href="/books/{{ book.id }}" style="background: {{ book_colors[loop.index0 % 6] }}; animation-delay: {{ loop.index0 * 0.07 }}s">
-    <span class="shelf-level">{{ book.cefr_level }}</span>
-    <span class="shelf-book-name">Book {{ book.book_number }}</span>
+    <span class="shelf-level">Book {{ book.book_number }}</span>
+    <span class="shelf-book-name">{{ book.cefr_level }} · Level</span>
     <span class="shelf-series">{{ book.series or '4000 Essential English Words' }}</span>
     <span class="shelf-units">{{ book.unit_count }} Units</span>
   </a>
