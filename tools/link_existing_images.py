@@ -8,7 +8,7 @@ The resulting PNGs land in the repo. On every deploy this script walks the
 directory tree and updates each matching Word row so the UI renders the image.
 
 Path layout it expects:
-    app/static/images/book{N}/unit{M}/{word}.png
+    app/static/images/book{N}/unit{M}/{word}.png   (or .webp)
 
 For each file it finds, it looks up:
     Book(book_number=N) → Unit(book_id=..., unit_number=M) → Word(unit_id=..., word ILIKE filename)
@@ -34,18 +34,20 @@ from app.models.book import Book, Unit, Word
 Base.metadata.create_all(bind=engine)
 
 IMAGES_ROOT = os.path.join("app", "static", "images")
-PATH_RE = re.compile(r"book(\d+)[\\/]unit(\d+)[\\/]([^\\/]+)\.png$", re.IGNORECASE)
+PATH_RE = re.compile(r"book(\d+)[\\/]unit(\d+)[\\/]([^\\/]+)\.(png|webp)$", re.IGNORECASE)
 
 
 def discover_pngs():
     """Yield (book_number, unit_number, word_filename, static_url) for every
-    PNG under app/static/images/book*/unit*/. word_filename is lowercase, no
-    extension."""
+    PNG/WebP under app/static/images/book*/unit*/. word_filename is lowercase,
+    no extension. Sorted so .webp comes after .png — if both exist for a word,
+    the .webp URL wins."""
     if not os.path.isdir(IMAGES_ROOT):
         return
+    found = []
     for root, _dirs, files in os.walk(IMAGES_ROOT):
         for name in files:
-            if not name.lower().endswith(".png"):
+            if not name.lower().endswith((".png", ".webp")):
                 continue
             full = os.path.join(root, name)
             m = PATH_RE.search(full)
@@ -54,8 +56,11 @@ def discover_pngs():
             book_num = int(m.group(1))
             unit_num = int(m.group(2))
             word_file = m.group(3).lower()
-            static_url = f"/static/images/book{book_num}/unit{unit_num}/{word_file}.png"
-            yield book_num, unit_num, word_file, static_url
+            ext = m.group(4).lower()
+            static_url = f"/static/images/book{book_num}/unit{unit_num}/{word_file}.{ext}"
+            found.append((ext == "webp", book_num, unit_num, word_file, static_url))
+    for _webp_last, book_num, unit_num, word_file, static_url in sorted(found):
+        yield book_num, unit_num, word_file, static_url
 
 
 def main():
