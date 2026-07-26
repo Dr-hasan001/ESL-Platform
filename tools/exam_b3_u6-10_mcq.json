@@ -1,0 +1,80 @@
+{
+  "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
+  "title": "Exam",
+  "subtitle": "Vocabulary   ·   Grammar   ·   Reading",
+  "level": "B1",
+  "instructor": "Hasan Alaa",
+  "time_allowed": "40 minutes",
+  "cover_image": "tools/assets/exam_cover.png",
+  "exam_id": "B3 · U6-10 · V1",
+
+  "part1": {
+    "label": "Look at the picture and choose the correct word.",
+    "hint": "Fill your answer (a, b, c, or d) on the ANSWER SHEET — do not write on this paper.  ·  1 mark each",
+    "items": [
+      {"num": 1,  "word": "Coal",    "options": ["coal", "skull", "thread", "shed"],    "answer": "a"},
+      {"num": 2,  "word": "Couch",   "options": ["closet", "couch", "blanket", "mill"], "answer": "b"},
+      {"num": 3,  "word": "Thread",  "options": ["skull", "blanket", "thread", "coal"], "answer": "c"},
+      {"num": 4,  "word": "Blanket", "options": ["fabric", "couch", "closet", "blanket"], "answer": "d"},
+      {"num": 5,  "word": "Skull",   "options": ["skull", "chin", "rear", "thread"],    "answer": "a"},
+      {"num": 6,  "word": "Bay",     "options": ["mill", "bay", "closet", "shed"],      "answer": "b"},
+      {"num": 7,  "word": "Mill",    "options": ["shed", "closet", "mill", "couch"],    "answer": "c"},
+      {"num": 8,  "word": "Shed",    "options": ["closet", "mill", "couch", "shed"],    "answer": "d"},
+      {"num": 9,  "word": "Closet",  "options": ["closet", "shed", "couch", "mill"],    "answer": "a"},
+      {"num": 10, "word": "Chin",    "options": ["skull", "chin", "rear", "fabric"],    "answer": "b"}
+    ]
+  },
+
+  "part2": {
+    "label": "Choose the word that best completes each sentence.",
+    "hint": "Fill your answer (a, b, c, or d) on the ANSWER SHEET.  ·  1 mark each",
+    "items": [
+      {"num": 11, "sentence": "The ______________ table was covered with food.", "options": ["entire", "brilliant", "loyal", "urgent"], "answer": "a"},
+      {"num": 12, "sentence": "I live in a quiet residential ______________ of the city.", "options": ["mayor", "district", "bay", "mill"], "answer": "b"},
+      {"num": 13, "sentence": "The ______________ of my hometown is a powerful speaker.", "options": ["opponent", "ally", "mayor", "rival"], "answer": "c"},
+      {"num": 14, "sentence": "I felt a sense of ______________ when I heard the good news.", "options": ["absence", "mercy", "complaint", "relief"], "answer": "d"},
+      {"num": 15, "sentence": "My younger sister is ______________ for someone her age.", "options": ["brilliant", "dominant", "mutual", "sore"], "answer": "a"},
+      {"num": 16, "sentence": "The champion managed to ______________ the challenger in the boxing match.", "options": ["console", "defeat", "restore", "abandon"], "answer": "b"},
+      {"num": 17, "sentence": "The manager listened carefully to the customer's ______________.", "options": ["divorce", "torture", "complaint", "broadcast"], "answer": "c"},
+      {"num": 18, "sentence": "He had to leave at that moment; it was ______________.", "options": ["sore", "mutual", "dominant", "urgent"], "answer": "d"},
+      {"num": 19, "sentence": "The three friends are very ______________ to each other.", "options": ["urgent", "loyal", "dominant", "mutual"], "answer": "b"},
+      {"num": 20, "sentence": "The teacher noticed the ______________ of three students from class.", "options": ["relief", "mercy", "horizon", "absence"], "answer": "d"}
+    ]
+  },
+
+  "part3": {
+    "label": "Read the story, then answer T (true) or F (false) on the answer sheet.",
+    "hint": "The vocabulary words are printed in bold.  ·  1 mark each",
+    "story_title": "The Final Match",
+    "story": "Every summer, the final of our city's football cup is <b>broadcast</b> live on television. This year, the match was between the Eagles and their old <b>rival</b>, the Lions. People think the two teams hate each other, but in fact there is <b>mutual</b> respect between them. From the first minute, the Lions were the <b>dominant</b> team. Their striker, Ali, ran with <b>tremendous</b> speed. In the second half, the ball <b>bounced</b> off the post, and Ali kicked it into the goal. The crowd <b>burst</b> into cheering. The Eagles' young goalkeeper, Sami, felt <b>ashamed</b> because he had let in two goals. His captain <b>patted</b> him on the shoulder to <b>console</b> him. “Don't be sad,” he said. “Next year we will <b>restore</b> our name.” After the match, the gold cup was <b>nowhere</b> to be found. Everyone searched for an hour. Finally, a worker found it <b>underneath</b> a seat, and the Lions lifted their cup at last.",
+    "statements": [
+      {"num": 21, "text": "The final match was shown live on television.", "answer": true},
+      {"num": 22, "text": "The match was between the Eagles and the Lions.", "answer": true},
+      {"num": 23, "text": "The two teams have no respect for each other.", "answer": false},
+      {"num": 24, "text": "The Lions were the stronger team from the beginning.", "answer": true},
+      {"num": 25, "text": "Ali scored after the ball bounced off the post.", "answer": true},
+      {"num": 26, "text": "The crowd stayed silent when Ali scored.", "answer": false},
+      {"num": 27, "text": "Sami felt proud after the two goals went in.", "answer": false},
+      {"num": 28, "text": "Sami's captain tried to make him feel better.", "answer": true},
+      {"num": 29, "text": "The cup was found inside the changing room.", "answer": false},
+      {"num": 30, "text": "People stopped searching for the cup after five minutes.", "answer": false}
+    ]
+  },
+
+  "part4": {
+    "label": "Grammar — choose the correct answer.",
+    "hint": "Used to  ·  Be supposed to  ·  Relative clauses.  ·  1 mark each",
+    "items": [
+      {"num": 31, "sentence": "I ______________ like coffee, but now I love it.", "options": ["didn't use to", "didn't used to", "don't used to", "wasn't use to"], "answer": "a"},
+      {"num": 32, "sentence": "We didn't ______________ a car, so we walked everywhere.", "options": ["used to have", "use to have", "used to having", "use to having"], "answer": "b"},
+      {"num": 33, "sentence": "There ______________ a cinema here, but they closed it.", "options": ["use to be", "was use to", "used to be", "used to being"], "answer": "c"},
+      {"num": 34, "sentence": "I ______________ to Turkey last year. (one time only)", "options": ["used to go", "use to go", "was go", "went"], "answer": "d"},
+      {"num": 35, "sentence": "You ______________ to wear a seatbelt in the car. (it's the rule)", "options": ["are supposed", "supposed", "is supposed", "supposing"], "answer": "a"},
+      {"num": 36, "sentence": "You ______________ to use your phone during the exam.", "options": ["don't supposed", "not supposed", "aren't supposed", "isn't supposed"], "answer": "c"},
+      {"num": 37, "sentence": "The train ______________ to arrive at nine, but it was late.", "options": ["is supposed", "was supposed", "supposed", "were supposed"], "answer": "b"},
+      {"num": 38, "sentence": "The woman ______________ lives next door is a nurse.", "options": ["who", "which", "where", "whose"], "answer": "a"},
+      {"num": 39, "sentence": "That's the restaurant ______________ we ate last night.", "options": ["which", "who", "whose", "where"], "answer": "d"},
+      {"num": 40, "sentence": "A mechanic is a person ______________ repairs cars.", "options": ["which", "where", "who", "when"], "answer": "c"}
+    ]
+  }
+}
