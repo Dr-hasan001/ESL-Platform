@@ -15,7 +15,7 @@
       {"num": 1,  "word": "Coal",    "options": ["coal", "skull", "thread", "shed"],    "answer": "a"},
       {"num": 2,  "word": "Couch",   "options": ["closet", "couch", "blanket", "mill"], "answer": "b"},
       {"num": 3,  "word": "Thread",  "options": ["skull", "blanket", "thread", "coal"], "answer": "c"},
-      {"num": 4,  "word": "Blanket", "options": ["fabric", "couch", "closet", "blanket"], "answer": "d"},
+      {"num": 4,  "word": "Blanket", "options": ["fabric", "closet", "skull", "blanket"], "answer": "d"},
       {"num": 5,  "word": "Skull",   "options": ["skull", "chin", "rear", "thread"],    "answer": "a"},
       {"num": 6,  "word": "Bay",     "options": ["mill", "bay", "closet", "shed"],      "answer": "b"},
       {"num": 7,  "word": "Mill",    "options": ["shed", "closet", "mill", "couch"],    "answer": "c"},
