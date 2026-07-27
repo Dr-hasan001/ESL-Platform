@@ -159,6 +159,8 @@ def _bubble(c, cx, cy, label, r=BUBBLE_R):
 
 
 def _bubble_sheet(c, cfg, page):
+    # rows that show only T/F bubbles; default = legacy 21-30, [] = all a-d
+    tf_rows = set(cfg["tf_rows"]) if "tf_rows" in cfg else set(range(21, 31))
     _corner_markers(c)
 
     c.setFont("Times-Bold", 19)
@@ -210,7 +212,7 @@ def _bubble_sheet(c, cfg, page):
             c.setFont("Helvetica-Bold", 10)
             c.setFillColor(INK)
             c.drawRightString(x_num, cy - 1.2 * mm, str(q))
-            if 21 <= q <= 30:
+            if q in tf_rows:
                 _bubble(c, x_num + BUBBLE_X0, cy, "T")
                 _bubble(c, x_num + BUBBLE_X0 + BUBBLE_DX, cy, "F")
             else:
@@ -270,9 +272,13 @@ def _answer_key(c, cfg, page):
     y = head("Part II — Sentence MCQ (11–20)", y)
     y = grid(cfg["part2"]["items"], y,
              lambda it: f"{it['num']}.  {it['answer']})  {it['options']['abcd'.index(it['answer'])]}")
-    y = head("Part III — Story T / F (21–30)", y)
-    y = grid(cfg["part3"]["statements"], y,
-             lambda s: f"{s['num']}.  {'T' if s['answer'] else 'F'}")
+    if cfg.get("part_kinds", {}).get("part3", "story") == "story":
+        y = head("Part III — Story T / F (21–30)", y)
+        y = grid(cfg["part3"]["statements"], y,
+                 lambda s: f"{s['num']}.  {'T' if s['answer'] else 'F'}")
+    else:
+        y = head("Part III (21–30)", y)
+        y = grid(cfg["part3"]["items"], y, lambda it: f"{it['num']}.  {it['answer']})")
     y = head("Part IV — Grammar MCQ (31–40)", y)
     y = grid(cfg["part4"]["items"], y,
              lambda it: f"{it['num']}.  {it['answer']})")
@@ -300,7 +306,10 @@ def generate(cfg_path: str) -> bytes:
     page = [2]
     _part1(c, cfg, db, page)                       # picture MCQ, reused renderer
     _mcq_text_part(c, cfg, "part2", "Part II", page)
-    _part3_story(c, cfg, page)
+    if cfg.get("part_kinds", {}).get("part3", "story") == "story":
+        _part3_story(c, cfg, page)
+    else:
+        _mcq_text_part(c, cfg, "part3", "Part III", page)
     _mcq_text_part(c, cfg, "part4", "Part IV", page)
     _bubble_sheet(c, cfg, page)
     _answer_key(c, cfg, page)
