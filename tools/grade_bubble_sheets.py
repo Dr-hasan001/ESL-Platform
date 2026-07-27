@@ -1,17 +1,18 @@
 """
-Grade photographed bubble sheets for an MCQ exam. Multi-class.
+Grade photographed bubble sheets for an MCQ exam. Multi-class, multi-exam.
 
-Inputs per class:
-    .tmp/bubble_reads_<class>.json — list of {file, name_written, answers{1..40}, uncertain[]}
-    tools/exam_b3_u6-10_mcq.json   — answer key source
-    CLASSES below                  — roster (file -> official name) + teacher overrides
+Inputs per class (see CLASSES):
+    reads   .tmp/bubble_reads_<class>.json — list of {file, name_written, answers{}, uncertain[]}
+    config  exam JSON (answer key source; legacy part1..part4 dict schema or
+            the newer "parts" list schema used by the A1 exam)
+    roster  file -> official name, plus teacher overrides
 
 Outputs per class:
     .tmp/bubble_results_<class>.json
-    exports/Exam_B3_U6-10_Results_<CLASS>.csv   (falls back to _v2 if locked by Excel)
+    exports/Exam_<EXAM>_Results_<CLASS>.csv   (falls back to _v2 if locked by Excel)
     printed per-student scores + per-question analysis
 
-Run: py tools/grade_bubble_sheets.py [pm91|pm82]
+Run: py tools/grade_bubble_sheets.py [pm91|pm82|pm101]
 """
 
 import csv
@@ -22,10 +23,16 @@ from collections import Counter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-CONFIG = os.path.join(HERE, "exam_b3_u6-10_mcq.json")
+
+B3_PARTS = {"I": range(1, 11), "II": range(11, 21), "III": range(21, 31), "IV": range(31, 41)}
+A1_PARTS = {"I": range(1, 11), "II": range(11, 16), "III": range(16, 21),
+            "IV": range(21, 26), "V": range(26, 31)}
 
 CLASSES = {
     "pm91": {
+        "exam": "B3_U6-10",
+        "config": "exam_b3_u6-10_mcq.json",
+        "parts": B3_PARTS,
         "roster": {
             "Aqeel Abdul alrazaq.jpg":     "Aqeel Abdul-Razaq",
             "Aya Sabah.jpg":               "Aya Sabah",
@@ -49,6 +56,9 @@ CLASSES = {
         "reads": ".tmp/bubble_reads.json",       # original PM 91 reads file
     },
     "pm82": {
+        "exam": "B3_U6-10",
+        "config": "exam_b3_u6-10_mcq.json",
+        "parts": B3_PARTS,
         "roster": {
             "Baneen Ali.jpg":        "Baneen Ali",
             "Faisal Ghazi.jpg":      "Faisal Ghazi",
@@ -65,18 +75,45 @@ CLASSES = {
         "overrides": {},
         "reads": ".tmp/bubble_reads_pm82.json",
     },
+    "pm101": {
+        "exam": "A1_U6-10",
+        "config": "exam_a1_u6-10_mcq.json",
+        "parts": A1_PARTS,
+        "roster": {
+            "Haider Falah.jpg":   "Haider Falah",
+            "Haneen Hadi.jpg":    "Haneen Hadi",
+            "Hussein Faydh.jpg":  "Hussein Faydh",
+            "Khaled Dreib.jpg":   "Khaled Dreib",
+            "Marwan Taleb.jpg":   "Marwan Taleb",
+            "Mohammed Baqer.jpg": "Mohammed Baqir",
+            "Mustafa Jabbar.jpg": "Mustafa Jabbar",
+            "Mustafa Mazen.jpg":  "Mustafa Mazen",
+            "Zahraa Hadi.jpg":    "Zahraa Hadi",
+            # Hasan Hola — no sheet photo supplied (absent?)
+        },
+        "overrides": {},
+        "reads": ".tmp/bubble_reads_pm101.json",
+    },
 }
-
-PARTS = {"I": range(1, 11), "II": range(11, 21), "III": range(21, 31), "IV": range(31, 41)}
 
 
 def build_key(cfg):
+    """Answer key from either exam schema. Letters lowercase; T/F -> t/f."""
     key = {}
-    for p in ("part1", "part2", "part4"):
-        for it in cfg[p]["items"]:
-            key[str(it["num"])] = it["answer"].lower()
-    for s in cfg["part3"]["statements"]:
-        key[str(s["num"])] = "t" if s["answer"] else "f"
+    if "parts" in cfg:                                     # A1 list schema
+        for part in cfg["parts"]:
+            if part["kind"] == "story":
+                for s in part["statements"]:
+                    key[str(s["num"])] = "t" if s["answer"] else "f"
+            else:
+                for it in part["items"]:
+                    key[str(it["num"])] = it["answer"].lower()
+    else:                                                  # legacy B3 schema
+        for p in ("part1", "part2", "part4"):
+            for it in cfg[p]["items"]:
+                key[str(it["num"])] = it["answer"].lower()
+        for s in cfg["part3"]["statements"]:
+            key[str(s["num"])] = "t" if s["answer"] else "f"
     return key
 
 
@@ -84,13 +121,15 @@ def grade_class(cls: str):
     spec = CLASSES[cls]
     with open(os.path.join(ROOT, spec["reads"]), encoding="utf-8") as f:
         reads = json.load(f)
-    with open(CONFIG, encoding="utf-8") as f:
+    with open(os.path.join(HERE, spec["config"]), encoding="utf-8") as f:
         cfg = json.load(f)
     key = build_key(cfg)
-    assert len(key) == 40
+    total_q = len(key)
+    parts = spec["parts"]
+    part_max = {p: len(rng) for p, rng in parts.items()}
 
     results = []
-    q_wrong = {str(q): [] for q in range(1, 41)}
+    q_wrong = {str(q): [] for q in range(1, total_q + 1)}
 
     for sheet in reads:
         fname = sheet["file"]
@@ -99,16 +138,16 @@ def grade_class(cls: str):
         for q, v in spec["overrides"].get(fname, {}).items():
             answers[q] = v.lower()
 
-        per_part = {p: 0 for p in PARTS}
+        per_part = {p: 0 for p in parts}
         missed = []
         blank = 0
-        for q in range(1, 41):
+        for q in range(1, total_q + 1):
             qs = str(q)
             given = answers.get(qs, "-")
             if given in ("-", "?"):
                 blank += 1
             if given == key[qs]:
-                for p, rng in PARTS.items():
+                for p, rng in parts.items():
                     if q in rng:
                         per_part[p] += 1
             else:
@@ -117,7 +156,7 @@ def grade_class(cls: str):
         total = sum(per_part.values())
         results.append({
             "name": name, "file": fname, "total": total,
-            "pct": round(total / 40 * 100),
+            "pct": round(total / total_q * 100),
             **{f"part_{p}": n for p, n in per_part.items()},
             "missed": missed, "blank": blank,
             "uncertain": sheet.get("uncertain") or [],
@@ -126,9 +165,10 @@ def grade_class(cls: str):
     results.sort(key=lambda r: -r["total"])
 
     with open(os.path.join(ROOT, ".tmp", f"bubble_results_{cls}.json"), "w", encoding="utf-8") as f:
-        json.dump({"results": results, "q_wrong": q_wrong, "key": key, "class": cls}, f, indent=1)
+        json.dump({"results": results, "q_wrong": q_wrong, "key": key,
+                   "class": cls, "exam": spec["exam"], "total_q": total_q}, f, indent=1)
 
-    out_csv = os.path.join(ROOT, "exports", f"Exam_B3_U6-10_Results_{cls.upper()}.csv")
+    out_csv = os.path.join(ROOT, "exports", f"Exam_{spec['exam']}_Results_{cls.upper()}.csv")
     os.makedirs(os.path.dirname(out_csv), exist_ok=True)
     try:
         f = open(out_csv, "w", newline="", encoding="utf-8-sig")
@@ -137,23 +177,24 @@ def grade_class(cls: str):
         f = open(out_csv, "w", newline="", encoding="utf-8-sig")
     with f:
         w = csv.writer(f)
-        w.writerow(["Student", "Score /40", "%", "Part I /10", "Part II /10",
-                    "Part III /10", "Part IV /10", "Blank", "Missed questions"])
+        w.writerow([f"Student", f"Score /{total_q}", "%"]
+                   + [f"Part {p} /{part_max[p]}" for p in parts]
+                   + ["Blank", "Missed questions"])
         for r in results:
-            w.writerow([r["name"], r["total"], r["pct"], r["part_I"], r["part_II"],
-                        r["part_III"], r["part_IV"], r["blank"],
-                        " ".join(map(str, r["missed"]))])
+            w.writerow([r["name"], r["total"], r["pct"]]
+                       + [r[f"part_{p}"] for p in parts]
+                       + [r["blank"], " ".join(map(str, r["missed"]))])
 
     print(f"=== {cls.upper()} — STUDENTS (sorted) ===")
     for r in results:
         u = f"  UNCERTAIN:{[x['q'] for x in r['uncertain']]}" if r["uncertain"] else ""
-        print(f"{r['name']:26s} {r['total']:2d}/40 ({r['pct']:3d}%)  "
-              f"I:{r['part_I']:2d} II:{r['part_II']:2d} III:{r['part_III']:2d} IV:{r['part_IV']:2d}"
+        pp = " ".join(f"{p}:{r[f'part_{p}']:2d}" for p in parts)
+        print(f"{r['name']:26s} {r['total']:2d}/{total_q} ({r['pct']:3d}%)  {pp}"
               f"  missed: {','.join(map(str, r['missed'])) or 'none'}{u}")
 
     n = len(results)
     avg = sum(r["total"] for r in results) / n
-    print(f"\nclass size {n} · average {avg:.1f}/40 ({avg/40*100:.0f}%) · "
+    print(f"\nclass size {n} · average {avg:.1f}/{total_q} ({avg/total_q*100:.0f}%) · "
           f"top {results[0]['total']} · low {results[-1]['total']}")
 
     print(f"\n=== {cls.upper()} — HARDEST QUESTIONS ===")

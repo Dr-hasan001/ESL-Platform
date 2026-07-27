@@ -1,8 +1,8 @@
 """
-One-page grades-only PDF (big font): student name + score, ranked.
+One-page grades-only PDF (big font): student name + score + %, ranked.
 Reads .tmp/bubble_results_<class>.json produced by grade_bubble_sheets.py.
 
-Run: py tools/generate_grades_pdf.py [pm91|pm82]
+Run: py tools/generate_grades_pdf.py [pm91|pm82|pm101]
 """
 
 import json
@@ -24,19 +24,27 @@ MUTED = HexColor("#7A6E63")
 RULE = HexColor("#C9BFB4")
 GOLD = HexColor("#B08D3E")
 
-CLASS_LABEL = {"pm91": "PM 91", "pm82": "PM 82"}
+CLASS_META = {
+    "pm91":  {"label": "PM 91",  "subtitle": "Level B1  ·  Book 3, Units 6–10  ·  Instructor: Hasan Alaa"},
+    "pm82":  {"label": "PM 82",  "subtitle": "Level B1  ·  Book 3, Units 6–10  ·  Instructor: Hasan Alaa"},
+    "pm101": {"label": "PM 101", "subtitle": "Level A1  ·  Book 1, Units 6–10  ·  Instructor: Hasan Alaa"},
+}
 
 
 def main():
     cls = sys.argv[1] if len(sys.argv) > 1 else "pm91"
-    label = CLASS_LABEL.get(cls, cls.upper())
-    out = os.path.join(ROOT, "exports", f"Exam_B3_U6-10_Grades_{cls.upper()}.pdf")
+    meta = CLASS_META.get(cls, {"label": cls.upper(), "subtitle": "Instructor: Hasan Alaa"})
+    label = meta["label"]
 
     with open(os.path.join(ROOT, ".tmp", f"bubble_results_{cls}.json"), encoding="utf-8") as f:
-        results = json.load(f)["results"]          # already sorted by score desc
+        data = json.load(f)
+    results = data["results"]                      # already sorted by score desc
+    total_q = data.get("total_q", 40)
+    exam = data.get("exam", "B3_U6-10")
+    out = os.path.join(ROOT, "exports", f"Exam_{exam}_Grades_{cls.upper()}.pdf")
 
     c = canvas.Canvas(out, pagesize=A4)
-    c.setTitle(f"Exam Results — {label} — B3 U6-10")
+    c.setTitle(f"Exam Results — {label} — {exam.replace('_', ' ')}")
 
     c.setStrokeColor(INK)
     c.setLineWidth(1.2)
@@ -49,8 +57,7 @@ def main():
     c.drawCentredString(PAGE_W / 2, PAGE_H - 39 * mm, f"Class {label}")
     c.setFont("Times-Italic", 12)
     c.setFillColor(MUTED)
-    c.drawCentredString(PAGE_W / 2, PAGE_H - 46 * mm,
-                        "Level B1  ·  Book 3, Units 6–10  ·  Instructor: Hasan Alaa")
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 46 * mm, meta["subtitle"])
     c.setStrokeColor(GOLD)
     c.setLineWidth(0.7)
     c.line(60 * mm, PAGE_H - 51 * mm, PAGE_W - 60 * mm, PAGE_H - 51 * mm)
@@ -64,7 +71,10 @@ def main():
         c.drawString(24 * mm, y, r["name"])
         c.setFont("Times-Bold", 20)
         c.setFillColor(ACCENT)
-        c.drawRightString(PAGE_W - 24 * mm, y, f"{r['total']} / 40")
+        c.drawRightString(PAGE_W - 52 * mm, y, f"{r['total']} / {total_q}")
+        c.setFont("Times-Bold", 18)
+        c.setFillColor(GOLD)
+        c.drawRightString(PAGE_W - 24 * mm, y, f"{r['pct']}%")
         c.setStrokeColor(RULE)
         c.setLineWidth(0.4)
         c.line(24 * mm, y - 4.5 * mm, PAGE_W - 24 * mm, y - 4.5 * mm)
@@ -74,7 +84,8 @@ def main():
     c.line(18 * mm, 16 * mm, PAGE_W - 18 * mm, 16 * mm)
     c.setFont("Helvetica", 8)
     c.setFillColor(MUTED)
-    c.drawCentredString(PAGE_W / 2, 11.5 * mm, f"EXAM · B3 U6-10 · CLASS {label.upper()} · HASAN ALAA")
+    c.drawCentredString(PAGE_W / 2, 11.5 * mm,
+                        f"EXAM · {exam.replace('_', ' ')} · CLASS {label.upper()} · HASAN ALAA")
 
     c.save()
     print(f"Saved: {out}")
