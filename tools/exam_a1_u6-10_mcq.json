@@ -1,80 +1,90 @@
 {
   "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
   "title": "Exam",
-  "subtitle": "Vocabulary   ·   Definitions   ·   Grammar",
+  "subtitle": "Vocabulary   ·   Grammar   ·   Reading",
   "level": "A1",
   "instructor": "Hasan Alaa",
   "time_allowed": "40 minutes",
   "cover_image": "tools/assets/exam_cover_a1.png",
-  "exam_id": "A1 · U6-10 · V1",
-  "tf_rows": [],
-  "part_kinds": {"part3": "mcq"},
+  "exam_id": "A1 · U6-10 · V2",
+  "tf_rows": [26, 27, 28, 29, 30],
 
-  "part1": {
-    "label": "Look at the picture and choose the correct word.",
-    "hint": "Fill your answer (a, b, c, or d) on the ANSWER SHEET — do not write on this paper.  ·  1 mark each",
-    "items": [
-      {"num": 1,  "word": "bus",      "options": ["bus", "door", "site", "mirror"],        "answer": "a"},
-      {"num": 2,  "word": "cat",      "options": ["dog", "cat", "rabbit", "horse"],        "answer": "b"},
-      {"num": 3,  "word": "hospital", "options": ["school", "gulf", "hospital", "door"],   "answer": "c"},
-      {"num": 4,  "word": "horse",    "options": ["rabbit", "dog", "cat", "horse"],        "answer": "d"},
-      {"num": 5,  "word": "mirror",   "options": ["mirror", "door", "leg", "grass"],       "answer": "a"},
-      {"num": 6,  "word": "rabbit",   "options": ["cat", "rabbit", "dog", "horse"],        "answer": "b"},
-      {"num": 7,  "word": "grass",    "options": ["gulf", "door", "grass", "mirror"],      "answer": "c"},
-      {"num": 8,  "word": "dog",      "options": ["cat", "rabbit", "horse", "dog"],        "answer": "d"},
-      {"num": 9,  "word": "sport",    "options": ["sport", "ritual", "service", "school"], "answer": "a"},
-      {"num": 10, "word": "guard",    "options": ["friend", "guard", "participant", "command"], "answer": "b"}
-    ]
-  },
+  "parts": [
+    {
+      "kind": "picture",
+      "roman": "Part I",
+      "label": "Choose the word for the picture.",
+      "hint": "Mark your answer (a, b, c or d) on the ANSWER SHEET — do not write on this paper.  ·  1 mark each",
+      "items": [
+        {"num": 1,  "word": "bus",      "options": ["bus", "door", "site", "mirror"],        "answer": "a"},
+        {"num": 2,  "word": "cat",      "options": ["dog", "cat", "rabbit", "horse"],        "answer": "b"},
+        {"num": 3,  "word": "hospital", "options": ["school", "gulf", "hospital", "door"],   "answer": "c"},
+        {"num": 4,  "word": "horse",    "options": ["rabbit", "dog", "cat", "horse"],        "answer": "d"},
+        {"num": 5,  "word": "mirror",   "options": ["mirror", "door", "leg", "grass"],       "answer": "a"},
+        {"num": 6,  "word": "rabbit",   "options": ["cat", "rabbit", "dog", "horse"],        "answer": "b"},
+        {"num": 7,  "word": "grass",    "options": ["gulf", "door", "grass", "mirror"],      "answer": "c"},
+        {"num": 8,  "word": "dog",      "options": ["cat", "rabbit", "horse", "dog"],        "answer": "d"},
+        {"num": 9,  "word": "sport",    "options": ["sport", "ritual", "service", "school"], "answer": "a"},
+        {"num": 10, "word": "guard",    "options": ["friend", "guard", "participant", "command"], "answer": "b"}
+      ]
+    },
 
-  "part2": {
-    "label": "Choose the word that fits the definition.",
-    "hint": "These definitions are from your 4000 Essential Words book.  ·  1 mark each",
-    "items": [
-      {"num": 11, "sentence": "something difficult that you have to do", "options": ["condition", "sense", "challenge", "divide"], "answer": "c"},
-      {"num": 12, "sentence": "the son of a king", "options": ["expert", "prince", "famous", "force"], "answer": "b"},
-      {"num": 13, "sentence": "to do something to help succeed", "options": ["sudden", "harm", "peace", "contribute"], "answer": "d"},
-      {"num": 14, "sentence": "for this reason", "options": ["therefore", "allow", "announce", "beside"], "answer": "a"},
-      {"num": 15, "sentence": "to stop someone from getting hurt", "options": ["claim", "protect", "lay", "difference"], "answer": "b"},
-      {"num": 16, "sentence": "to say that it should be done", "options": ["hang", "require", "propose", "tear"], "answer": "c"},
-      {"num": 17, "sentence": "to run after someone", "options": ["chase", "arrange", "attend", "release"], "answer": "a"},
-      {"num": 18, "sentence": "a way that something is very different", "options": ["grab", "satisfy", "accept", "contrast"], "answer": "d"},
-      {"num": 19, "sentence": "an idea about something", "options": ["familiar", "theory", "necessary", "encourage"], "answer": "b"},
-      {"num": 20, "sentence": "the only one", "options": ["pattern", "huge", "single", "attend"], "answer": "c"}
-    ]
-  },
+    {
+      "kind": "mcq",
+      "roman": "Part II",
+      "label": "Choose the word for the definition.",
+      "hint": "The definitions are from your 4000 Essential Words book.  ·  1 mark each",
+      "items": [
+        {"num": 11, "sentence": "to stop someone from getting hurt", "options": ["claim", "protect", "lay", "difference"], "answer": "b"},
+        {"num": 12, "sentence": "to run after someone", "options": ["arrange", "attend", "chase", "release"], "answer": "c"},
+        {"num": 13, "sentence": "the only one", "options": ["pattern", "huge", "attend", "single"], "answer": "d"},
+        {"num": 14, "sentence": "for this reason", "options": ["therefore", "allow", "announce", "beside"], "answer": "a"},
+        {"num": 15, "sentence": "something difficult that you have to do", "options": ["condition", "challenge", "sense", "divide"], "answer": "b"}
+      ]
+    },
 
-  "part3": {
-    "label": "Grammar — Present Simple. Choose the correct answer.",
-    "hint": "Negative, positive, and correct forms.  ·  1 mark each",
-    "items": [
-      {"num": 21, "sentence": "Choose the NEGATIVE of:  \"He plays football every day.\"", "options": ["He doesn't play football every day.", "He don't play football every day.", "He doesn't plays football every day.", "He not play football every day."], "answer": "a"},
-      {"num": 22, "sentence": "Choose the NEGATIVE of:  \"They are very happy.\"", "options": ["They isn't very happy.", "They aren't very happy.", "They don't very happy.", "They aren't be very happy."], "answer": "b"},
-      {"num": 23, "sentence": "Choose the POSITIVE of:  \"He doesn't go to the gym every day.\"", "options": ["He go to the gym every day.", "He going to the gym every day.", "He goes to the gym every day.", "He is goes to the gym every day."], "answer": "c"},
-      {"num": 24, "sentence": "Choose the CORRECT sentence.", "options": ["He enjoy playing football with his friends.", "He enjoys play football with his friends.", "He enjoying plays football with his friends.", "He enjoys playing football with his friends."], "answer": "d"},
-      {"num": 25, "sentence": "My sister ______________ TV in the evening.", "options": ["watch", "watches", "watching", "is watch"], "answer": "b"},
-      {"num": 26, "sentence": "______________ your father work in a hospital?", "options": ["Does", "Do", "Is", "Are"], "answer": "a"},
-      {"num": 27, "sentence": "We ______________ go to school on Fridays.", "options": ["doesn't", "aren't", "don't", "isn't"], "answer": "c"},
-      {"num": 28, "sentence": "The cats ______________ milk every morning.", "options": ["drinks", "drink", "drinking", "is drink"], "answer": "b"},
-      {"num": 29, "sentence": "Choose the CORRECT question.", "options": ["Does she like coffee?", "Do she likes coffee?", "Does she likes coffee?", "Is she like coffee?"], "answer": "a"},
-      {"num": 30, "sentence": "I ______________ English every day.", "options": ["studies", "studying", "is study", "study"], "answer": "d"}
-    ]
-  },
+    {
+      "kind": "mcq",
+      "roman": "Part III",
+      "label": "Present Simple — choose the correct answer.",
+      "hint": "1 mark each",
+      "items": [
+        {"num": 16, "sentence": "My sister ______________ TV in the evening.", "options": ["watch", "watches", "watching", "is watch"], "answer": "b"},
+        {"num": 17, "sentence": "______________ your father work in a hospital?", "options": ["Does", "Do", "Is", "Are"], "answer": "a"},
+        {"num": 18, "sentence": "We ______________ go to school on Fridays.", "options": ["doesn't", "aren't", "don't", "isn't"], "answer": "c"},
+        {"num": 19, "sentence": "Choose the NEGATIVE of:  \"He plays football every day.\"", "options": ["He doesn't play football every day.", "He don't play football every day.", "He doesn't plays football every day.", "He not play football every day."], "answer": "a"},
+        {"num": 20, "sentence": "Choose the CORRECT question.", "options": ["Do she likes coffee?", "Does she likes coffee?", "Is she like coffee?", "Does she like coffee?"], "answer": "d"}
+      ]
+    },
 
-  "part4": {
-    "label": "Choose the correct PLURAL form.",
-    "hint": "1 mark each",
-    "items": [
-      {"num": 31, "sentence": "apple  →", "options": ["apples", "applees", "applies", "apple"], "answer": "a"},
-      {"num": 32, "sentence": "knife  →", "options": ["knifes", "knives", "knifees", "kniffs"], "answer": "b"},
-      {"num": 33, "sentence": "child  →", "options": ["childs", "childes", "children", "childrens"], "answer": "c"},
-      {"num": 34, "sentence": "wolf  →", "options": ["wolfs", "wolfes", "wolvs", "wolves"], "answer": "d"},
-      {"num": 35, "sentence": "foot  →", "options": ["feet", "foots", "footes", "feets"], "answer": "a"},
-      {"num": 36, "sentence": "basket  →", "options": ["basketes", "baskets", "basketies", "basket"], "answer": "b"},
-      {"num": 37, "sentence": "man  →", "options": ["mans", "manes", "men", "mens"], "answer": "c"},
-      {"num": 38, "sentence": "wife  →", "options": ["wifes", "wives", "wife's", "wifves"], "answer": "b"},
-      {"num": 39, "sentence": "roof  →", "options": ["rooves", "roofes", "roofs", "rooffs"], "answer": "c"},
-      {"num": 40, "sentence": "mine  →", "options": ["mine", "minees", "mins", "mines"], "answer": "d"}
-    ]
-  }
+    {
+      "kind": "mcq",
+      "roman": "Part IV",
+      "label": "Choose the correct plural.",
+      "hint": "1 mark each",
+      "items": [
+        {"num": 21, "sentence": "apple  →", "options": ["apples", "applees", "applies", "apple"], "answer": "a"},
+        {"num": 22, "sentence": "knife  →", "options": ["knifes", "knives", "knifees", "kniffs"], "answer": "b"},
+        {"num": 23, "sentence": "child  →", "options": ["childs", "childes", "children", "childrens"], "answer": "c"},
+        {"num": 24, "sentence": "wolf  →", "options": ["wolfs", "wolfes", "wolvs", "wolves"], "answer": "d"},
+        {"num": 25, "sentence": "foot  →", "options": ["feet", "foots", "footes", "feets"], "answer": "a"}
+      ]
+    },
+
+    {
+      "kind": "story",
+      "roman": "Part V",
+      "label": "Read the story. True or False?",
+      "hint": "Mark T (True) or F (False) on the ANSWER SHEET.  ·  1 mark each",
+      "story_title": "Sara and Max",
+      "story": "Sara has a small white dog. His name is Max. Every morning, Sara and Max go to the park. Max runs on the green grass and plays with a ball. A little rabbit lives in the park, but Max does not chase it. After the park, Sara and Max go home by bus.",
+      "statements": [
+        {"num": 26, "text": "Sara has a big black dog.", "answer": false},
+        {"num": 27, "text": "Sara and Max go to the park every morning.", "answer": true},
+        {"num": 28, "text": "Max plays with a ball on the grass.", "answer": true},
+        {"num": 29, "text": "Max chases the rabbit.", "answer": false},
+        {"num": 30, "text": "Sara and Max go home by bus.", "answer": true}
+      ]
+    }
+  ]
 }
