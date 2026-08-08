@@ -49,6 +49,7 @@ _PENDING_SEEDERS = [
     ["tools/seed_book2_unit30.py"],
     ["tools/seed_book3.py"],
     ["tools/seed_stories.py", "3"],
+    ["tools/seed_stories.py", "1"],
 ]
 
 
