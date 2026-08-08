@@ -136,7 +136,14 @@ def main():
             ))
     db.close()
 
-    todo = [t for t in tasks if not os.path.exists(t[3])]
+    # A finished word may exist as .png (fresh) or .webp (compress_images_webp.py
+    # converts and MOVES the .png to Books/png_originals/). Checking only .png
+    # would re-bill every already-generated word after a compression pass.
+    def already_done(png_path):
+        return os.path.exists(png_path) or os.path.exists(
+            os.path.splitext(png_path)[0] + ".webp")
+
+    todo = [t for t in tasks if not already_done(t[3])]
     print(f"Model: {MODEL} (Nano Banana 1)")
     print(f"Units {start}-{end}: {len(tasks)} words, {len(todo)} to generate, "
           f"{len(tasks) - len(todo)} already on disk\n")
