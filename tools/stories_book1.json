@@ -200,5 +200,202 @@
     "ans": 3
    }
   ]
+ },
+ "15": {
+  "title": "The Big Race",
+  "story_html": "<p>A dog saw a group of animals <span class=\"vocab\">across</span> the road. He walked over to meet them.</p><p>“What are you doing?” he asked them.</p><p>“I just sold them tickets to a race between the rabbit and the turtle,” the duck <span class=\"vocab\">responded</span>.</p><p>The dog was extremely <span class=\"vocab\">excited</span>. He felt <span class=\"vocab\">fortunate</span> that he <span class=\"vocab\">happened</span> to be there. “I don't have anything to do today,” the dog said. “I want to buy a ticket, too.”</p><p>The dog sat down to <span class=\"vocab\">observe</span> the <span class=\"vocab\">race</span>. It would be many kilometers in <span class=\"vocab\">length</span>. The rabbit and the turtle stood next to each other. They waited for the race to start. The dog <span class=\"vocab\">wondered</span> why the turtle agreed to run against the rabbit. Being fast was not a <span class=\"vocab\">characteristic</span> of turtles. The rabbit was going to win easily.</p><p>Suddenly, the race began. The rabbit ran <span class=\"vocab\">extremely</span> quickly. The turtle walked slowly. After a minute, the rabbit looked back. He saw that the turtle was far behind him and was <span class=\"vocab\">breathing</span> quickly because he was so tired. The rabbit smiled and slowed down to a walk.</p><p>A minute later, the rabbit said, “I'm winning, so I'll take a rest.” He sat and began to <span class=\"vocab\">consume</span> some grass. Then, he let his eyes close. He wasn't the winner <span class=\"vocab\">yet</span>. But there was no <span class=\"vocab\">risk</span> of him losing the race. He went to sleep.</p><p>Hours later, a loud sound woke him. All of the animals were talking loudly and looking at the field. He felt <span class=\"vocab\">fear</span> for the first time. The turtle was almost at the finish line. Now, the rabbit <span class=\"vocab\">realized</span> his <span class=\"vocab\">mistake</span>. But the race was over. He gave the turtle an <span class=\"vocab\">opportunity</span> to win, and the turtle took it. The duck handed the turtle his <span class=\"vocab\">prize</span>. It was the happiest day of the turtle's life.</p><p>The dog was happy for the turtle. “He isn't fast,” the dog thought. “But he tried his best and did something great.”</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "A race between a rabbit and a turtle",
+     "The risk of running in a race",
+     "The speed of rabbits",
+     "How to observe a turtle"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the duck do for the other animals?",
+    "opts": [
+     "He told them the news.",
+     "He gave them a prize.",
+     "He responded to their questions.",
+     "He sold tickets to them."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Why did the dog think the turtle had no opportunity to win the race?",
+    "opts": [
+     "The turtle hadn't won a race yet.",
+     "The turtle couldn't walk across such a length.",
+     "Being fast was not a characteristic of turtles.",
+     "The turtle was not fortunate."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What did the rabbit do after he woke up?",
+    "opts": [
+     "He consumed some grass.",
+     "He realized his mistake.",
+     "He breathed quickly.",
+     "He excited the animals."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did the rabbit see that made him feel fear?",
+    "opts": [
+     "The dog buying a ticket",
+     "The duck selling tickets",
+     "The turtle almost at the finish line",
+     "The animals leaving the field"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Who won the race?",
+    "opts": ["The rabbit", "The dog", "The duck", "The turtle"],
+    "ans": 3
+   },
+   {
+    "q": "Why did the rabbit stop to rest?",
+    "opts": [
+     "He was breathing too quickly.",
+     "He thought he was winning.",
+     "The duck told him to stop.",
+     "He was afraid of the turtle."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "How long was the race?",
+    "opts": [
+     "Many kilometers in length",
+     "Exactly one kilometer",
+     "Only a few meters",
+     "The story does not say"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Who handed the turtle his prize?",
+    "opts": ["The dog", "The duck", "The rabbit", "The other animals"],
+    "ans": 1
+   },
+   {
+    "q": "What did the dog learn from the race?",
+    "opts": [
+     "Fast animals always win.",
+     "Racing is too much of a risk.",
+     "Trying your best can do something great.",
+     "It is better to sleep than to race."
+    ],
+    "ans": 2
+   }
+  ]
+ },
+ "16": {
+  "title": "Kwanzaa",
+  "story_html": "<p>Kwanzaa is a <span class=\"vocab\">seven</span>-day holiday celebrated in the United States and other countries by people of African descent. It is celebrated <span class=\"vocab\">from</span> <span class=\"vocab\">December</span> 26 to <span class=\"vocab\">January</span> 1 each <span class=\"vocab\">year</span>. The celebration is dedicated to honoring African culture and working <span class=\"vocab\">together</span> as a <span class=\"vocab\">community</span>.</p><p>Kwanzaa was created in 1966 by Mualana Kareng. Kareng was an African studies professor at California State <span class=\"vocab\">University</span>. According to him, <em>Kwanzaa</em> comes from the Swahili language and means “first fruit.” Kareng wanted to create a holiday for African-Americans as a way for them to reconnect with their heritage.</p><p>The colors of Kwanzaa are black, <span class=\"vocab\">red</span>, and <span class=\"vocab\">green</span>. These colors are seen in decorations such as African pieces of <span class=\"vocab\">art</span>, baskets, and cloth. Millions of African-Americans <span class=\"vocab\">wear</span> African <span class=\"vocab\">clothes</span> during Kwanzaa and decorate their <span class=\"vocab\">homes</span> with fruit and vegetables.</p><p>Each day, a <span class=\"vocab\">family</span> will celebrate one of seven different principles of their African heritage, such as unity, faith, and community. Then, they light a candle. The candles are put on a candleholder called a “Kinara.” The middle candle is black, the three candles on one side of the Kinara are red, and the other three candles are green.</p><p>On the sixth day of Kwanzaa, families remember their ancestors and get together for a big <span class=\"vocab\">dinner</span> called a “Karamu.” Traditional African-American dishes, which include chicken, fish, rice, beans, peas, sweet potatoes, and other vegetables are served.</p><p>Like Christmas, there are gifts which are <span class=\"vocab\">exchanged</span> on the seventh day. <span class=\"vocab\">Books</span> are always included because they symbolize the importance of learning about history and tradition.</p><p>Kwanzaa is a way of celebrating the <span class=\"vocab\">end</span> of the year by honoring African culture and traditions and to <span class=\"vocab\">start</span> the new year with family members as well as the community.</p>",
+  "questions": [
+   {
+    "q": "What is this reading about?",
+    "opts": [
+     "A celebration called Kwanzaa",
+     "The African community",
+     "The history of African-Americans",
+     "Where Kwanzaa was started"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What does Kwanzaa mean?",
+    "opts": ["African heritage", "Community", "First fruit", "Candleholder"],
+    "ans": 2
+   },
+   {
+    "q": "What do families do on the sixth day of Kwanzaa?",
+    "opts": [
+     "They read a book about history.",
+     "They light three green candles.",
+     "They give gifts to each other.",
+     "They have a big meal together."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Which of the following is true?",
+    "opts": [
+     "The colors of Kwanzaa are red, green, and yellow.",
+     "A candle is lit each day for seven days.",
+     "Mualana Kareng created Kwanzaa in 1996.",
+     "African-Americans decorate their homes with books."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Why are books given as gifts for Kwanzaa?",
+    "opts": [
+     "They are cheaper than other gifts.",
+     "They are the “first fruit” of the new year.",
+     "They symbolize the importance of learning about history and tradition.",
+     "They are decorated with African art."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "When is Kwanzaa celebrated?",
+    "opts": [
+     "From December 26 to January 1",
+     "The whole month of December",
+     "From January 1 to January 7",
+     "The last seven days of November"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Who created Kwanzaa, and when?",
+    "opts": [
+     "A Swahili university in 1966",
+     "Mualana Kareng in 1966",
+     "African-American families in 1996",
+     "An African professor in 1926"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What is a Kinara?",
+    "opts": [
+     "A traditional dinner",
+     "A type of African cloth",
+     "A candleholder",
+     "A Swahili book"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What do millions of African-Americans wear during Kwanzaa?",
+    "opts": [
+     "Red and green uniforms",
+     "Clothes decorated with fruit",
+     "New clothes given as gifts",
+     "African clothes"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What is the “Karamu”?",
+    "opts": [
+     "A gift exchanged on the seventh day",
+     "A big dinner on the sixth day",
+     "The middle candle of the Kinara",
+     "A principle of African heritage"
+    ],
+    "ans": 1
+   }
+  ]
  }
 }
