@@ -397,5 +397,419 @@
     "ans": 1
    }
   ]
+ },
+ "17": {
+  "title": "The Race for Water",
+  "story_html": "<p>There was a town next to a river. The people there had a lot of water. But they <span class=\"vocab\">wasted</span> it. That made the Sky angry. It said, “If you waste water, I will take it away from you.” But the people didn't listen.</p><p>When the <span class=\"vocab\">season</span> changed from spring to summer, the clouds <span class=\"vocab\">disappeared</span>. The <span class=\"vocab\">bright</span> sun was hot and made the river dry. There was no water <span class=\"vocab\">available</span>. People asked, “When will the rain fall?”</p><p>The Sky's <span class=\"vocab\">response</span> was, “You don't <span class=\"vocab\">appreciate</span> water. You waste it, and now I will never make rain again.”</p><p>A boy <span class=\"vocab\">decided</span> that this wasn't <span class=\"vocab\">fair</span>. He thought of a <span class=\"vocab\">solution</span>. He asked the Sky to race him. He said, “If I get to the top of that <span class=\"vocab\">hill</span> before your rain can form <span class=\"vocab\">puddles</span>, you must fill our river.”</p><p>The Sky laughed. “Little boy, I am the Sky. I am above everything <span class=\"vocab\">else</span>. You cannot <span class=\"vocab\">beat</span> me.” But the boy knew he would win.</p><p>When the race began, the boy ran <span class=\"vocab\">forward</span>. The Sky started raining on the hill. But puddles did not form there. When it rained on the hill, the water went down.</p><p>The Sky kept raining. The water <span class=\"vocab\">flowed</span> down into the river. When the boy reached the top of the hill, the river was full. The people began to <span class=\"vocab\">celebrate</span>. It was the highest <span class=\"vocab\">level</span> the river had ever been at before.</p><p>The Sky was angry. “A boy can't beat me! I won't fill your river,” it said. Now the boy laughed. “It doesn't matter <span class=\"vocab\">whether</span> you want to fill it or not,” he said. “You already did.” The Sky looked at the full river.</p><p>“You tricked me,” it said. It asked the people, “Do you appreciate water now?”</p><p>“Yes,” they said. “We won't waste it.”</p><p>That is how a <span class=\"vocab\">lone</span> boy saved his town and won the race for water.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "A boy who swims in a river",
+     "People who celebrate at a party",
+     "A boy with the solution to a problem",
+     "People who learn to appreciate a hill"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "The river became dry when ___.",
+    "opts": [
+     "the water went somewhere else",
+     "the bright sun became very hot",
+     "the people found available water nearby",
+     "the season changed from spring to summer"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "How did the boy save the town?",
+    "opts": [
+     "He made the clouds disappear.",
+     "He beat the rain to the top of the hill.",
+     "He moved forward faster than the sun.",
+     "He promised not to waste any more water."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What was the last thing the Sky did in the story?",
+    "opts": [
+     "It raced a lone boy to the top of the hill.",
+     "It saw the river at its highest level.",
+     "It asked the people for a response about water.",
+     "It decided the people wasted too much water."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What did the boy say when he reached the top of the hill?",
+    "opts": [
+     "That the Sky had won the race",
+     "That the rain had formed puddles",
+     "That he would never waste water again",
+     "That it didn't matter whether the Sky wanted to fill the river — it already had"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Why was the Sky angry with the town?",
+    "opts": [
+     "The people wasted their water.",
+     "The people never celebrated.",
+     "A boy laughed at the Sky.",
+     "The river was at its highest level."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the boy ask the Sky to do?",
+    "opts": [
+     "Make the clouds disappear",
+     "Form puddles on the hill",
+     "Race him to the top of the hill",
+     "Give the town a fair response"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Why did puddles not form on the hill?",
+    "opts": [
+     "The bright sun dried them.",
+     "The Sky stopped raining.",
+     "The boy ran through them.",
+     "The water flowed down into the river."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did the people do when the river filled up?",
+    "opts": [
+     "They began to celebrate.",
+     "They asked the Sky for more rain.",
+     "They raced to the top of the hill.",
+     "They had doubts about the boy."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the people promise at the end of the story?",
+    "opts": [
+     "To race the Sky again",
+     "Not to waste water",
+     "To build a new river",
+     "To climb the hill every season"
+    ],
+    "ans": 1
+   }
+  ]
+ },
+ "18": {
+  "title": "Eat Healthy!",
+  "story_html": "<p>It is important to <span class=\"vocab\">eat</span> healthy <span class=\"vocab\">food</span>. There are five main healthy food groups. They are grains, <span class=\"vocab\">fruits</span>, vegetables, protein, and dairy. A food pyramid can show you how much of each group you should eat.</p><p>Many different kinds of food are necessary for a balanced <span class=\"vocab\">diet</span>. You need to eat grains such as rice, wheat, and several types of <span class=\"vocab\">bread</span>. Fruits and vegetables are also important. Fruits such as <span class=\"vocab\">bananas</span> are good for you. Others, such as oranges and kiwis, <span class=\"vocab\">contain</span> a lot of vitamin C. Vegetables are an important part of a daily diet. They are extremely healthy and can be eaten in many ways. Salads with raw vegetables such as spinach and <span class=\"vocab\">carrots</span> are common, but you can also cook vegetables in many different ways. Soups are another easy way to get vegetables into your diet. Protein is an important food group, too. Meats such as beef and <span class=\"vocab\">chicken</span> are well-known forms of protein. Tofu, beans, eggs, and nuts also contain high amounts of protein. You should also eat dairy products such as cheese, yogurt, and milk as well. A healthy diet includes drinking lots of <span class=\"vocab\">water</span> instead of sugary drinks such as soda and juice.</p><p>While sweets may not be considered healthy foods, they are fine if you don't eat too many. <span class=\"vocab\">Chocolate</span> and <span class=\"vocab\">cake</span> are well-loved sweets commonly found at <span class=\"vocab\">restaurants</span> and grocery stores. They are often served at <span class=\"vocab\">special</span> events such as birthday parties and weddings.</p><p>At restaurants, you can <span class=\"vocab\">ask</span> the waiters to tell you which ingredients are included in different dishes. At home, you can <span class=\"vocab\">always</span> find healthy and <span class=\"vocab\">delicious</span> <span class=\"vocab\">recipes</span> in cookbooks or on the internet.</p><p>Eating healthy food is <span class=\"vocab\">great</span> for your <span class=\"vocab\">health</span>!</p>",
+  "questions": [
+   {
+    "q": "What are the five main healthy food groups mentioned in this story?",
+    "opts": [
+     "Candy, fruit, grains, protein, vegetables",
+     "Cake, fruit, grains, protein, vegetables",
+     "Chicken, dairy, fruit, grains, vegetables",
+     "Dairy, fruit, grains, protein, vegetables"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Which fruit contains a lot of vitamin C?",
+    "opts": ["Apples", "Bananas", "Cherries", "Oranges"],
+    "ans": 3
+   },
+   {
+    "q": "How might people cook and eat vegetables?",
+    "opts": [
+     "They can eat a salad.",
+     "They can make soup.",
+     "They can cook them.",
+     "All of the above"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "According to the passage, what can you ask waiters at restaurants?",
+    "opts": [
+     "What the primary food groups are",
+     "How many glasses of water you can have",
+     "To say what is in different dishes",
+     "To look on the internet for healthy recipes"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Which of these groups of healthy foods are all mentioned in the passage?",
+    "opts": [
+     "Bananas, carrots, chicken, bread, water",
+     "Cake, chocolate, soda, juice, candy",
+     "Pizza, rice, apples, coffee, cheese",
+     "Bananas, potatoes, lamb, tea, butter"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What should you drink instead of sugary drinks?",
+    "opts": ["Milk", "Water", "Juice", "Soda"],
+    "ans": 1
+   },
+   {
+    "q": "Which foods does the passage name as well-known forms of protein?",
+    "opts": [
+     "Beef and chicken",
+     "Rice and wheat",
+     "Spinach and carrots",
+     "Cheese and yogurt"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Where can you find healthy and delicious recipes at home?",
+    "opts": [
+     "Only at restaurants",
+     "In cookbooks or on the internet",
+     "From the waiters at restaurants",
+     "On a food pyramid"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What does the passage say about sweets like chocolate and cake?",
+    "opts": [
+     "They should never be eaten.",
+     "They are one of the five food groups.",
+     "They are fine if you don't eat too many.",
+     "They contain a lot of vitamin C."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What can a food pyramid show you?",
+    "opts": [
+     "How much of each food group you should eat",
+     "Which restaurants are healthy",
+     "How to cook vegetables",
+     "Which recipes are delicious"
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "19": {
+  "title": "Shipwrecked",
+  "story_html": "<p>Simon Yates was a <span class=\"vocab\">lawyer</span>. He helped many people. <span class=\"vocab\">However</span>, he was not a nice man. His <span class=\"vocab\">policy</span> was to help only rich people. He didn't <span class=\"vocab\">bother</span> about <span class=\"vocab\">social</span> <span class=\"vocab\">injustice</span>. He made a lot of money, but many people didn't like him. Even people on his <span class=\"vocab\">staff</span> didn't like him. In fact, they were <span class=\"vocab\">glad</span> when he got into trouble.</p><p>Simon had a very bad day. He did many things wrong and lost his job. Soon, he didn't have any money. His wife, Mrs. Yates, began to have <span class=\"vocab\">doubts</span> about him. Simon wanted to start a new life. He planned to leave the country.</p><p>He <span class=\"vocab\">mentioned</span> his plan to the <span class=\"vocab\">captain</span> of a ship. The captain was <span class=\"vocab\">exploring</span> the world. The captain felt bad for Simon and said, “I will take you to foreign countries.” They left the next day.</p><p>Near the <span class=\"vocab\">conclusion</span> of their <span class=\"vocab\">international</span> trip, the weather turned bad. A wave pushed Simon off the boat. But he was <span class=\"vocab\">alive</span>. He swam <span class=\"vocab\">toward</span> an island. After a long time he got there.</p><p>At first he was upset. He was lost and alone. “I'll never go home again,” he thought. He had a lot of problems, but he didn't die. He built a house in a tree. He lived on a diet of fish. He made tools from <span class=\"vocab\">wood</span> and <span class=\"vocab\">bones</span>. He made a cup to drink rainwater.</p><p>Slowly, he learned to be happy on the island. He swam every day. He had trouble sometimes, but he always found a way to fix the problem. Life was simple. He liked it.</p><p>Finally, people on a ship saw Simon on the island. They wanted to take him home. But Simon was happy. He gave them a long <span class=\"vocab\">speech</span> about life. He said he wanted to stay. He liked his new, simple life more than his <span class=\"vocab\">old</span> life.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "How the captain of a ship explored foreign places",
+     "How a lawyer stayed alive alone on an island",
+     "Why a man and a woman went on an international trip",
+     "Why it is a good policy to worry about social problems"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Why does Simon not stay on the boat?",
+    "opts": [
+     "The staff do not like him.",
+     "He wants to swim toward an island.",
+     "A wave pushes him off the ship.",
+     "He does not like the diet of only fish."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "How does Simon stay alive on the island?",
+    "opts": [
+     "He makes tools from bones and wood.",
+     "He makes clothes from a tree.",
+     "He eats food from the trees.",
+     "He uses a cup to drink seawater."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did Simon mention in his speech?",
+    "opts": [
+     "He wanted to see Mrs. Yates.",
+     "He was unhappy to be alone.",
+     "He was glad to be on the island.",
+     "He had doubts about staying on the island."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What happens near the conclusion of Simon's trip?",
+    "opts": [
+     "He builds a house in a tree.",
+     "He gives the sailors a long speech.",
+     "The weather turns bad and a wave pushes him off the boat.",
+     "He meets Mrs. Yates in a foreign country."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What was Simon's policy as a lawyer?",
+    "opts": [
+     "To explore the world",
+     "To fight social injustice",
+     "To help people for free",
+     "To help only rich people"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "How did Simon's staff feel when he got into trouble?",
+    "opts": [
+     "They had doubts.",
+     "They were glad.",
+     "They were bothered.",
+     "They wanted to help him."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did Simon live on while he was on the island?",
+    "opts": [
+     "A diet of fish",
+     "Meat from the forest",
+     "Fruit from the trees",
+     "Food left by the ship"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Why did the captain agree to take Simon with him?",
+    "opts": [
+     "Simon paid him a lot of money.",
+     "Simon was a member of his staff.",
+     "Mrs. Yates asked him to.",
+     "He felt bad for Simon."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Why didn't Simon want to go home at the end?",
+    "opts": [
+     "He had no money left.",
+     "He liked his new simple life more than his old life.",
+     "He was afraid of the sea.",
+     "The captain would not take him."
+    ],
+    "ans": 1
+   }
+  ]
+ },
+ "20": {
+  "title": "The Seven Cities of Gold",
+  "story_html": "<p>Many years ago, a Spanish officer named Coronado heard the story of seven great cities. “The walls of these cities are made of gold,” his friends told him. “The people eat <span class=\"vocab\">meat</span> from golden plates and dress in nice clothes,” they said. They called these cities the Seven Cities of Gold. Were the cities <span class=\"vocab\">real</span>? Coronado never <span class=\"vocab\">considered</span> asking his friends.</p><p>Coronado thought to himself, “The things in these cities must be <span class=\"vocab\">worth</span> a lot of money.” So he went to find the Seven Cities of Gold. He took along three hundred men, many horses, and <span class=\"vocab\">extra</span> food. They headed west. Coronado wanted to <span class=\"vocab\">achieve</span> his <span class=\"vocab\">goal</span> very badly.</p><p>Coronado and his men rode for many days. Then they saw some cities. “We found the Seven Cities of Gold!” his men said, but Coronado wasn't happy. He had a different <span class=\"vocab\">opinion</span>. “These can't be the Seven Cities of Gold,” he said. “Look, they're made of dirt!”</p><p>Coronado was right. The cities weren't bright and golden. They were dirty and brown. The people didn't eat meat from golden plates. They ate <span class=\"vocab\">vegetables</span> from regular bowls. They wore the most <span class=\"vocab\">basic</span> clothes. Coronado <span class=\"vocab\">regarded</span> the cities as ugly places. “What happened to the cities of gold?” he thought. “Did someone <span class=\"vocab\">destroy</span> them? Was there a <span class=\"vocab\">war</span>? Did someone <span class=\"vocab\">already</span> come and take the gold?”</p><p>That night, the people of the cities <span class=\"vocab\">entertained</span> Coronado and his men and <span class=\"vocab\">served</span> them food. They <span class=\"vocab\">advised</span> Coronado to go home. “There is no gold here,” they told him. Coronado was angry. Did his friends <span class=\"vocab\">lie</span> to him?</p><p>He left the next morning. He looked back at the cities one more time. The sun <span class=\"vocab\">reflected</span> light on the dirt houses. Coronado thought he saw a <span class=\"vocab\">bit</span> of gold. Were his friends right after all? “No,” he told himself. “It's just the sun.” Then he turned away and went home.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "A man who achieves his goal",
+     "An officer who looks for cities of gold",
+     "Men who destroy cities",
+     "People who entertain and serve"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did Coronado NOT consider asking his friends?",
+    "opts": [
+     "How much money the cities were worth",
+     "If the people of the cities ate meat",
+     "If the Seven Cities of Gold were real",
+     "How much extra food to take west"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Why was Coronado unhappy when he saw the cities?",
+    "opts": [
+     "They were not made of gold.",
+     "They were at war with each other.",
+     "Someone had destroyed them.",
+     "He had already been to the cities."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the people of the cities advise Coronado to do?",
+    "opts": [
+     "Eat basic vegetables",
+     "Go home",
+     "Regard the cities as dirty places",
+     "Talk about his opinion of the cities"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did Coronado do when he thought he saw a bit of gold on the houses?",
+    "opts": [
+     "He told himself it was just the sun and went home.",
+     "He went back to look for the gold.",
+     "He asked the people of the cities about it.",
+     "He sent his men to take it."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did Coronado take with him to find the cities?",
+    "opts": [
+     "Golden plates and nice clothes",
+     "Only his closest friends",
+     "A ship and a small crew",
+     "Three hundred men, many horses, and extra food"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did the people of the cities eat from?",
+    "opts": [
+     "Golden plates",
+     "Plates made of dirt",
+     "Regular bowls",
+     "Bowls made of wood"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "How did the people of the cities treat Coronado and his men that night?",
+    "opts": [
+     "They entertained them and served them food.",
+     "They went to war with them.",
+     "They destroyed their food supplies.",
+     "They refused to speak to them."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What made Coronado think he saw a bit of gold on the houses?",
+    "opts": [
+     "The people had hidden gold there.",
+     "His men showed it to him.",
+     "The golden plates in the windows",
+     "The sun reflected light on the dirt houses."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did Coronado wonder had happened to the gold?",
+    "opts": [
+     "That the people had eaten it",
+     "That his friends had taken it west",
+     "That a war or someone else had destroyed or taken it",
+     "That the sun had melted it"
+    ],
+    "ans": 2
+   }
+  ]
  }
 }
