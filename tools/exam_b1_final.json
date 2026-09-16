@@ -1,0 +1,258 @@
+{
+  "_README": [
+    "B1 FINAL EXAM — 100 written questions + Speaking /20.  Q1-8 are hand-marked",
+    "listening gaps; Q9-100 are bubbled.  All content is final.",
+    "",
+    "NOTE ON ANSWER LETTERS: every supplied MCQ set was skewed — listening and",
+    "Passage 2 had 'D' correct ZERO times, and the grammar set was 45% 'B' with all",
+    "five be-supposed-to items answering B on an identical option list.  Those are",
+    "patterns students can exploit.  The option ORDER was rotated in Parts II, VI and",
+    "VII so a/b/c/d are balanced.  Stems and option wording are untouched — only the",
+    "letter each option sits on changed.",
+    "USE THE ANSWER KEY PRINTED IN THIS PDF, not the originally supplied lists.",
+    "",
+    "Part VII carries no topic sub-headings and the seven topics are interleaved, so",
+    "students cannot infer the structure being tested from the question's position.",
+    "",
+    "Picture items: 'word' must match the DB spelling exactly (Book 2/3 rows are",
+    "Capitalised, B3 U14-15 are lowercase); 'options' is what students see, so it",
+    "stays lowercase.",
+    "Gap items: blanks are marked [[n]] inside the dialogue text."
+  ],
+
+  "institution": "",
+  "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
+  "title": "Final Examination",
+  "paper_subject": "English Language",
+  "subtitle": "Listening · Reading · Grammar",
+  "session": "2026",
+  "level": "B1",
+  "instructor": "Hasan Alaa",
+  "time_allowed": "120 minutes",
+  "exam_id": "B1 · FINAL",
+  "warning": "DO NOT OPEN THIS QUESTION PAPER UNTIL YOU ARE TOLD TO DO SO",
+  "instructions": [
+    "Write your name, class and candidate number in the boxes above before the examination begins.",
+    "Answer ALL questions. There are 100 questions in seven parts.",
+    "Record every answer on the ANSWER SHEET. Answers written on this question paper will not be marked.",
+    "For questions 9-100, fill in ONE bubble completely with a dark pen or pencil. Two bubbles filled on the same row score zero.",
+    "For questions 1-8, write ONE word or number on the lines at the top of Answer Sheet A.",
+    "If you change an answer, erase it completely or cross it out clearly.",
+    "You may write notes on this question paper, but do not detach or fold any page."
+  ],
+  "information": [
+    "The mark for each part is shown in the top right corner of that part.",
+    "The recording for Part I and Part II will be played TWICE.",
+    "Two answer sheets are provided. Write your name on BOTH.",
+    "Dictionaries, mobile phones and smart watches are NOT permitted.",
+    "Speaking is assessed separately and is not part of this paper."
+  ],
+  "tf_rows": [41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+  "written_rows": [1, 2, 3, 4, 5, 6, 7, 8],
+  "cover_sections": [
+    "I · II      Listening — gap-fill and comprehension            20 marks",
+    "III · IV    Reading — vocabulary in pictures and definitions   20 marks",
+    "V · VI      Reading — two passages, True/False and MCQ         20 marks",
+    "VII         Grammar — conditionals, used to, be supposed to,   40 marks",
+    "            relative clauses, present perfect, tenses",
+    "",
+    "Speaking is a separate paper, scored /20."
+  ],
+
+  "parts": [
+    {
+      "kind": "gap",
+      "roman": "Part I",
+      "label": "Listen and fill in the blanks.",
+      "part_title": "Nepal Travel Tips",
+      "hint": "You will hear it TWICE.  Write ONE word or number per blank on the ANSWER SHEET.  ·  1 mark each",
+      "dialogue": [
+        {"speaker": "Adam", "text": "Alright, hi Jin!"},
+        {"speaker": "Jin",  "text": "Hi, Adam."},
+        {"speaker": "Adam", "text": "How are you doing?"},
+        {"speaker": "Jin",  "text": "I'm doing good."},
+        {"speaker": "Adam", "text": "Ah, you're from Nepal right?"},
+        {"speaker": "Jin",  "text": "Yes, I am."},
+        {"speaker": "Adam", "text": "I was thinking about going there. Could you tell me some good places to visit while I'm in Nepal?"},
+        {"speaker": "Jin",  "text": "Yeah, sure. It's really nice, a nice place. I mean, you should totally come to my country. I would recommend that you should go to a place because that's the most famous tourist site in Nepal. There's a really beautiful [[1]] there, and then I know that you like sports, so there are many different kinds of activities."},
+        {"speaker": "Adam", "text": "Oh, cool! How far is that from the [[2]]?"},
+        {"speaker": "Jin",  "text": "Ah, you have to take a mini-bus, and it will take you around [[3]] hours and you'll be there."},
+        {"speaker": "Adam", "text": "OK, cool! When's the best time to go there?"},
+        {"speaker": "Jin",  "text": "I think during [[4]] would be better."},
+        {"speaker": "Adam", "text": "Yeah?"},
+        {"speaker": "Jin",  "text": "Yeah. It's really nice there, and the people are really nice. The food is [[5]], and there's a really good nightlife there because people go to pubs and listen to live music."},
+        {"speaker": "Adam", "text": "That's great. I love live music. Do you have any events or festivals that I should go to when I'm in Nepal?"},
+        {"speaker": "Jin",  "text": "Actually, there are a lot of festivals, but I would recommend you to go there during a festival. It's around February or March. The festival is around March, and what we do is we play with colors. We throw colors at each other, and even throw [[6]]. It's really fun, and everyone is very happy."},
+        {"speaker": "Adam", "text": "Yeah, that sounds like a lot of fun. How many days is that celebration?"},
+        {"speaker": "Jin",  "text": "It's actually only [[7]] day."},
+        {"speaker": "Adam", "text": "Oh, really?"},
+        {"speaker": "Jin",  "text": "Yeah."},
+        {"speaker": "Adam", "text": "Cool, I really want to go. Anything else you can tell me about Nepal?"},
+        {"speaker": "Jin",  "text": "If you like hiking, then Nepal has a lot of [[8]]."},
+        {"speaker": "Adam", "text": "Wow, that would be amazing. I really look forward to going there. Thank you so much for your time today."},
+        {"speaker": "Jin",  "text": "Sure, anytime!"}
+      ],
+      "items": [
+        {"num": 1, "answer": "lake"},
+        {"num": 2, "answer": "capital"},
+        {"num": 3, "answer": "six"},
+        {"num": 4, "answer": "spring"},
+        {"num": 5, "answer": "amazing"},
+        {"num": 6, "answer": "water"},
+        {"num": 7, "answer": "one"},
+        {"num": 8, "answer": "mountains"}
+      ]
+    },
+
+    {
+      "kind": "mcq",
+      "roman": "Part II",
+      "label": "Listening — choose the correct answer.",
+      "part_title": "Going to Mars",
+      "hint": "You will hear a conversation between John and Sarah.  You will hear it TWICE.  ·  1 mark each",
+      "items": [
+        {"num": 9,  "sentence": "What does John think about space travel?", "options": ["It is a good idea.", "It is too expensive.", "It is dangerous.", "It is unnecessary."], "answer": "a"},
+        {"num": 10, "sentence": "According to John, space travel can give people:", "options": ["Money", "Hope", "Food", "Jobs"], "answer": "b"},
+        {"num": 11, "sentence": "What can space travel help people from different countries do?", "options": ["Travel together", "Study together", "Work together", "Live together"], "answer": "c"},
+        {"num": 12, "sentence": "What does John mention as an example of countries working together?", "options": ["The Moon", "Mars", "The United Nations", "The International Space Station"], "answer": "d"},
+        {"num": 13, "sentence": "Where does John think people should go again?", "options": ["The Moon", "Mars", "The Earth", "The Sun"], "answer": "a"},
+        {"num": 14, "sentence": "What does Sarah think people should spend more money on?", "options": ["Space travel", "Education", "Military training", "Travel"], "answer": "b"},
+        {"num": 15, "sentence": "What does Sarah mention that some people need?", "options": ["Cars", "Computers", "Clean water", "Houses"], "answer": "c"},
+        {"num": 16, "sentence": "What does Sarah mention together with education and clean water?", "options": ["Food", "Medicine", "Technology", "Vaccines"], "answer": "d"},
+        {"num": 17, "sentence": "What does John compare the cost of a space mission with?", "options": ["War", "Education", "School", "Travel"], "answer": "a"},
+        {"num": 18, "sentence": "According to John, what costs more than one space mission?", "options": ["One year of school", "One day of war", "A trip to the Moon", "A trip to Mars"], "answer": "b"},
+        {"num": 19, "sentence": "What disease does Sarah mention?", "options": ["Cancer", "Diabetes", "Malaria", "Flu"], "answer": "c"},
+        {"num": 20, "sentence": "What do Sarah and John finally do?", "options": ["They agree about space travel.", "They decide to go to Mars.", "They stop talking about the subject.", "They agree to disagree."], "answer": "d"}
+      ]
+    },
+
+    {
+      "kind": "picture",
+      "roman": "Part III",
+      "label": "Choose the word for the picture.",
+      "hint": "Choose the word that matches the picture.  ·  1 mark each",
+      "items": [
+        {"num": 21, "word": "Comet",     "options": ["galaxy", "comet", "spectrum", "sphere"],            "answer": "b"},
+        {"num": 22, "word": "Broom",     "options": ["broom", "hook", "sleeve", "basin"],                 "answer": "a"},
+        {"num": 23, "word": "Chimney",   "options": ["ladder", "mill", "chimney", "forge"],               "answer": "c"},
+        {"num": 24, "word": "Ax",        "options": ["needle", "thread", "sled", "ax"],                   "answer": "d"},
+        {"num": 25, "word": "Skeleton",  "options": ["apprentice", "skeleton", "blacksmith", "carpenter"], "answer": "b"},
+        {"num": 26, "word": "Canoe",     "options": ["wagon", "chamber", "canoe", "ladder"],              "answer": "c"},
+        {"num": 27, "word": "Barrel",    "options": ["basin", "barrel", "pot", "kit"],                    "answer": "b"},
+        {"num": 28, "word": "Harbor",    "options": ["reef", "deck", "shore", "harbor"],                  "answer": "d"},
+        {"num": 29, "word": "bandage",   "options": ["bandage", "fabric", "thread", "cloth"],             "answer": "a"},
+        {"num": 30, "word": "harvest",   "options": ["famine", "chore", "acre", "harvest"],               "answer": "d"}
+      ]
+    },
+
+    {
+      "kind": "mcq",
+      "roman": "Part IV",
+      "label": "Choose the word for the definition.",
+      "hint": "All four choices are verbs you have studied — read the definition carefully.  ·  1 mark each",
+      "items": [
+        {"num": 31, "sentence": "to keep doing something even when it is hard", "options": ["endure", "persist", "sustain", "obtain"], "answer": "b"},
+        {"num": 32, "sentence": "to make someone believe something that is not true", "options": ["imitate", "boast", "deceive", "assure"], "answer": "c"},
+        {"num": 33, "sentence": "to not notice something, or to not realize it is important", "options": ["overlook", "neglect", "abandon", "scatter"], "answer": "a"},
+        {"num": 34, "sentence": "to put something back the way it was", "options": ["preserve", "adjust", "restore", "sustain"], "answer": "c"},
+        {"num": 35, "sentence": "to make known something that is hidden", "options": ["emerge", "expose", "encounter", "exceed"], "answer": "b"},
+        {"num": 36, "sentence": "to use something for greedy reasons rather than good ones", "options": ["exploit", "pursue", "capture", "obtain"], "answer": "a"},
+        {"num": 37, "sentence": "to think that something will happen", "options": ["anticipate", "assure", "resemble", "encounter"], "answer": "a"},
+        {"num": 38, "sentence": "to pay someone for the time they spent doing something", "options": ["obtain", "acquire", "compensate", "sustain"], "answer": "c"},
+        {"num": 39, "sentence": "to mix something into a liquid until it disappears", "options": ["scatter", "emerge", "adjust", "dissolve"], "answer": "d"},
+        {"num": 40, "sentence": "to experience and survive something difficult", "options": ["persist", "abandon", "discourage", "endure"], "answer": "d"}
+      ]
+    },
+
+    {
+      "kind": "passage",
+      "roman": "Part V",
+      "label": "Read the passage. True or False?",
+      "hint": "Mark T (True) or F (False) on the ANSWER SHEET.  ·  1 mark each",
+      "passage_title": "Animals in the City",
+      "passage": "Recently, there have been many reports in newspapers and on TV about big animals coming into towns and cities. There have been bears in Vancouver parks, leopards on the streets of Mumbai and wild pigs in gardens in Berlin. What happens when big animals come into our cities? Is it a good thing or is it dangerous for us and the animals?\n\nWild animals usually come into cities to look for food. In Cape Town, South Africa, baboons sometimes come into the suburbs. They eat fruit from gardens and go into people's kitchens and take food from cupboards and fridges! Baboons are strong animals and sometimes they scare children and fight with pet dogs. Many people do not like them, but the city can be dangerous for baboons too. Sometimes, baboons are hurt in car accidents and the sugar in human food can be very bad for their teeth. The city council in Cape Town has a team of Baboon Monitors. Their job is to find baboons in the city and take them back to the countryside. This makes the city safer for people and it is healthier for the baboons. The problem is that a lot of baboons will come back to the city to find food again.\n\nIn Berlin in Germany, groups of wild pigs sometimes come into the city to look for food. Pigs have come into the city for hundreds of years, but now the winters are warmer, there are more pigs than in the past. Pigs eat flowers and plants and dig in gardens and parks in the city. They also walk in the street and cause traffic accidents. Some city residents like the pigs and give them food. But the city council is worried about the traffic accidents. They have told people to stop giving the pigs food and have put up fences to stop the pigs entering the city.\n\nIn Moscow in Russia, there are 35,000 wild dogs. They live in parks, empty houses, markets and train stations. Some of the dogs were pets that people did not want so they left them on the streets. Others were born on the streets and have always lived there. Some dogs live alone and others live in packs (a pack is the name for a group of dogs). In 2010, scientists studied the dogs. They found some very interesting facts:\n\n•&nbsp;&nbsp;Packs have leaders. The leaders are the most intelligent dogs and not the biggest or strongest ones.\n\n•&nbsp;&nbsp;Dogs know that it is safer to cross the street with people and some dogs understand traffic lights.\n\n•&nbsp;&nbsp;Dogs have learnt that people give more food to small, cute dogs than to big ones. The cutest dogs in a pack wait on the street for people to give them food. When they have got some food, they share it with the other dogs in the pack.\n\n•&nbsp;&nbsp;Some dogs have started travelling on the Moscow underground trains.\n\nWhat do the people in Moscow think of the dogs? A lot of people like them and are used to seeing them on the streets. They give the dogs food and water to drink. The winter in Moscow is very cold with lots of snow and temperatures of -10 &#186;C. It can be hard for dogs to survive but some city residents have built small huts for the dogs to live in during the winter.\n\nMice, squirrels and birds often live in cities and survive. Some bigger animals like the dogs in Moscow can survive in the city too, with a little help from their human friends. For many big animals, cities are dangerous places and they need our help to return to the countryside.",
+      "statements": [
+        {"num": 41, "text": "Wild animals usually enter cities because they are looking for food.", "answer": true},
+        {"num": 42, "text": "The baboons in Cape Town only eat food that they find in gardens.", "answer": false},
+        {"num": 43, "text": "The Baboon Monitors take baboons from the city back to the countryside.", "answer": true},
+        {"num": 44, "text": "Human food can cause health problems for the baboons in Cape Town.", "answer": true},
+        {"num": 45, "text": "The number of wild pigs in Berlin has increased partly because winters are warmer now.", "answer": true},
+        {"num": 46, "text": "Everyone in Berlin is unhappy about the wild pigs entering the city.", "answer": false},
+        {"num": 47, "text": "The leaders of the Moscow dog packs are always the biggest and strongest dogs.", "answer": false},
+        {"num": 48, "text": "Some Moscow dogs have learned that crossing the street with people is safer.", "answer": true},
+        {"num": 49, "text": "Small and cute dogs receive more food from people than larger dogs.", "answer": true},
+        {"num": 50, "text": "The passage suggests that all wild animals can live safely in cities without human help.", "answer": false}
+      ]
+    },
+
+    {
+      "kind": "passage",
+      "roman": "Part VI",
+      "label": "Read the passage. Choose the correct answer.",
+      "hint": "1 mark each",
+      "passage_title": "Amazing Adventurers",
+      "passage": "Have you ever dreamt of climbing Mount Everest or visiting Antarctica? If so, you're not alone. Every year, thousands of people try to climb the world's highest mountains or walk across continents. In the past, explorers had compasses and maps, but today's adventurers have satellite phones and GPS. They also use their travels to let the world know about climate change and help people in the countries they visit. Let's take a look at some of the 21st century's greatest adventurers.\n\n<b>Amazon adventurer</b>\n\nEd Stafford from the UK is the first person to walk the length of the Amazon River. He started by a small stream in the Andes mountains of Peru and arrived at the river's mouth in Brazil, two years and four months later. Snakes, crocodiles and jaguars live in the Amazon rainforest, so it's a dangerous place. Luckily, Ed avoided the big animals, but he was bitten by ants and mosquitoes every day. On his trip, Ed had to find food each morning. Sometimes the fruit, nuts and fish he ate were hard to find and Ed often felt weak and hungry.\n\nTechnology was essential for Ed. He used a radio to ask local people for food and permission to enter their land. Many of them came to meet him and guide him through the dense rainforest. As he walked, Ed wrote a blog about his daily experiences. Ed used his walk to let the world know about climate change and raise money for environmental charities in Brazil and Peru.\n\n<b>A mountain climber</b>\n\nThousands of climbers, aged between 13 and 80, have been to the top of Everest. Climbing high mountains requires a lot of preparation and is very dangerous, but some of the world's best climbers are now looking for new challenges.\n\nGerlinde Kaltenbrunner from Austria fell in love with climbing as a teenager. When she left school, she worked as a nurse and climbed in her free time. Starting with Everest, she has been climbing all the world's fourteen peaks over 8,000 metres. To increase the challenge, Gerlinde climbs without using oxygen tanks. Low oxygen levels can make climbers ill, so Gerlinde has to climb slowly. Gerlinde is passionate about Nepal and raises money for a charity for poor children and orphans there.\n\n<b>More than one adventure</b>\n\nSome of today's adventurers go from challenge to challenge. Meagan McGrath from Canada has climbed the highest mountain on each continent, ridden a bike across Canada and run a long-distance race in the Sahara Desert. But perhaps her most incredible journey was a skiing trip to the South Pole. She pulled a tent and all her food on a sledge behind her as she skied. On the first day, she fell into a glacier and had to be rescued. Many people would have given up, but Meagan decided to carry on. Skiing through ice storms, she arrived at the South Pole forty days later.\n\nErik Weihenmayer from the United States is another unstoppable adventurer. He's climbed mountains, ridden a bike through the deserts of Morocco and kayaked through the Grand Canyon. Amazingly, Erik has been blind since the age of 13. Apart from his travels, he helps people with disabilities to live active lives and takes groups of young blind people on climbing expeditions.\n\n<b>Where next?</b>\n\nDespite new technologies, adventurers still have to live with terrible weather, lack of food and wild animals. Preparation and training are essential, but if you have a sense of adventure, there are continents to cross and hundreds of mountains to climb.",
+      "items": [
+        {"num": 51, "sentence": "What is one difference between adventurers in the past and adventurers today?", "options": ["Today's adventurers use modern technology such as GPS.", "Today's adventurers travel to fewer places.", "Today's adventurers are more interested in mountains.", "Today's adventurers do not need maps."], "answer": "a"},
+        {"num": 52, "sentence": "How long did it take Ed Stafford to walk the length of the Amazon River?", "options": ["Two years", "Two years and four months", "Four years and two months", "Four months"], "answer": "b"},
+        {"num": 53, "sentence": "What was one of Ed Stafford's main difficulties during his journey?", "options": ["He couldn't communicate with local people.", "He was attacked by large animals every day.", "He often couldn't find enough food.", "He had to climb several high mountains."], "answer": "c"},
+        {"num": 54, "sentence": "Why did Ed use a radio during his journey?", "options": ["To contact environmental charities in Europe", "To write his blog about the rainforest", "To report dangerous animals to the authorities", "To ask local people for food and permission to enter their land"], "answer": "d"},
+        {"num": 55, "sentence": "Why does Gerlinde Kaltenbrunner climb slowly?", "options": ["She does not use oxygen tanks and low oxygen levels can make climbers ill.", "She has little experience climbing mountains.", "She wants to spend more time in Nepal.", "She is afraid of climbing high mountains quickly."], "answer": "a"},
+        {"num": 56, "sentence": "What does Gerlinde do to help people in Nepal?", "options": ["She works as a nurse there.", "She raises money for a charity helping poor children and orphans.", "She teaches children how to climb mountains.", "She provides oxygen tanks for climbers."], "answer": "b"},
+        {"num": 57, "sentence": "What happened to Meagan McGrath on the first day of her journey to the South Pole?", "options": ["She lost all her food.", "She became sick because of the cold.", "She fell into a glacier and had to be rescued.", "She lost her tent during an ice storm."], "answer": "c"},
+        {"num": 58, "sentence": "What can we understand about Meagan from the passage?", "options": ["She often gives up when a journey becomes difficult.", "She prefers travelling by bicycle to skiing.", "She had never travelled outside Canada before.", "She continued her journey despite experiencing serious difficulties."], "answer": "d"},
+        {"num": 59, "sentence": "What is unusual about Erik Weihenmayer?", "options": ["He has been blind since he was 13.", "He has climbed mountains on every continent.", "He has never used modern technology during his travels.", "He became an adventurer after working as a nurse."], "answer": "a"},
+        {"num": 60, "sentence": "What is the main message of the passage?", "options": ["Modern technology has made adventure travel completely safe.", "Modern adventurers still face serious challenges but continue to explore and help others.", "Only professional climbers can become successful adventurers.", "Most adventurers are mainly interested in becoming famous."], "answer": "b"}
+      ]
+    },
+
+    {
+      "kind": "mcq",
+      "roman": "Part VII",
+      "label": "Grammar — choose the correct answer.",
+      "hint": "Choose the correct answer.  The topics are mixed — read each sentence carefully.  ·  1 mark each",
+      "items": [
+        {"num": 61, "sentence": "If you heat ice, it ______________.", "options": ["will melt", "melts", "melted", "is melting"], "answer": "b"},
+        {"num": 62, "sentence": "I ______________ play football every weekend when I was younger.", "options": ["use to", "was used to", "am used to", "used to"], "answer": "d"},
+        {"num": 63, "sentence": "Students are ______________ to arrive before 9:00.", "options": ["supposed", "suppose", "supposing", "supposes"], "answer": "a"},
+        {"num": 64, "sentence": "The woman ______________ lives next door is a doctor.", "options": ["which", "where", "who", "whose"], "answer": "c"},
+        {"num": 65, "sentence": "I ______________ English for three years.", "options": ["have been studying", "study", "studied", "am studying"], "answer": "a"},
+        {"num": 66, "sentence": "I ______________ my homework, so I can go out now.", "options": ["finished", "have finished", "am finishing", "finish"], "answer": "b"},
+        {"num": 67, "sentence": "My brother usually ______________ to work by bus.", "options": ["go", "went", "will go", "goes"], "answer": "d"},
+        {"num": 68, "sentence": "This is the restaurant ______________ we had dinner last night.", "options": ["who", "whose", "where", "which"], "answer": "c"},
+        {"num": 69, "sentence": "She is tired because she ______________ all morning.", "options": ["has been working", "worked", "is working", "works"], "answer": "a"},
+        {"num": 70, "sentence": "If I don't sleep well, I ______________ tired the next day.", "options": ["will felt", "feel", "felt", "am feeling"], "answer": "b"},
+        {"num": 71, "sentence": "We ______________ our grandparents last weekend.", "options": ["visit", "visits", "visited", "will visit"], "answer": "c"},
+        {"num": 72, "sentence": "She ______________ to London three times.", "options": ["went", "goes", "is going", "has been"], "answer": "d"},
+        {"num": 73, "sentence": "My father ______________ have long hair, but now he has short hair.", "options": ["used to", "use to", "was used to", "is used to"], "answer": "a"},
+        {"num": 74, "sentence": "You are not ______________ to use your phone during the exam.", "options": ["suppose", "supposing", "supposed", "supposes"], "answer": "c"},
+        {"num": 75, "sentence": "Have you ______________ eaten sushi?", "options": ["yesterday", "ever", "last year", "ago"], "answer": "b"},
+        {"num": 76, "sentence": "What time are we ______________ to meet tomorrow?", "options": ["suppose", "supposing", "supposes", "supposed"], "answer": "d"},
+        {"num": 77, "sentence": "I ______________ you tomorrow.", "options": ["called", "call", "will call", "calling"], "answer": "c"},
+        {"num": 78, "sentence": "If the weather is good tomorrow, we ______________ to the beach.", "options": ["will go", "go", "went", "are going"], "answer": "a"},
+        {"num": 79, "sentence": "We ______________ live in a small house before we moved here.", "options": ["use to", "were used to", "are used to", "used to"], "answer": "d"},
+        {"num": 80, "sentence": "I bought a phone ______________ has a very good camera.", "options": ["who", "which", "where", "whose"], "answer": "b"},
+        {"num": 81, "sentence": "How long ______________ you ______________ here?", "options": ["have / been living", "did / live", "are / living", "do / live"], "answer": "a"},
+        {"num": 82, "sentence": "Did you ______________ watch cartoons when you were a child?", "options": ["used to", "using to", "use to", "were used to"], "answer": "c"},
+        {"num": 83, "sentence": "She ______________ English every day.", "options": ["study", "studies", "studied", "will studied"], "answer": "b"},
+        {"num": 84, "sentence": "They ______________ for the bus since 8 o'clock.", "options": ["wait", "waited", "are waiting", "have been waiting"], "answer": "d"},
+        {"num": 85, "sentence": "I was ______________ to call my doctor yesterday, but I forgot.", "options": ["supposed", "suppose", "supposing", "supposes"], "answer": "a"},
+        {"num": 86, "sentence": "That's the man ______________ car was stolen yesterday.", "options": ["who", "whose", "which", "where"], "answer": "b"},
+        {"num": 87, "sentence": "If you study hard, you ______________ the exam.", "options": ["pass", "passed", "will pass", "are passing"], "answer": "c"},
+        {"num": 88, "sentence": "We haven't finished the project ______________.", "options": ["already", "just", "ever", "yet"], "answer": "d"},
+        {"num": 89, "sentence": "The train is ______________ to arrive at 7:30.", "options": ["suppose", "supposing", "supposes", "supposed"], "answer": "d"},
+        {"num": 90, "sentence": "If people don't drink enough water, they ______________ thirsty.", "options": ["become", "will become", "became", "are becoming"], "answer": "a"},
+        {"num": 91, "sentence": "The book ______________ I bought yesterday is very interesting.", "options": ["where", "which", "who", "whose"], "answer": "b"},
+        {"num": 92, "sentence": "He has ______________ arrived at the airport.", "options": ["yet", "ago", "just", "last week"], "answer": "c"},
+        {"num": 93, "sentence": "They ______________ to Dubai last summer.", "options": ["travel", "travels", "travelled", "will travel"], "answer": "c"},
+        {"num": 94, "sentence": "It ______________ since early this morning.", "options": ["rains", "rained", "is raining", "has been raining"], "answer": "d"},
+        {"num": 95, "sentence": "She didn't ______________ like coffee, but now she drinks it every morning.", "options": ["used to", "use to", "was used to", "using to"], "answer": "b"},
+        {"num": 96, "sentence": "Why are your hands dirty?", "options": ["I have been cleaning the car.", "I cleaned the car yesterday.", "I clean the car every week.", "I am clean the car."], "answer": "a"},
+        {"num": 97, "sentence": "I have a friend ______________ speaks three languages.", "options": ["where", "whose", "which", "who"], "answer": "d"},
+        {"num": 98, "sentence": "I ______________ this film twice.", "options": ["have seen", "saw", "am seeing", "see"], "answer": "a"},
+        {"num": 99, "sentence": "If I finish work early tonight, I ______________ you.", "options": ["call", "called", "will call", "am calling"], "answer": "c"},
+        {"num": 100, "sentence": "This is the school ______________ my sister studies.", "options": ["who", "where", "whose", "which"], "answer": "b"}
+      ]
+    }
+  ]
+}

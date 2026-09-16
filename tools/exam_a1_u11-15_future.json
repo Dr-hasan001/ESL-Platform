@@ -1,0 +1,77 @@
+{
+  "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
+  "title": "Weekly Exam",
+  "subtitle": "Vocabulary   ·   Reading   ·   Future Simple",
+  "level": "A1",
+  "instructor": "Hasan Alaa",
+  "time_allowed": "40 minutes",
+  "cover_image": "tools/assets/exam_cover_a1.png",
+  "exam_id": "A1 · U11-15 · FUTURE SIMPLE",
+  "tf_rows": [16, 17, 18, 19, 20],
+
+  "parts": [
+    {
+      "kind": "picture",
+      "roman": "Part I",
+      "label": "Choose the word for the picture.",
+      "hint": "Mark your answer (a, b, c or d) on the ANSWER SHEET — do not write on this paper.  ·  1 mark each",
+      "items": [
+        {"num": 1,  "word": "battery",   "options": ["battery", "glass", "plastic", "symbol"],       "answer": "a"},
+        {"num": 2,  "word": "street",    "options": ["meal", "street", "treasure", "exam"],          "answer": "b"},
+        {"num": 3,  "word": "apartment", "options": ["profit", "quality", "apartment", "article"],   "answer": "c"},
+        {"num": 4,  "word": "stair",     "options": ["scene", "sheet", "outline", "stair"],          "answer": "d"},
+        {"num": 5,  "word": "treasure",  "options": ["profit", "treasure", "loan", "fare"],          "answer": "b"},
+        {"num": 6,  "word": "downtown",  "options": ["nature", "country", "downtown", "scholarship"], "answer": "c"},
+        {"num": 7,  "word": "coach",     "options": ["poet", "artist", "client", "coach"],           "answer": "d"},
+        {"num": 8,  "word": "mail",      "options": ["mail", "magazine", "novel", "article"],        "answer": "a"},
+        {"num": 9,  "word": "race",      "options": ["limit", "risk", "race", "prize"],              "answer": "c"},
+        {"num": 10, "word": "prize",     "options": ["fear", "mistake", "length", "prize"],          "answer": "d"}
+      ]
+    },
+
+    {
+      "kind": "mcq",
+      "roman": "Part II",
+      "label": "Choose the correct word.",
+      "hint": "The words are from Units 11–15 of your 4000 Essential Words book.  ·  1 mark each",
+      "items": [
+        {"num": 11, "sentence": "I want to ______________ a book from the library. I will give it back next week.", "options": ["borrow", "invest", "judge", "compare"], "answer": "a"},
+        {"num": 12, "sentence": "Please ______________ your room before your friends arrive.", "options": ["develop", "clean", "consume", "observe"], "answer": "b"},
+        {"num": 13, "sentence": "Ali is very ______________. He found a good job and a nice apartment.", "options": ["thin", "alone", "fortunate", "silly"], "answer": "c"},
+        {"num": 14, "sentence": "I made a big ______________ in my exam, so my score was low.", "options": ["method", "quality", "symbol", "mistake"], "answer": "d"},
+        {"num": 15, "sentence": "The film was very ______________. I almost fell asleep.", "options": ["dull", "magical", "practical", "local"], "answer": "a"}
+      ]
+    },
+
+    {
+      "kind": "story",
+      "roman": "Part III",
+      "label": "Read the story. True or False?",
+      "hint": "Mark T (True) or F (False) on the ANSWER SHEET.  ·  1 mark each",
+      "story_title": "Omar's New Job",
+      "story": "Omar lives in a small apartment near a busy street. He is an artist, and he draws pictures for a magazine. Next month he is going to move downtown, because his new office is there. His new job has a better salary, so he will buy a new car. He is not going to sell his old bicycle. \"I will ride it in the park every Sunday,\" he says.",
+      "statements": [
+        {"num": 16, "text": "Omar lives in a big house.", "answer": false},
+        {"num": 17, "text": "Omar draws pictures for a magazine.", "answer": true},
+        {"num": 18, "text": "Omar is going to move downtown next month.", "answer": true},
+        {"num": 19, "text": "Omar is going to sell his old bicycle.", "answer": false},
+        {"num": 20, "text": "Omar will buy a new car.", "answer": true}
+      ]
+    },
+
+    {
+      "kind": "mcq",
+      "roman": "Part IV",
+      "label": "Future Simple — choose the correct answer.",
+      "hint": "will  ·  be going to  —  positive, negative and questions.  ·  1 mark each",
+      "items": [
+        {"num": 21, "sentence": "I think it ______________ tomorrow.", "options": ["will rain", "will rains", "will raining", "wills rain"], "answer": "a"},
+        {"num": 22, "sentence": "Don't worry. I ______________ your birthday.", "options": ["won't forgets", "won't forget", "will not forgets", "don't will forget"], "answer": "b"},
+        {"num": 23, "sentence": "______________ you help me with my homework?", "options": ["Do", "Are", "Will", "Is"], "answer": "c"},
+        {"num": 24, "sentence": "Look at the black clouds! It ______________ rain.", "options": ["going to", "is go to", "are going to", "is going to"], "answer": "d"},
+        {"num": 25, "sentence": "Choose the NEGATIVE of:  \"She is going to come to the party.\"", "options": ["She isn't going to come to the party.", "She doesn't going to come to the party.", "She not going to come to the party.", "She isn't go to come to the party."], "answer": "a"},
+        {"num": 26, "sentence": "______________ they going to buy a new car?", "options": ["Do", "Are", "Will", "Does"], "answer": "b"}
+      ]
+    }
+  ]
+}

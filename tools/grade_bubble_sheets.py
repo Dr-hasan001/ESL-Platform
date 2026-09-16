@@ -27,6 +27,14 @@ ROOT = os.path.dirname(HERE)
 B3_PARTS = {"I": range(1, 11), "II": range(11, 21), "III": range(21, 31), "IV": range(31, 41)}
 A1_PARTS = {"I": range(1, 11), "II": range(11, 16), "III": range(16, 21),
             "IV": range(21, 26), "V": range(26, 31)}
+# A1 weekly (future simple): picture 1-10, word 11-15, story T/F 16-20, grammar 21-26
+A1_FUTURE_PARTS = {"I": range(1, 11), "II": range(11, 16), "III": range(16, 21),
+                   "IV": range(21, 27)}
+# B1 final: Q1-8 are hand-marked written gaps (they ARE in the key, as words —
+# type them into the reads file alongside the bubbled letters).
+B1_FINAL_PARTS = {"I": range(1, 9), "II": range(9, 21), "III": range(21, 31),
+                  "IV": range(31, 41), "V": range(41, 51), "VI": range(51, 61),
+                  "VII": range(61, 101)}
 
 CLASSES = {
     "pm91": {
@@ -94,20 +102,59 @@ CLASSES = {
         "overrides": {},
         "reads": ".tmp/bubble_reads_pm101.json",
     },
+    # A1 weekly exam, Units 11-15 + Future Simple. Sheets read by
+    # tools/read_bubble_sheets.py straight from the classroom photos.
+    "pm101w": {
+        "exam": "A1_U11-15_FUTURE",
+        "config": "exam_a1_u11-15_future.json",
+        "parts": A1_FUTURE_PARTS,
+        "roster": {
+            "Aba-Alfadhil.jpg":   "Aba-Alfadhil Hadi",
+            "Abbas Hamid.jpg":    "Abbas Hameed",
+            "Ahmed Yasir.jpg":    "Ahmed Yasir",
+            "Ali Khaled.jpg":     "Ali Khaled",
+            "Haider.jpg":         "Haider",
+            "Haneen.jpg":         "Haneen Hadi",
+            "Hasan Hola.jpg":     "Hasan Hola",
+            "Hussein.jpg":        "Hussein Fayyadh",
+            "Khaled Dreb.jpg":    "Khaled Dreib",
+            "Marwan.jpg":         "Marwan Taleb",
+            "Mohammed Baqir.jpg": "Mohammed Baqir",
+            "Muqtada.jpg":        "Muqtada",
+            "Mustafa Adi.jpg":    "Mustafa Adi",
+            "Mustafa.jpg":        "Mustafa Jabbar",
+            "Zahraa Hadi.jpg":    "Zahraa Hadi",
+        },
+        "overrides": {},
+        "reads": ".tmp/bubble_reads_pm101w.json",
+    },
+    # B1 final exam — 2 answer sheets per student. Merge both sheets into ONE
+    # entry per student in the reads file (answers "1".."100"), then fill in the
+    # roster below once you have the class list.
+    "b1final": {
+        "exam": "B1_FINAL",
+        "config": "exam_b1_final.json",
+        "parts": B1_FINAL_PARTS,
+        "roster": {},
+        "overrides": {},
+        "reads": ".tmp/bubble_reads_b1final.json",
+    },
 }
 
 
 def build_key(cfg):
     """Answer key from either exam schema. Letters lowercase; T/F -> t/f."""
     key = {}
-    if "parts" in cfg:                                     # A1 list schema
+    if "parts" in cfg:                                     # A1 / B1 list schema
         for part in cfg["parts"]:
-            if part["kind"] == "story":
+            # "story" and "passage" parts carry T/F statements; "speaking" has
+            # neither and is rubric-marked, so it contributes nothing to the key.
+            if part.get("statements"):
                 for s in part["statements"]:
                     key[str(s["num"])] = "t" if s["answer"] else "f"
             else:
-                for it in part["items"]:
-                    key[str(it["num"])] = it["answer"].lower()
+                for it in part.get("items", []):
+                    key[str(it["num"])] = str(it["answer"]).lower()
     else:                                                  # legacy B3 schema
         for p in ("part1", "part2", "part4"):
             for it in cfg[p]["items"]:

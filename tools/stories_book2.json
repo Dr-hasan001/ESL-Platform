@@ -1,0 +1,656 @@
+{
+ "1": {
+  "title": "The Most Visited Country",
+  "story_html": "<p>More people visit France than any other place in the <strong>world</strong>. A <strong>total</strong> of 82.6 <strong>million</strong> people visited France in 2016. Why is France such a <strong>popular</strong> country? It is <strong>because</strong> there is something for everyone.</p>\n<p>There are <strong>many</strong> things to do in Paris, the capital of France. Visitors can <strong>walk</strong> through the streets and enjoy famous buildings, <strong>such</strong> as the Eiffel <strong>Tower</strong>, the Louvre, the Arc de Triomphe, and Notre Dame Cathedral. While sightseeing, visitors can eat at many different restaurants. Many visitors like to try “haute cuisine,” which is <strong>expensive</strong> French food. However, visitors can also enjoy cheaper food at restaurants and cafés.</p>\n<p>Those who love nature can visit the many <strong>gardens</strong> and parks of Paris. Luxembourg Garden is a beautiful <strong>place</strong> for people to see <strong>flowers</strong> and trees. It is also home to over a hundred statues, and there is a museum nearby. Every day of the week, it is common to see people eating lunch, playing with their children, and going for walks.</p>\n<p>Visitors who love sports can go to a soccer game, since soccer is the most popular sport in France. Visitors can take the <strong>train</strong> and <strong>watch</strong> games in different <strong>towns</strong>, such as Lyon, Marseille, Bordeaux, and Nice.</p>\n<p>France is also a great place for visitors who love to <strong>ski</strong>. The French Alps in the <strong>east</strong> of France are popular because there are many <strong>mountains</strong>. Some of the ski resorts are packed with people on certain <strong>holidays</strong>.</p>\n<p>Although numbers have gone down, France still gets the most visitors each year. It's expected that a hundred million visitors will travel to France by 2020.</p>",
+  "questions": [
+   {
+    "q": "What is this reading about?",
+    "opts": [
+     "Paris, the most popular city in the world",
+     "Traveling in Europe",
+     "France, the most-visited country in the world",
+     "Sports in France"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What can visitors do in Paris?",
+    "opts": [
+     "They can visit famous places and eat French food.",
+     "They can learn how to ski in the French Alps.",
+     "They can be one of 82.6 million visitors.",
+     "They can watch a soccer game."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Where can visitors enjoy nature in the city?",
+    "opts": [
+     "Notre Dame Cathedral",
+     "The different towns near Paris",
+     "The French Alps",
+     "Luxembourg Garden"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Which of the following is true?",
+    "opts": [
+     "Soccer is the second most popular sport in France.",
+     "The Louvre is in a town called Lyon.",
+     "France expects a hundred million visitors per year by 2020.",
+     "France no longer gets the most travelers."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Where can visitors eat cheaper food in Paris?",
+    "opts": [
+     "At restaurants and cafés",
+     "Only at the Eiffel Tower",
+     "In the French Alps ski resorts",
+     "Nowhere — all French food is expensive"
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "5": {
+  "title": "May 29, 1953",
+  "story_html": "<p>Today is the most important day of my life. I finally climbed Mt. Everest, the tallest mountain in the world. My name is Edmund Hillary.</p>\n<p>The top of the mountain was amazing. It felt like we were close to <strong>heaven</strong>. The snow was so <strong>thick</strong> that my <strong>boots</strong> <strong>sank</strong> into it. The air was <strong>silent</strong>. I looked at the beauty that <strong>surrounded</strong> me. Maybe my story will be a <strong>legend</strong> someday.</p>\n<p>I want people to remember this forever. I was the <strong>senior</strong> explorer in my group, and I knew we needed something to show others about our climb. I took many pictures with my camera. I'll put them in a <strong>frame</strong> and hang them on the wall of my house.</p>\n<p>On the mountain, the air was very cold. I <strong>wrapped</strong> my coat around my body. I looked over the side of the mountaintop. From that <strong>angle</strong>, I saw the <strong>border</strong> of the clouds touch the rocks below. The snow was <strong>thick</strong>. It looked <strong>pure</strong>. There was no sign of modern life. Thousands of years ago, my <strong>ancestors</strong> saw the world this way.</p>\n<p>After fifteen minutes, I knew it was time to <strong>proceed</strong> down the mountain. The whole team <strong>congratulated</strong> each other. My <strong>superior</strong>, John Hunt, <strong>praised</strong> us all. I sent messages to my <strong>relatives</strong> to tell them that I was safe. But it was hard to leave the mountain so quickly. I wanted to enjoy the <strong>incredible</strong> sight even longer.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "Edmund Hillary's incredible experience",
+     "The lives of Edmund Hillary's ancestors",
+     "The legend of Mt. Everest",
+     "How to use a camera when surrounded by snow"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did Hillary see over the mountaintop?",
+    "opts": [
+     "The sun in the east",
+     "His boots on the rocks below",
+     "His picture in a frame",
+     "The border of the clouds touching the rocks"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Hillary was happy to do all of the following EXCEPT ______.",
+    "opts": [
+     "proceed down the mountain",
+     "get praise from his superior",
+     "hear his team congratulate him",
+     "send messages to his relatives"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "According to the passage, the air at the top of the mountain was ______.",
+    "opts": [
+     "silent",
+     "thick",
+     "incredible",
+     "senior"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Why did Hillary wrap his coat tightly around himself?",
+    "opts": [
+     "Because the air was very cold.",
+     "Because he was climbing quickly.",
+     "Because his superior told him to.",
+     "Because he was taking a picture."
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "2": {
+  "title": "The Twelve Months",
+  "story_html": "<p>An <span class=\"vocab\">awful</span> woman lived with her daughter and stepdaughter in her <span class=\"vocab\">household</span>. She <span class=\"vocab\">possessed</span> feelings of hate for her stepdaughter, Anna. Anna worked while her stepsister did nothing. On a cold January night, Anna's stepmother <span class=\"vocab\">remarked</span>, \"Your stepsister <span class=\"vocab\">desires</span> flowers. Go and find some.\"</p><p>Anna was <span class=\"vocab\">anxious</span> about walking through the chilly <span class=\"vocab\">landscape</span>. The cold air made her <span class=\"vocab\">lungs</span> burn. She walked at a slow <span class=\"vocab\">pace</span> because of the snow. Soon, she saw a group of people. It <span class=\"vocab\">consisted</span> of twelve men. Anna told them about the flowers.</p><p>One of the men said they were the twelve months and that they would help Anna. January walked to her and made a <span class=\"vocab\">motion</span> with his hand. The days of the month passed <span class=\"vocab\">rapidly</span> until it was February's turn. February also made the month speed up. Then, March made the sun <span class=\"vocab\">shine</span>, and flowers grew in the field.</p><p>Anna <span class=\"vocab\">loaded</span> her basket with so many flowers that she could hardly <span class=\"vocab\">lift</span> it. Then, she gave a quick but <span class=\"vocab\">polite</span> \"thank you\" to the twelve men and returned home. She was very <span class=\"vocab\">eager</span> to show her stepmother all the flowers. Back at the house, she <span class=\"vocab\">spilled</span> the flowers onto the table. Then, she told her stepmother about the twelve men. Anna's stepmother and stepsister went to <span class=\"vocab\">seek</span> the twelve months. Their <span class=\"vocab\">intent</span> was to ask for gifts. They looked and looked. They became lost and never found their way home, so Anna lived happily by herself.</p>",
+  "questions": [
+   {
+    "q": "What is the story about?",
+    "opts": [
+     "Why a year consists of twelve months",
+     "How a girl made the sun shine in winter",
+     "Why moving at a slow pace is good",
+     "How the months helped a polite girl"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Why did Anna need to seek flowers?",
+    "opts": [
+     "Her stepmother remarked that she liked them.",
+     "Her awful stepsister desired them.",
+     "She spilled the ones she already possessed.",
+     "She was eager to walk in the snow."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "In paragraph 3, readers can infer that ______.",
+    "opts": [
+     "the months rapidly helped Anna load her basket",
+     "Anna asked the months to live in her household",
+     "Anna's awful stepmother and stepsister never found the months",
+     "Anna got lost going across the dark landscape on her way home"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "According to the passage, all the following are true EXCEPT ______.",
+    "opts": [
+     "the cold air hurt Anna's lungs",
+     "Anna's stepmother lifted the basket",
+     "January made a motion to speed up time",
+     "Anna was anxious about going out in the cold, dark night"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Who did the awful woman hate?",
+    "opts": [
+     "Anna, her stepdaughter",
+     "Her own daughter",
+     "The twelve months",
+     "Anna's mother"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "How many men did Anna meet in the landscape?",
+    "opts": [
+     "Four",
+     "Seven",
+     "Twelve",
+     "Twenty"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What did March do?",
+    "opts": [
+     "He made the sun shine so flowers grew.",
+     "He made a motion with his hand.",
+     "He gave Anna a basket.",
+     "He walked home with Anna."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did Anna do with the flowers when she got home?",
+    "opts": [
+     "She gave them to the twelve months.",
+     "She spilled them onto the table.",
+     "She hid them in her room.",
+     "She could not lift them into the house."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Why did the stepmother and stepsister go to seek the twelve months?",
+    "opts": [
+     "To thank them politely",
+     "To bring Anna home",
+     "Their intent was to ask for gifts.",
+     "To load more flowers into a basket"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What happened to the stepmother and stepsister?",
+    "opts": [
+     "They found many flowers.",
+     "They returned home rapidly.",
+     "They lived with Anna.",
+     "They became lost and never found their way home."
+    ],
+    "ans": 3
+   }
+  ]
+ },
+ "3": {
+  "title": "The Battle of Thermopylae",
+  "story_html": "<p>This is a true story. It happened long ago in Greece.</p><p>\"We must fight,\" the Spartan <span class=\"vocab\">chief</span> told his small army of <span class=\"vocab\">brave</span> men. They were at a great <span class=\"vocab\">disadvantage</span>. There were only three hundred of them. The Persian <span class=\"vocab\">military</span> had hundreds of thousands of men.</p><p>They were going to lose <span class=\"vocab\">unless</span> they could <span class=\"vocab\">secure</span> a small <span class=\"vocab\">entrance</span>. The <span class=\"vocab\">enemy</span> couldn't move through it easily. They <span class=\"vocab\">intended</span> to stop the enemy there. The chief and his men got ready for the <span class=\"vocab\">battle</span>.</p><p>Soon, long lines of the enemy's army <span class=\"vocab\">twisted</span> around the hills. The chief met the enemy with <span class=\"vocab\">laughter</span>. He knew that his men's <span class=\"vocab\">weapons</span> and skills were better. The Spartans <span class=\"vocab\">trusted</span> their leader and <span class=\"vocab\">obeyed</span> him.</p><p>First, the enemy soldiers shot <span class=\"vocab\">arrows</span> from their <span class=\"vocab\">bows</span>. The chief told his men to lift their shields. The arrows stuck into the shields but did not hurt any of the men.</p><p>Then, the enemy's soldiers attacked the Spartans with long spears. The chief surprised them. His men sent <span class=\"vocab\">logs</span> down the hills at the enemy.</p><p>They fought for three days. Although they <span class=\"vocab\">hardly</span> slept at all, the chief and his men remained <span class=\"vocab\">steady</span>.</p><p>But the enemy found a way to beat the Spartans. The chief and all of his men were lost. Even though they lost, the Battle of Thermopylae is one of the most famous battles in history.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "How an enemy made an attack against shields",
+     "Why logs were rolled down on soldiers",
+     "How a small army almost beat a large military",
+     "Why good soldiers obey their leaders"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Why was the smaller army not afraid of the larger one?",
+    "opts": [
+     "The larger army didn't have any weapons.",
+     "The smaller army had better weapons and skills.",
+     "The larger army did not trust their leader.",
+     "The smaller army did not intend to fight."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "The brave men knew they would lose ______.",
+    "opts": [
+     "because they heard the soldiers' laughter",
+     "unless they secured the narrow entrance",
+     "against the other army's bows and arrows",
+     "hardly any men fighting the large army"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "According to the passage, all the following are true about the Persian army EXCEPT ______.",
+    "opts": [
+     "their long lines of soldiers twisted around the hills",
+     "they used bows and arrows",
+     "they had a steady three-day attack against the Spartans",
+     "they used fire to defeat the Spartans"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "How many Spartans were there?",
+    "opts": [
+     "Three hundred",
+     "Three thousand",
+     "Hundreds of thousands",
+     "Only three"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Where did the Spartans plan to stop the enemy?",
+    "opts": [
+     "At a small entrance",
+     "On top of a hill",
+     "Inside the city of Sparta",
+     "At the enemy's camp"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the chief tell his men to do when the arrows came?",
+    "opts": [
+     "Send logs down the hills",
+     "Lift their shields",
+     "Run into the hills",
+     "Attack with long spears"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did the Spartans send down the hills at the enemy?",
+    "opts": [
+     "Arrows",
+     "Spears",
+     "Logs",
+     "Fire"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "How long did the battle last?",
+    "opts": [
+     "Three days",
+     "One day",
+     "Three weeks",
+     "A whole month"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "How does the story end?",
+    "opts": [
+     "The Spartans won the battle.",
+     "The enemy ran away from the entrance.",
+     "The chief secured a different entrance.",
+     "The Spartans lost, but the battle became famous."
+    ],
+    "ans": 3
+   }
+  ]
+ },
+ "4": {
+  "title": "The Deer and His Image",
+  "story_html": "<p>A deer told himself every day, \"I am the most handsome deer in the forest. My large <span class=\"vocab\">chest</span> shows my power. And my beautiful horns <span class=\"vocab\">impress</span> other animals.\"</p><p>But he did not like his legs and hooves. \"My legs are <span class=\"vocab\">narrow</span>, and my hooves are ugly. They do not <span class=\"vocab\">satisfy</span> me.\"</p><p>One day, the deer saw a big dog. The deer made some noise and <span class=\"vocab\">disturbed</span> the dog. The dog woke up and ran after him. The deer felt <span class=\"vocab\">terror</span>. He <span class=\"vocab\">screamed</span>. He did not want to be a <span class=\"vocab\">victim</span>, so he ran into the forest. His strong legs helped him run fast. His <span class=\"vocab\">pale</span> brown hooves were hard, so they were not <span class=\"vocab\">sensitive</span> to the <span class=\"vocab\">rough</span> rocks. However, his horns got caught in branches and slowed him down. His large chest could not fit between the thick trees.</p><p>The deer <span class=\"vocab\">estimated</span> that he ran for an hour. He felt like he was running to the limit of his <span class=\"vocab\">strength</span>. In the end, the deer escaped the <span class=\"vocab\">threat</span> of the dog. He sat in the <span class=\"vocab\">shade</span> of a tree. \"That was almost a <span class=\"vocab\">disaster</span>! I almost did not escape because of my chest and horns. My legs and hooves saved me.\" As a <span class=\"vocab\">consequence</span>, the deer learned to <span class=\"vocab\">honor</span> his fast legs and have <span class=\"vocab\">confidence</span> in his strong hooves. \"Pretty things only <span class=\"vocab\">supplement</span> important things,\" he thought.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "Why a chest shows power",
+     "How a deer becomes a victim",
+     "Why deer have confidence in their horns",
+     "How a deer learned to honor useful things"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "Why did the deer scream?",
+    "opts": [
+     "He felt great terror.",
+     "He was not sensitive.",
+     "He knew he had plenty of strength left.",
+     "His legs were narrow."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What can we infer from the end of the story?",
+    "opts": [
+     "The deer impressed the animals with his long run.",
+     "The deer was a victim of disaster.",
+     "The deer's legs and hooves satisfied him.",
+     "The deer went back to disturb the dog again."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "According to the passage, all the following are true EXCEPT ______.",
+    "opts": [
+     "the deer's hooves were pale",
+     "the deer sat in the shade of a tree",
+     "the deer experienced a bad consequence",
+     "the rough rocks decorated the forest"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did the deer like about himself at the start of the story?",
+    "opts": [
+     "His narrow legs",
+     "His large chest and beautiful horns",
+     "His pale hooves",
+     "His great strength"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What chased the deer?",
+    "opts": [
+     "A big dog",
+     "A hunter",
+     "Another deer",
+     "A wolf"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What slowed the deer down in the forest?",
+    "opts": [
+     "His pale hooves",
+     "His horns getting caught in branches",
+     "The rough rocks",
+     "The shade of the trees"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Why did the rough rocks not hurt the deer's hooves?",
+    "opts": [
+     "He ran on soft grass instead.",
+     "He stayed in the shade.",
+     "His hooves were hard and not sensitive.",
+     "He estimated the safest way to run."
+    ],
+    "ans": 2
+   },
+   {
+    "q": "How long did the deer estimate that he ran?",
+    "opts": [
+     "About an hour",
+     "About a day",
+     "Only a few minutes",
+     "All night"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "What did the deer learn?",
+    "opts": [
+     "Beautiful things are the most important.",
+     "Pretty things only supplement important things.",
+     "He should disturb the dog again.",
+     "His large chest saved his life."
+    ],
+    "ans": 1
+   }
+  ]
+ },
+ "27": {
+  "title": "The Duke and the Minister",
+  "story_html": "<p>A mean <strong>duke</strong> grew <strong>tobacco</strong>. The duke's top minister was his <strong>twin</strong> brother. They <strong>resembled</strong> each other a lot. One day, the tobacco plants started to die. The duke <strong>hired</strong> men to watch the fields so they could see who was damaging the plants. Soon, the men brought a woman to him and said, “We <strong>captured</strong> a <strong>witch</strong>!”</p>\n<p>The duke asked, “How do you know?”</p>\n<p>“She sang magic words. I can't <strong>pronounce</strong> them. She has cursed us. The death of the plants is a <strong>symptom</strong> of her curse,” the men said.</p>\n<p>“I am just an <strong>ordinary</strong> woman. I was singing a song in a different <strong>language</strong>,” the woman said.</p>\n<p>The duke didn't listen. “You are <strong>guilty</strong>. You will go to jail,” he said.</p>\n<p>The <strong>minister</strong> thought that she was <strong>innocent</strong>. He needed to <strong>expose</strong> the truth. The minister went to find out what was happening to the plants. He saw hundreds of small <strong>bugs</strong> eating them! Then, the minister went to the jail and did something <strong>bold</strong>.</p>\n<p>“Let this woman go,” he said.</p>\n<p>The guards thought he was the duke. They let her go. The minister said to the woman, “I owe you an <strong>apology</strong>.”</p>\n<p>“Thank you. I thought my stay in jail would be <strong>permanent</strong>,” the woman answered. The minister thought the duke would punish him. But he didn't. The duke was too busy trying to <strong>preserve</strong> his plants.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "Why the duke was afraid of witches",
+     "How a minister did what was right",
+     "Why the duke loaned his brother a plant",
+     "How a woman was captured and taken to jail"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Why did the duke hire the men to watch the fields?",
+    "opts": [
+     "They had a bold plan to preserve the tobacco.",
+     "The tobacco plants were being destroyed.",
+     "He needed them to expose the truth.",
+     "He wanted permanent guards to watch the farmers."
+    ],
+    "ans": 1
+   },
+   {
+    "q": "Who or what was destroying the tobacco plants?",
+    "opts": [
+     "An ordinary woman",
+     "Little bugs",
+     "A guilty witch",
+     "The symptoms of disease"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "According to the passage, all the following are true EXCEPT ______.",
+    "opts": [
+     "the duke and the minister are twins",
+     "the minister pretended to be the duke",
+     "the duke gave an apology to the innocent woman",
+     "the men said the woman pronounced magic words"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Why did the duke and the minister resemble each other?",
+    "opts": [
+     "They were twin brothers.",
+     "They always wore the same clothes.",
+     "They were both ministers of Egypt.",
+     "They grew the same kind of tobacco."
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "28": {
+  "title": "The Fisherman",
+  "story_html": "<p>Every day, a fisherman sat on a <strong>bridge</strong>. He ate apples and spat the <strong>seeds</strong> into the water. He had a simple way to catch fish. He cut a <strong>branch</strong> off a tree and tied a line to it. He put a <strong>sharp</strong> hook on the line and made a <strong>tight</strong> knot. Then, he <strong>whispered</strong>, “Come here fish.” Like magic, the fish bit the hook. He put them in a big <strong>net</strong> and took them home to make big <strong>pots</strong> of fish soup from them.</p>\n<p>One day, another man walked up to him. He said, “My name is George. I am staying at the <strong>inn</strong>. I bet that I am a better fisherman than you. I will <strong>accompany</strong> you today. I <strong>dare</strong> you to prove your skill!” The fisherman <strong>cast</strong> his line.</p>\n<p>George had a lot of <strong>electronic</strong> tools. One machine gave him the <strong>virtual</strong> locations of fish. Another machine <strong>weighed</strong> fish.</p>\n<p>At the end of the day, George <strong>subtracted</strong> his fish from the fisherman's. The fisherman had beaten him by forty-seven!</p>\n<p>George asked, “How do you catch fish with only a branch and a <strong>bare</strong> line? I have many different <strong>sorts</strong> of tools.” The fisherman told George, “My <strong>philosophy</strong> is simple. I am patient, and I believe in myself. Take a deep <strong>breath</strong>, and try it my way.”</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "Why fishermen use nets",
+     "How a man's philosophy was good for fishing",
+     "Why George did not like the fisherman",
+     "How to whisper to fish"
+    ],
+    "ans": 1
+   },
+   {
+    "q": "What did the fisherman do with the fish?",
+    "opts": [
+     "He sold them to a restaurant.",
+     "He subtracted the fish.",
+     "He made all sorts of food.",
+     "He made soup with them."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did the fisherman do every day at the bridge?",
+    "opts": [
+     "He would cast his line into the water.",
+     "He would take a breath then jump into the river.",
+     "He would accompany George from the inn.",
+     "He would eat a virtual pot of fish soup."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "According to the passage, all the following are true about the fisherman EXCEPT ______.",
+    "opts": [
+     "he used a tree branch",
+     "he used a bare line with a tight knot",
+     "he used a sharp hook",
+     "he used an electronic machine to weigh fish"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did George dare the fisherman to do?",
+    "opts": [
+     "To prove his fishing skill.",
+     "To buy new electronic tools.",
+     "To stay the night at the inn.",
+     "To weigh all of his fish."
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "29": {
+  "title": "Osiris and the Nile",
+  "story_html": "<p>Long ago, Osiris was the king of Egypt, and Isis was the queen. They controlled the <strong>fertile</strong> land by the Nile River. They were not only interested in everyday things. Because of their <strong>intelligence</strong>, they explored <strong>abstract</strong> ideas as well. Osiris taught the Egyptians how to make <strong>wheels</strong> and <strong>furniture</strong>. Isis taught them how to make things from <strong>clay</strong> and <strong>cloth</strong>. The people thought the king and queen <strong>deserved</strong> a gift. So they built Osiris and Isis a pyramid. Everyone loved Osiris except his brother, Set. Set wanted to be king.</p>\n<p>Osiris made his <strong>annual</strong> trip around Egypt and led <strong>religious</strong> events. The people gave him beautiful <strong>shells</strong> and colorful <strong>feathers</strong> as gifts.</p>\n<p>When Osiris returned, Set brought a beautiful <strong>wooden</strong> box from behind a <strong>curtain</strong>.</p>\n<p>“If someone fits inside this box, I will give it to him or her,” Set said.</p>\n<p>Osiris got in it. It was an <strong>ideal</strong> fit!</p>\n<p>Suddenly, Set closed the box and threw it into the river. “Now, I will be king!” Set said.</p>\n<p>The box washed up on a foreign <strong>shore</strong> after a <strong>flood</strong>. Isis brought his body home and <strong>obtained</strong> a <strong>grave</strong> for him in Egypt. The Egyptian gods thought Isis had done something very <strong>romantic</strong>. Because of this love, the gods made Osiris the god of the underworld, and Osiris returned every spring to help the farmers. Even nowadays, people say Osiris keeps their crops alive.</p>",
+  "questions": [
+   {
+    "q": "What is this story about?",
+    "opts": [
+     "Why Osiris built a pyramid for Isis",
+     "How Set created a grave for Osiris",
+     "How Osiris died and returned to make Egypt fertile",
+     "Why the gods thought Isis' actions were romantic"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What happened each spring?",
+    "opts": [
+     "Osiris gave people feathers and shells.",
+     "Set obtained furniture from people.",
+     "Set hid a box behind a curtain.",
+     "Osiris returned to help the farmers."
+    ],
+    "ans": 3
+   },
+   {
+    "q": "In the last paragraph, readers can infer that ______.",
+    "opts": [
+     "the shore is the ideal home for Osiris",
+     "Set had greater intelligence than the gods",
+     "the gods felt that Isis did a good deed",
+     "nowadays, the Egyptians don't use Osiris' abstract ideas"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "According to the passage, all the following are true EXCEPT ______.",
+    "opts": [
+     "the Egyptians made wheels",
+     "the Egyptians used clay pots",
+     "the Egyptians made cloth",
+     "the Egyptians built religious villages"
+    ],
+    "ans": 3
+   },
+   {
+    "q": "What did the Egyptians do for their king and queen?",
+    "opts": [
+     "They built them a pyramid.",
+     "They made them a wooden box.",
+     "They obtained a grave for them.",
+     "They taught them how to make cloth."
+    ],
+    "ans": 0
+   }
+  ]
+ },
+ "30": {
+  "title": "The Kitten and the Caterpillar",
+  "story_html": "<p>Katie the kitten liked to play. One day, Cory the <strong>caterpillar</strong> <strong>emerged</strong> from a hole in the wall while Katie was playing in the living room.</p>\n<p>“Hey!” Katie said. “Do you want to play with me?”</p>\n<p>Cory was <strong>reluctant</strong>. He said, “I'd rather not play with you. I have several <strong>handicaps</strong>. My body is very <strong>delicate</strong>. Your claws are as sharp as <strong>hooks</strong>. You might cut me. Plus, I have no bones, not even a <strong>spine</strong>. You could easily hurt me.”</p>\n<p>“I <strong>swear</strong> that I won't hurt you,” Katie said.</p>\n<p>“No, I don't want to,” he said again. He <strong>hopped</strong> from the wall, but Katie <strong>pursued</strong> him.</p>\n<p>Cory ran into the kitchen and into the <strong>cupboard</strong>, but Katie ran right behind. Katie knocked <strong>appliances</strong> to the floor. Plates fell into the sink and broke in the <strong>basin</strong>.</p>\n<p>Then, Cory ran into a bedroom. Some <strong>laundry</strong> was on the floor. Cory hid under a shirt, but Katie saw him. She jumped on the shirt. Her paws left <strong>stains</strong> on it, and her claws tore the <strong>sleeves</strong> into <strong>strips</strong>.</p>\n<p>However, Cory escaped. He used a small hole in the floor to hide. But Katie saw him.</p>\n<p>“Now you are caught!” said Katie.</p>\n<p>Cory tried to avoid Katie's claws. He moved his body as far into the hole as possible. He didn't know how he'd get out of the <strong>hole</strong>.</p>\n<p>Just then, Katie's owner came home. She saw that the house was a mess. She took a <strong>broom</strong> and <strong>swung</strong> it at Katie. She chased Katie out of the house.</p>\n<p>Cory was safe, and Katie was left outside because she didn't listen to the wishes of others.</p>",
+  "questions": [
+   {
+    "q": "Which is NOT a reason that Cory was reluctant about playing with Katie?",
+    "opts": [
+     "Katie had dirty paws.",
+     "Katie had sharp claws.",
+     "His body was delicate.",
+     "He had several handicaps."
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Where was Katie playing when Cory emerged from the wall?",
+    "opts": [
+     "On the counter",
+     "In some laundry",
+     "In the living room",
+     "In the kitchen"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "Katie caused all of the following damage EXCEPT ______.",
+    "opts": [
+     "knock appliances on the floor",
+     "break plates in the basin",
+     "crack the kitchen door",
+     "rip the sleeves of a shirt into strips"
+    ],
+    "ans": 2
+   },
+   {
+    "q": "What did Katie's owner swing at her?",
+    "opts": [
+     "A broom",
+     "A shirt",
+     "Appliances",
+     "Laundry"
+    ],
+    "ans": 0
+   },
+   {
+    "q": "Why was Cory reluctant to play with Katie?",
+    "opts": [
+     "He was afraid her sharp claws would hurt his delicate body.",
+     "He wanted to sleep inside the cupboard.",
+     "He did not like the living room.",
+     "He was busy hiding in the laundry."
+    ],
+    "ans": 0
+   }
+  ]
+ }
+}

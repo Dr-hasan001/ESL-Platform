@@ -31,7 +31,13 @@ from app.models.book import Word, Unit, Book
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL = "google/gemini-2.5-flash-image"  # Nano Banana 1
-MAX_WORKERS = 5
+# OpenRouter reserves credit per IN-FLIGHT request, and the reservation is far
+# larger than an image's actual ~$0.039. On a thin balance that reservation, not
+# the real cost, is what fails: five workers start returning
+# "would exceed your available credits given your current in-flight requests"
+# while several dollars are still sitting in the account. Drop the workers when
+# the balance is low -- IMAGE_WORKERS=1 finishes a batch the default cannot.
+MAX_WORKERS = int(os.getenv("IMAGE_WORKERS", "5"))
 
 
 # Safe, concept-appropriate prompts for words whose definition/example trips the
@@ -46,6 +52,25 @@ SAFE_PROMPTS = {
     "burst": ("Generate an image: A bright red balloon bursting and popping in mid-air with "
               "water droplets flying outward, high-speed photograph. Natural lighting, "
               "no text, letters, or words in the image."),
+    # "explodes and destroys large areas" reads as unsafe; the demolition sense
+    # teaches the same word through a controlled, non-violent scene.
+    "bomb": ("Generate an image: A distant view of a controlled building demolition, a tall "
+             "cloud of grey dust rising from an empty concrete tower block, safety barriers in "
+             "the foreground. Realistic wide news photo, daylight, no people, no fire, "
+             "no text, letters, or words in the image."),
+    # Unit 21 is the cancer/genes unit: the medical vocabulary reads as unsafe to
+    # the filter, so these teach the term through its clinical setting instead.
+    "breast": ("Generate an image: A pink awareness ribbon pinned to a white medical coat "
+               "beside a stethoscope, with a clinic appointment card on the desk. Respectful "
+               "healthcare photo, soft lighting, no people's bodies, no text, letters, or "
+               "words in the image."),
+    "cancerous": ("Generate an image: A scientist in a white coat looking through a microscope "
+                  "at a slide, with a screen behind showing abnormal irregular cells among "
+                  "healthy round ones. Realistic medical laboratory photo, clean lighting, "
+                  "no text, letters, or words in the image."),
+    "gender": ("Generate an image: Two wooden toy figures side by side on a nursery shelf, one "
+               "in blue and one in pink, next to a pair of baby shoes. Bright cheerful photo, "
+               "soft natural lighting, no text, letters, or words in the image."),
 }
 
 

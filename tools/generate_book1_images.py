@@ -54,6 +54,14 @@ SAFE_PROMPTS = {
     "alcohol": ("Generate an image: Several bottles of wine and beer arranged on a wooden bar "
                 "counter. Realistic product photo, warm lighting, no text, letters, or words "
                 "in the image."),
+    # textbook example is "She struck the other girl in the face" — same verb, safe subject
+    "strike": ("Generate an image: A close-up of a hammer striking the head of a nail into a "
+               "wooden board, sawdust flying at the point of impact. Realistic photo, workshop "
+               "lighting, no text, letters, or words in the image."),
+    "war": ("Generate an image: A quiet military memorial at sunset — rows of small flags and "
+            "a stone monument on green grass, a single wreath of poppies at its base. "
+            "Peaceful, respectful, realistic photo, no people, no text, letters, or words in "
+            "the image."),
 }
 
 

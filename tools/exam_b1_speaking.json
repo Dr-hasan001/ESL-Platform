@@ -1,0 +1,86 @@
+{
+  "_README": [
+    "B1 SPEAKING — teacher examiner card, scored /20 on its own rubric.",
+    "Separate from tools/exam_b1_final.json so it can be printed for the examiner only.",
+    "Rendered by the same tool; a config with no written questions produces just the",
+    "cover and the card — no answer sheets, no answer key.",
+    "",
+    "py tools/generate_b1_final_exam.py --config tools/exam_b1_speaking.json --out exports/Final_Exam_B1_Speaking.pdf"
+  ],
+
+  "institution": "",
+  "eyebrow": "ENGLISH LANGUAGE EXAMINATION",
+  "title": "Speaking Examination",
+  "paper_subject": "English Language",
+  "subtitle": "Interview · Picture · Topic Talk",
+  "session": "2026",
+  "level": "B1",
+  "instructor": "Hasan Alaa",
+  "time_allowed": "8-10 min / candidate",
+  "exam_id": "B1 · FINAL · SPEAKING",
+  "warning": "EXAMINER COPY — DO NOT SHOW THIS PAPER TO THE CANDIDATE",
+  "instructions": [
+    "Enter the candidate's name, class and number in the boxes above before you begin.",
+    "Run the three parts in order: A Interview, B Describe the picture, C Topic talk.",
+    "Keep to the timings shown on the examiner card. Do not exceed 10 minutes per candidate.",
+    "Score each of the four rubric rows from 1 to 5 as the candidate speaks, not afterwards.",
+    "Enter the total out of 20 in the box on the examiner card."
+  ],
+  "information": [
+    "Part A carries 5 marks, Part B 5 marks and Part C 10 marks.",
+    "For Part B, use one picture card from Part III of the written paper (harbor, harvest or alley).",
+    "Allow the candidate ONE minute of preparation before the Part C talk.",
+    "This result is reported separately from the /100 written paper."
+  ],
+
+  "parts": [
+    {
+      "kind": "speaking",
+      "roman": "Part A-C",
+      "label": "Speaking — examiner card",
+      "hint": "TEACHER ONLY — do not give this page to students.  Total time: 8-10 minutes per student.",
+      "marks": 20,
+      "blocks": [
+        {
+          "title": "A · Interview",
+          "marks": 5,
+          "timing": "2–3 minutes",
+          "prompts": [
+            "Tell me about your family and where you live.",
+            "What did you use to do in your free time when you were younger?",
+            "How long have you been studying English?",
+            "What are you going to do after this exam?"
+          ]
+        },
+        {
+          "title": "B · Describe the picture",
+          "marks": 5,
+          "timing": "2–3 minutes",
+          "prompts": [
+            "Show the student one picture card from Part III (harbor, harvest or alley).",
+            "Describe what you can see in this picture.",
+            "What do you think the people are doing, and why?",
+            "Would you like to work in a place like this? Why / why not?"
+          ]
+        },
+        {
+          "title": "C · Topic talk",
+          "marks": 10,
+          "timing": "3–4 minutes",
+          "prompts": [
+            "Give the student ONE minute to prepare, then TWO minutes to talk.",
+            "Topic 1: A person who has changed my life.",
+            "Topic 2: Something I used to believe when I was a child.",
+            "Follow-up: If you could change one thing about your city, what would you change?"
+          ]
+        }
+      ],
+      "rubric": [
+        "Fluency and coherence",
+        "Vocabulary range",
+        "Grammatical accuracy",
+        "Pronunciation"
+      ]
+    }
+  ]
+}
