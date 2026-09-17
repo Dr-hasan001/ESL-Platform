@@ -15,4 +15,6 @@ aiofiles==24.1.0
 anthropic>=0.40.0
 reportlab>=4.0.0
 arabic-reshaper==3.0.0
-python-bidi==0.6.7
+# 0.4.x is the last pure-Python release; 0.5+ is a Rust extension with no
+# cp314 wheel, which fails the Render build (no compiler).
+python-bidi==0.4.2
