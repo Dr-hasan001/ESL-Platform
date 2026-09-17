@@ -70,6 +70,15 @@ async def download_images_only(unit_id: int, db: Session = Depends(get_db), user
     return _pdf_response(pdf, _filename(unit, "image_cards"))
 
 
+@router.get("/units/{unit_id}/download/revision.pdf")
+async def download_revision(unit_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)):
+    unit = db.query(Unit).filter(Unit.id == unit_id).first()
+    if not unit:
+        raise HTTPException(status_code=404, detail="Unit not found")
+    pdf = _get_or_build_pdf(db, unit, "revision")
+    return _pdf_response(pdf, _filename(unit, "revision"))
+
+
 @router.get("/units/{unit_id}/download/definitions/study.pdf")
 async def download_definitions_study(unit_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)):
     unit = db.query(Unit).filter(Unit.id == unit_id).first()

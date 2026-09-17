@@ -311,11 +311,173 @@ def _strip_word_from_definition(word: str, definition: str) -> str:
     return result
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Revision sheet — mirrors tools/generate_revision_pdf.py
+# One row per word: image | word + POS + definition | Arabic translation
+# ─────────────────────────────────────────────────────────────────────────────
+
+REV_MARGIN_X = 12 * mm
+REV_MARGIN_TOP = 14 * mm
+REV_MARGIN_BOT = 12 * mm
+REV_ROW_H = 34 * mm
+
+REV_INK = HexColor("#1A1209")
+REV_ACCENT = HexColor("#8B1F12")
+REV_MUTED = HexColor("#7A6E63")
+REV_RULE = HexColor("#C9BFB4")
+
+ARABIC_FONT = "ArabicUI"
+_arabic_font_ready = False
+
+# Bundled first so dev and production render identically; system fonts are a fallback.
+ARABIC_FONT_CANDIDATES = (
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "fonts", "Amiri-Regular.ttf"),
+    r"C:\Windows\Fonts\tahoma.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+)
+
+
+def _register_arabic_font() -> bool:
+    global _arabic_font_ready
+    if _arabic_font_ready:
+        return True
+    for path in ARABIC_FONT_CANDIDATES:
+        if os.path.exists(path):
+            pdfmetrics.registerFont(TTFont(ARABIC_FONT, path))
+            _arabic_font_ready = True
+            return True
+    return False
+
+
+def _shape_arabic(text: str) -> str:
+    """Reshape + reorder Arabic for correct glyph joining and RTL display."""
+    if not text:
+        return ""
+    try:
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+    except ImportError:
+        return ""
+    return get_display(arabic_reshaper.reshape(text))
+
+
+def _fit_font_size(c, text, font, max_size, min_size, max_width):
+    size = max_size
+    while size > min_size and c.stringWidth(text, font, size) > max_width:
+        size -= 0.5
+    return size
+
+
+def _draw_revision_header(c: canvas.Canvas, book_number, unit, continued=False):
+    y = PAGE_H - REV_MARGIN_TOP
+    c.setStrokeColor(REV_INK)
+    c.setLineWidth(0.9)
+    c.line(REV_MARGIN_X, y, PAGE_W - REV_MARGIN_X, y)
+
+    label = f"BOOK {book_number}  ·  UNIT {unit.unit_number}"
+    if continued:
+        label += "  (CONTINUED)"
+    c.setFont("Times-Bold", 16)
+    c.setFillColor(REV_INK)
+    c.drawString(REV_MARGIN_X, y - 7 * mm, label)
+
+    c.setFont("Times-Italic", 9.5)
+    c.setFillColor(REV_MUTED)
+    c.drawRightString(PAGE_W - REV_MARGIN_X, y - 7 * mm,
+                      "Revision Sheet — word · picture · meaning (EN / AR)")
+
+    c.setStrokeColor(REV_RULE)
+    c.setLineWidth(0.4)
+    c.line(REV_MARGIN_X, y - 10 * mm, PAGE_W - REV_MARGIN_X, y - 10 * mm)
+    return y - 13 * mm
+
+
+def _draw_revision_row(c: canvas.Canvas, w, num: int, top_y: float, arabic_ok: bool):
+    from reportlab.lib.utils import simpleSplit
+
+    bot_y = top_y - REV_ROW_H
+
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColor(REV_MUTED)
+    c.drawString(REV_MARGIN_X, top_y - 5 * mm, f"{num:02d}")
+
+    img_x = REV_MARGIN_X + 7 * mm
+    img_w = 36 * mm
+    img_path = _resolve_image_path(w.image_url)
+    if img_path:
+        _draw_image_fitted(c, img_path, img_x, bot_y + 2 * mm, img_w, REV_ROW_H - 4 * mm, padding=1)
+    elif w.emoji:
+        c.setFont("Helvetica", 30)
+        c.setFillColor(REV_INK)
+        c.drawCentredString(img_x + img_w / 2, (top_y + bot_y) / 2 - 4 * mm, w.emoji)
+
+    text_x = img_x + img_w + 6 * mm
+    ar_w = 52 * mm
+    text_w = (PAGE_W - REV_MARGIN_X - ar_w - 4 * mm) - text_x
+
+    word_y = top_y - 7 * mm
+    c.setFont("Times-Bold", 15)
+    c.setFillColor(REV_INK)
+    c.drawString(text_x, word_y, w.word)
+    if w.part_of_speech:
+        wx = text_x + c.stringWidth(w.word, "Times-Bold", 15) + 2.5 * mm
+        c.setFont("Times-Italic", 9)
+        c.setFillColor(REV_MUTED)
+        c.drawString(wx, word_y, f"({w.part_of_speech})")
+
+    definition = (w.definition or "").strip()
+    font_size, leading = 10, 13
+    lines = simpleSplit(definition, "Helvetica", font_size, text_w)
+    if len(lines) > 4:
+        font_size, leading = 9, 11.5
+        lines = simpleSplit(definition, "Helvetica", font_size, text_w)
+    c.setFont("Helvetica", font_size)
+    c.setFillColor(REV_INK)
+    dy = word_y - 6.5 * mm
+    for line in lines[:5]:
+        c.drawString(text_x, dy, line)
+        dy -= leading
+
+    if arabic_ok:
+        ar_text = _shape_arabic(w.arabic_translation or "")
+        if ar_text:
+            size = _fit_font_size(c, ar_text, ARABIC_FONT, 14, 9, ar_w)
+            c.setFont(ARABIC_FONT, size)
+            c.setFillColor(REV_ACCENT)
+            c.drawRightString(PAGE_W - REV_MARGIN_X, word_y, ar_text)
+
+    c.setStrokeColor(REV_RULE)
+    c.setLineWidth(0.3)
+    c.line(REV_MARGIN_X, bot_y, PAGE_W - REV_MARGIN_X, bot_y)
+
+
+def generate_revision_pdf(unit, words) -> bytes:
+    """Revision sheet for one unit: picture, word, English meaning, Arabic."""
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    book_number = unit.book.book_number if unit.book else ""
+    c.setTitle(f"Unit {unit.unit_number} — Revision Sheet")
+
+    arabic_ok = _register_arabic_font()
+    top_y = _draw_revision_header(c, book_number, unit)
+    for i, w in enumerate(words):
+        if top_y - REV_ROW_H < REV_MARGIN_BOT:
+            c.showPage()
+            top_y = _draw_revision_header(c, book_number, unit, continued=True)
+        _draw_revision_row(c, w, i + 1, top_y, arabic_ok)
+        top_y -= REV_ROW_H
+
+    c.showPage()
+    c.save()
+    return buf.getvalue()
+
+
 PDF_GENERATORS = {
     "flashcards":         generate_flashcards_pdf,
     "images_only":        generate_images_only_pdf,
     "definitions_study":  generate_definitions_study_pdf,
     "definitions_game":   generate_definitions_game_pdf,
+    "revision":           generate_revision_pdf,
 }
 
 
