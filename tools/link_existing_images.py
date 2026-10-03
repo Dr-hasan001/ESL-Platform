@@ -47,11 +47,11 @@ _PENDING_SEEDERS = [
     ["tools/seed_book2_unit28.py"],
     ["tools/seed_book2_unit29.py"],
     ["tools/seed_book2_unit30.py"],
-    # Book 2 units 1 and 5 are re-seeded WRONG (generic Academic Word List,
+    # Book 2 units 1-5 are ALL re-seeded WRONG (generic Academic Word List,
     # not the real textbook) by the stored dashboard chain's earlier
-    # seed_book2_words.py step, every deploy. These two must run AFTER that
+    # seed_book2_words.py step, every deploy. All five must run AFTER that
     # to put the real textbook words back — see tools/seed_book2_units.py.
-    ["tools/seed_book2_units.py", "1", "5"],
+    ["tools/seed_book2_units.py", "1", "2", "3", "4", "5"],
     ["tools/fix_book2_units1_5_emoji.py"],
     ["tools/seed_book3.py"],
     ["tools/seed_stories.py", "3"],
