@@ -2,7 +2,9 @@ fastapi==0.115.5
 uvicorn[standard]==0.32.1
 sqlalchemy>=2.0.40
 alembic==1.14.0
-psycopg2-binary==2.9.10
+# 2.9.11 is the first release with cp314 wheels; 2.9.10 falls back to a source
+# build on Render's Python 3.14 and fails (no pg_config).
+psycopg2-binary==2.9.11
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 bcrypt==4.0.1
