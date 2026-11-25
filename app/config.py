@@ -22,6 +22,10 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-# Render provides "postgres://" but SQLAlchemy 2.x requires "postgresql://"
-if settings.database_url.startswith("postgres://"):
-    settings.database_url = settings.database_url.replace("postgres://", "postgresql://", 1)
+# Render provides "postgres://" (or bare "postgresql://"). Name the driver
+# explicitly: SQLAlchemy 2.1 made bare "postgresql://" default to psycopg 3,
+# but requirements.txt installs psycopg2-binary.
+for _prefix in ("postgres://", "postgresql://"):
+    if settings.database_url.startswith(_prefix):
+        settings.database_url = "postgresql+psycopg2://" + settings.database_url[len(_prefix):]
+        break
